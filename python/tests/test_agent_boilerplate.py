@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 import tempfile
@@ -22,6 +23,38 @@ class AgentBoilerplateTests(unittest.TestCase):
     def _scaffold(self) -> Path:
         target = Path(tempfile.mkdtemp(prefix='aicd-python-template-'))
         return scaffold_template(self.template_root, target, project_name='demo-agent')
+
+    def _write_feature(self, project: Path, feature_id: str, feature_path: str, *, depends_on: list[str] | None = None, marker: str) -> None:
+        registry_path = project / '.agent' / 'features' / 'registry.json'
+        registry = json.loads(registry_path.read_text())
+        registry['features'].append({'id': feature_id, 'path': feature_path})
+        registry_path.write_text(json.dumps(registry, indent=2) + '\n')
+
+        feature_root = registry_path.parent / feature_path
+        (feature_root / 'files' / 'markers').mkdir(parents=True, exist_ok=True)
+        (feature_root / 'files' / 'markers' / f'{feature_id}.txt').write_text(marker)
+        (feature_root / 'feature.json').write_text(
+            json.dumps(
+                {
+                    'id': feature_id,
+                    'name': feature_id,
+                    'description': f'{feature_id} feature',
+                    'version': '0.1.0',
+                    'dependsOn': depends_on or [],
+                    'adds': {},
+                    'patches': [
+                        {
+                            'target': 'agentkit.toml',
+                            'op': 'merge',
+                            'path': 'features.enabled',
+                            'value': [feature_id],
+                        }
+                    ],
+                },
+                indent=2,
+            )
+            + '\n'
+        )
 
     def test_template_config_loads(self) -> None:
         project = self._scaffold()
@@ -60,19 +93,82 @@ class AgentBoilerplateTests(unittest.TestCase):
     def test_feature_apply_and_remove_updates_scaffold(self) -> None:
         project = self._scaffold()
         apply_feature(project, 'github-pr-review')
+        config = load_config(project)
+        runtime = ProjectRuntime.from_project(project)
         self.assertTrue((project / '.agent/prompts/sections/github-review.md').exists())
         self.assertTrue((project / '.agent/skills/review-pr/SKILL.md').exists())
-        self.assertIn('github-pr-review', load_config(project).features.enabled)
+        self.assertTrue((project / '.agent/agents/review-agent.agent.json').exists())
+        self.assertIn('github-pr-review', config.features.enabled)
+        self.assertIn('.agent/prompts/sections/github-review.md', config.prompts.sections)
+        self.assertIn('review-agent', config.agents.enabled)
+        self.assertIn('review-pr', config.skills.enabled)
+        self.assertIn('mcp', config.tools.enabled)
+        self.assertIn('review-agent', {agent.id for agent in runtime.load_agents()})
+        self.assertIn('review-pr', {skill.name for skill in runtime.load_skills()})
         remove_feature(project, 'github-pr-review')
+        config = load_config(project)
         self.assertFalse((project / '.agent/prompts/sections/github-review.md').exists())
         self.assertFalse((project / '.agent/skills/review-pr/SKILL.md').exists())
-        self.assertEqual(load_config(project).features.enabled, ())
+        self.assertFalse((project / '.agent/agents/review-agent.agent.json').exists())
+        self.assertEqual(config.features.enabled, ())
+        self.assertNotIn('.agent/prompts/sections/github-review.md', config.prompts.sections)
+        self.assertNotIn('review-agent', config.agents.enabled)
+        self.assertNotIn('review-pr', config.skills.enabled)
+        self.assertNotIn('mcp', config.tools.enabled)
+
+    def test_enabled_feature_contributes_runtime_prompt_skill_and_agent(self) -> None:
+        project = self._scaffold()
+        apply_feature(project, 'github-pr-review')
+
+        runtime = ProjectRuntime.from_project(project)
+        self.assertIn('review-pr', {skill.name for skill in runtime.load_skills()})
+        self.assertIn('review-agent', {agent.id for agent in runtime.load_agents()})
+
+        composed = runtime.compose_system_prompt()
+        self.assertIn('GitHub Review', composed)
+
+    def test_feature_add_uses_registry_paths_and_dependency_checks(self) -> None:
+        project = self._scaffold()
+        self._write_feature(project, 'base-review', 'packs/base-review', marker='base ready')
+        self._write_feature(
+            project,
+            'dependent-review',
+            'packs/advanced/dependent-review',
+            depends_on=['base-review'],
+            marker='dependent ready',
+        )
+
+        with self.assertRaisesRegex(ValueError, 'requires enabled feature'):
+            apply_feature(project, 'dependent-review')
+
+        apply_feature(project, 'base-review')
+        apply_feature(project, 'dependent-review')
+        self.assertEqual((project / 'markers/base-review.txt').read_text(), 'base ready')
+        self.assertEqual((project / 'markers/dependent-review.txt').read_text(), 'dependent ready')
+
+        with self.assertRaisesRegex(ValueError, 'required by enabled feature'):
+            remove_feature(project, 'base-review')
+
+        remove_feature(project, 'dependent-review')
+        remove_feature(project, 'base-review')
+        self.assertFalse((project / 'markers/base-review.txt').exists())
+        self.assertFalse((project / 'markers/dependent-review.txt').exists())
 
     def test_doctor_passes_on_scaffold(self) -> None:
         project = self._scaffold()
         report = run_doctor(project)
         self.assertTrue(report.ok)
         self.assertIn('loaded 3 agents', report.as_text())
+
+    def test_doctor_passes_on_feature_enabled_scaffold(self) -> None:
+        project = self._scaffold()
+        apply_feature(project, 'github-pr-review')
+        report = run_doctor(project)
+        self.assertTrue(report.ok)
+        self.assertIn('loaded 4 agents', report.as_text())
+        self.assertIn('loaded 4 skills', report.as_text())
+        self.assertIn('feature prompt enabled in config: github-review.md', report.as_text())
+        self.assertIn('feature tool enabled in config: mcp', report.as_text())
 
     def test_doctor_fails_when_enabled_feature_files_are_missing(self) -> None:
         project = self._scaffold()
@@ -81,6 +177,15 @@ class AgentBoilerplateTests(unittest.TestCase):
         report = run_doctor(project)
         self.assertFalse(report.ok)
         self.assertIn('missing feature skill file for github-pr-review: review-pr', report.as_text())
+
+    def test_doctor_fails_when_feature_wiring_is_missing_from_config(self) -> None:
+        project = self._scaffold()
+        apply_feature(project, 'github-pr-review')
+        config_path = project / 'agentkit.toml'
+        config_path.write_text(config_path.read_text().replace('  "mcp",\n', '', 1))
+        report = run_doctor(project)
+        self.assertFalse(report.ok)
+        self.assertIn('feature tool not enabled in config for github-pr-review: mcp', report.as_text())
 
     def test_doctor_fails_when_enabled_agent_file_is_missing(self) -> None:
         project = self._scaffold()

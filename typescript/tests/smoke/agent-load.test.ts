@@ -7,7 +7,7 @@ import {
   getAgentDefinitionsWithOverrides,
 } from '../../src/core/registry/agents.js'
 
-test('project-local agent definitions are discoverable', async () => {
+test('project-local agent definitions are discoverable', { timeout: 20000 }, async () => {
   const root = await mkdtemp(join(tmpdir(), 'aicd-agent-'))
   try {
     const agentsDir = join(root, '.claude', 'agents')

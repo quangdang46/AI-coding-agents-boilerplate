@@ -33,6 +33,10 @@ class FeatureRegistryEntry:
     path: str
 
 
+def feature_root(project_root: Path, config: BoilerplateConfig, entry: FeatureRegistryEntry) -> Path:
+    return (project_root / config.features.registry).parent / entry.path
+
+
 def load_feature_registry(project_root: Path, config: BoilerplateConfig) -> tuple[FeatureRegistryEntry, ...]:
     registry_path = project_root / config.features.registry
     raw = json.loads(registry_path.read_text())
@@ -41,8 +45,7 @@ def load_feature_registry(project_root: Path, config: BoilerplateConfig) -> tupl
 
 
 def load_feature_manifest(project_root: Path, config: BoilerplateConfig, entry: FeatureRegistryEntry) -> FeaturePackManifest:
-    feature_root = (project_root / config.features.registry).parent / entry.path
-    raw = json.loads((feature_root / 'feature.json').read_text())
+    raw = json.loads((feature_root(project_root, config, entry) / 'feature.json').read_text())
     return FeaturePackManifest(
         id=str(raw['id']),
         name=str(raw['name']),
@@ -62,6 +65,13 @@ def load_feature_manifest(project_root: Path, config: BoilerplateConfig, entry: 
     )
 
 
+def resolve_feature(project_root: Path, config: BoilerplateConfig, feature_id: str) -> tuple[FeatureRegistryEntry, FeaturePackManifest]:
+    for entry in load_feature_registry(project_root, config):
+        if entry.id == feature_id:
+            return entry, load_feature_manifest(project_root, config, entry)
+    raise FileNotFoundError(f'unknown feature: {feature_id}')
+
+
 def load_enabled_features(project_root: Path, config: BoilerplateConfig) -> tuple[FeaturePackManifest, ...]:
     entries = {entry.id: entry for entry in load_feature_registry(project_root, config)}
     manifests: list[FeaturePackManifest] = []
@@ -71,3 +81,38 @@ def load_enabled_features(project_root: Path, config: BoilerplateConfig) -> tupl
             continue
         manifests.append(load_feature_manifest(project_root, config, entry))
     return tuple(manifests)
+
+
+def load_feature_added_skill_names(project_root: Path, config: BoilerplateConfig) -> tuple[str, ...]:
+    names: list[str] = []
+    for manifest in load_enabled_features(project_root, config):
+        for skill_name in manifest.adds.get('skills', ()):
+            if skill_name not in names:
+                names.append(skill_name)
+    return tuple(names)
+
+
+def load_feature_prompt_sections(project_root: Path, config: BoilerplateConfig) -> tuple[str, ...]:
+    sections: list[str] = []
+    for manifest in load_enabled_features(project_root, config):
+        for prompt_name in manifest.adds.get('prompts', ()):
+            relative = prompt_name if '/' in prompt_name else f'.agent/prompts/sections/{prompt_name}'
+            if relative not in sections:
+                sections.append(relative)
+    return tuple(sections)
+
+
+def _agent_id_from_manifest_entry(entry: str) -> str:
+    if entry.endswith('.agent.json'):
+        return entry[: -len('.agent.json')]
+    return Path(entry).stem
+
+
+def load_feature_added_agent_ids(project_root: Path, config: BoilerplateConfig) -> tuple[str, ...]:
+    agent_ids: list[str] = []
+    for manifest in load_enabled_features(project_root, config):
+        for agent_entry in manifest.adds.get('agents', ()):
+            agent_id = _agent_id_from_manifest_entry(agent_entry)
+            if agent_id not in agent_ids:
+                agent_ids.append(agent_id)
+    return tuple(agent_ids)

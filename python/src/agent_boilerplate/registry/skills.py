@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..config.models import BoilerplateConfig
+from .features import load_feature_added_skill_names
 
 
 @dataclass(frozen=True)
@@ -62,7 +63,8 @@ def load_skills(project_root: Path, config: BoilerplateConfig) -> tuple[SkillMan
             continue
         for skill_file in sorted(path.glob('*/SKILL.md')):
             manifests.append(_load_skill(skill_file))
-    if config.skills.enabled:
-        enabled = set(config.skills.enabled)
+    feature_skill_names = set(load_feature_added_skill_names(project_root, config))
+    if config.skills.enabled or feature_skill_names:
+        enabled = set(config.skills.enabled) | feature_skill_names
         manifests = [manifest for manifest in manifests if manifest.name in enabled]
     return tuple(manifests)

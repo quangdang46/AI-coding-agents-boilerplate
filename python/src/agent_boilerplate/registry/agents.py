@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from ..config.models import BoilerplateConfig
+from .features import load_feature_added_agent_ids
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,8 @@ def load_agents(project_root: Path, config: BoilerplateConfig) -> tuple[AgentMan
             continue
         for file_path in sorted(path.glob('*.agent.json')):
             manifests.append(_load_manifest(file_path))
-    if config.agents.enabled:
-        enabled = set(config.agents.enabled)
+    feature_agent_ids = set(load_feature_added_agent_ids(project_root, config))
+    if config.agents.enabled or feature_agent_ids:
+        enabled = set(config.agents.enabled) | feature_agent_ids
         manifests = [manifest for manifest in manifests if manifest.id in enabled]
     return tuple(manifests)

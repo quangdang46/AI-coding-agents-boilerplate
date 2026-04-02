@@ -71,6 +71,7 @@ fn feature_add_and_remove_updates_project() {
         project: out.clone(),
     })
     .expect("feature add works");
+    assert!(out.join(".agent/agents/review-agent.agent.json").exists());
     assert!(out
         .join(".agent/prompts/sections/github-review.md")
         .exists());
@@ -84,6 +85,7 @@ fn feature_add_and_remove_updates_project() {
         project: out.clone(),
     })
     .expect("feature remove works");
+    assert!(!out.join(".agent/agents/review-agent.agent.json").exists());
     assert!(!out
         .join(".agent/prompts/sections/github-review.md")
         .exists());

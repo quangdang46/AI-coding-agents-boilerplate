@@ -16,5 +16,5 @@ Each skill uses Markdown plus YAML frontmatter.
 ## Loader precedence
 1. runtime defaults
 2. project-local `.agent/*` files
-3. enabled feature-pack files
+3. enabled feature-pack files (feature-added prompts, agents, and skills become active when the feature is enabled)
 4. explicit CLI overrides
