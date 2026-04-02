@@ -1,0 +1,22 @@
+{
+  "id": "github-pr-review",
+  "name": "GitHub PR Review",
+  "description": "Adds review-oriented prompts, skills, and MCP placeholders.",
+  "version": "0.1.0",
+  "dependsOn": [],
+  "adds": {
+    "agents": ["reviewer.agent.json"],
+    "skills": ["review-pr"],
+    "prompts": ["github-review.md"],
+    "tools": ["mcp"],
+    "env": ["GITHUB_TOKEN"]
+  },
+  "patches": [
+    {
+      "target": "agentkit.toml",
+      "op": "merge",
+      "path": "features.enabled",
+      "value": ["github-pr-review"]
+    }
+  ]
+}

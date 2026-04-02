@@ -1,0 +1,33 @@
+# Ralph Context Snapshot — TypeScript Agent Boilerplate Migration
+
+- **Task statement:** Execute the migration of the current `typescript/` coding-agent source into a reusable boilerplate, beginning with the planning-gate artifacts and Phase 0 groundwork.
+- **Desired outcome:** A stable, verifiable starting slice of the migration exists: context snapshot, PRD, test spec, migration doc, smoke tests for the extension seams, and duplicate snapshot removal.
+- **Known facts / evidence:**
+  - CLI bootstrap lives in `typescript/src/entrypoints/cli.tsx`.
+  - Query/runtime engine lives in `typescript/src/QueryEngine.ts`.
+  - Commands are registry-driven in `typescript/src/commands.ts`.
+  - Tools are registry-driven in `typescript/src/tools.ts`.
+  - Skills are loaded from disk/frontmatter in `typescript/src/skills/loadSkillsDir.ts`.
+  - Agents are loaded from manifests in `typescript/src/tools/AgentTool/loadAgentsDir.ts`.
+  - Prompt layering exists in `typescript/src/utils/systemPrompt.ts` and `typescript/src/constants/prompts.ts`.
+  - There is a duplicate source mirror at `typescript/free-code-main/`.
+- **Constraints:**
+  - Follow the existing workspace guidance and keep diffs reviewable.
+  - Lock behavior with regression tests before cleanup edits when possible.
+  - No new dependencies.
+  - Ralph planning gate requires PRD + test-spec artifacts before execution.
+- **Unknowns / open questions:**
+  - Final runtime target (Bun vs Node) is still unresolved.
+  - Final UI scope (full Ink vs minimal REPL/headless) is unresolved.
+  - Public licensing/provenance posture is unresolved.
+- **Likely codebase touchpoints:**
+  - `typescript/src/entrypoints/cli.tsx`
+  - `typescript/src/QueryEngine.ts`
+  - `typescript/src/commands.ts`
+  - `typescript/src/tools.ts`
+  - `typescript/src/skills/loadSkillsDir.ts`
+  - `typescript/src/tools/AgentTool/loadAgentsDir.ts`
+  - `typescript/src/utils/systemPrompt.ts`
+  - `typescript/src/constants/prompts.ts`
+  - `typescript/package.json`
+  - `typescript/scripts/build.ts`

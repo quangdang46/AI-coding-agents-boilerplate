@@ -1,0 +1,9 @@
+{
+  "description": "Use for implementing requested changes in the project.",
+  "prompt": "@.agent/prompts/system.md",
+  "tools": ["file_read", "file_edit", "file_write", "bash"],
+  "model": "inherit",
+  "effort": "medium",
+  "skills": ["verify", "add-feature"],
+  "memory": "project"
+}

@@ -1,0 +1,12 @@
+[package]
+name = "aicd-install"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "aicd_install"
+path = "src/lib.rs"
+
+[[bin]]
+name = "aicd"
+path = "src/main.rs"
