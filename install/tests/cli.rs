@@ -1560,6 +1560,53 @@ fn generated_python_registry_modules_cover_runtime_slice() {
 }
 
 #[test]
+fn owned_python_runtime_entrypoint_matches_generated_shell() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("python-entrypoint-runtime");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let generated_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+
+    let owned_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import pathlib, sys; sys.path.insert(0, '.'); from languages.python.runtime.entrypoints.main import main; project_root = pathlib.Path(sys.argv[1]); runtime_output = sys.argv[2]; print(main(project_root, runtime_output))",
+            )
+            .arg(out.display().to_string())
+            .arg(generated_output.clone())
+            .current_dir(&repo),
+    );
+
+    assert_contains_all(
+        &owned_output,
+        &[
+            generated_output.as_str(),
+            "entry_session_id=local-main-session",
+            "entry_turn_count=1",
+            "entry_usage_entries=1",
+            "entry_prompt_present=True",
+            "entry_context_present=True",
+        ],
+    );
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn generated_typescript_core_tool_registry_covers_runtime_slice() {
     let _guard = acquire_cli_test_guard();
     let repo = repo_root();
