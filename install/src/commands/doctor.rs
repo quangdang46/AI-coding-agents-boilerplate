@@ -276,6 +276,16 @@ fn validate_permission_controls(project_root: &Path, language_id: &str) -> Resul
                     path.display()
                 ));
             }
+            if permissions
+                .get("deny")
+                .and_then(|deny| deny.as_array())
+                .is_none()
+            {
+                return Err(format!(
+                    "missing permission config in {}: deny",
+                    path.display()
+                ));
+            }
             Ok(())
         }
         _ => Ok(()),

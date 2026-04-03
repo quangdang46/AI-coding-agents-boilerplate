@@ -7,6 +7,27 @@ type RuntimeSummary = {
   providerModel: string
   promptDigest: string
   contextDigest: string
+  approvalMode: string
+  bashPolicy: string
+  fileWritePolicy: string
+}
+
+function policyForOperation(
+  approvalMode: string,
+  deny: string[],
+  operation: string,
+  toolName: string,
+): string {
+  if (deny.includes(toolName)) {
+    return `${operation}=denied`
+  }
+  if (approvalMode === 'never') {
+    return `${operation}=blocked`
+  }
+  if (approvalMode === 'default') {
+    return `${operation}=approval-required`
+  }
+  return `${operation}=allowed`
 }
 
 function checksum(parts: string[]): string {
@@ -55,6 +76,8 @@ function loadRuntimeSummary(): RuntimeSummary {
   const systemPath = extractString(configText, /systemPath:\s*'([^']+)'/)
   const appendPaths = extractStringList(configText, /appendPaths:\s*\[([\s\S]*?)\]/)
   const contextPaths = extractStringList(configText, /contextPaths:\s*\[([\s\S]*?)\]/)
+  const approvalMode = extractString(configText, /approvalMode:\s*'([^']+)'/)
+  const deny = extractStringList(configText, /deny:\s*\[([\s\S]*?)\]/)
 
   const promptTexts = [readText(join(root, systemPath))]
   for (const path of appendPaths) {
@@ -68,12 +91,15 @@ function loadRuntimeSummary(): RuntimeSummary {
     providerModel,
     promptDigest: checksum(promptTexts),
     contextDigest: checksum(contextTexts),
+    approvalMode,
+    bashPolicy: policyForOperation(approvalMode, deny, 'bash', 'bash'),
+    fileWritePolicy: policyForOperation(approvalMode, deny, 'file_write', 'file_write'),
   }
 }
 
 function runSessionLoop(): string {
   const summary = loadRuntimeSummary()
-  return `__PROJECT_NAME__ session loop completed provider=${summary.defaultProvider} model=${summary.providerModel} prompt_digest=${summary.promptDigest} context_digest=${summary.contextDigest}`
+  return `__PROJECT_NAME__ session loop completed provider=${summary.defaultProvider} model=${summary.providerModel} prompt_digest=${summary.promptDigest} context_digest=${summary.contextDigest} approval_mode=${summary.approvalMode} bash_policy=${summary.bashPolicy} file_write_policy=${summary.fileWritePolicy}`
 }
 
 export function main(): string {

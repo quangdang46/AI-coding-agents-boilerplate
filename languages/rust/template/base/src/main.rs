@@ -61,11 +61,48 @@ fn extract_provider_model(source: &str, provider: &str) -> String {
     extract_json_string(provider_slice, "model")
 }
 
+fn extract_json_list(source: &str, key: &str) -> Vec<String> {
+    let marker = format!("\"{key}\": [");
+    let start = source
+        .find(&marker)
+        .unwrap_or_else(|| panic!("missing list {key}"))
+        + marker.len();
+    let end = source[start..]
+        .find(']')
+        .unwrap_or_else(|| panic!("unterminated list {key}"));
+    source[start..start + end]
+        .split(',')
+        .map(|item| item.trim().trim_matches('"'))
+        .filter(|item| !item.is_empty())
+        .map(|item| item.to_string())
+        .collect()
+}
+
+fn policy_for_operation(
+    approval_mode: &str,
+    deny: &[String],
+    operation: &str,
+    tool_name: &str,
+) -> String {
+    if deny.iter().any(|value| value == tool_name) {
+        return format!("{operation}=denied");
+    }
+    if approval_mode == "never" {
+        return format!("{operation}=blocked");
+    }
+    if approval_mode == "default" {
+        return format!("{operation}=approval-required");
+    }
+    format!("{operation}=allowed")
+}
+
 fn load_runtime_summary() -> String {
     let root = project_root();
     let config_text = read_text(&root.join(".claw.json"));
     let default_provider = extract_json_string(&config_text, "defaultProvider");
     let provider_model = extract_provider_model(&config_text, &default_provider);
+    let approval_mode = extract_json_string(&config_text, "defaultMode");
+    let deny = extract_json_list(&config_text, "deny");
 
     let prompt_texts = vec![
         read_text(&root.join("CLAW.md")),
@@ -80,9 +117,12 @@ fn load_runtime_summary() -> String {
         .collect::<Vec<_>>();
 
     format!(
-        "provider={default_provider} model={provider_model} prompt_digest={} context_digest={}",
+        "provider={default_provider} model={provider_model} prompt_digest={} context_digest={} approval_mode={} bash_policy={} file_write_policy={}",
         checksum(&prompt_texts),
-        checksum(&context_texts)
+        checksum(&context_texts),
+        approval_mode,
+        policy_for_operation(&approval_mode, &deny, "bash", "bash"),
+        policy_for_operation(&approval_mode, &deny, "file_write", "file_write")
     )
 }
 

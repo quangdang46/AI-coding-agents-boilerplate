@@ -22,7 +22,8 @@
     "defaultAgent": "executor"
   },
   "permissions": {
-    "defaultMode": "dontAsk"
+    "defaultMode": "dontAsk",
+    "deny": []
   },
   "features": {
     "enabled": []

@@ -841,7 +841,7 @@ fn doctor_detects_missing_rust_permission_config() {
     std::fs::write(
         &path,
         config.replace(
-            "  \"permissions\": {\n    \"defaultMode\": \"dontAsk\"\n  },\n",
+            "  \"permissions\": {\n    \"defaultMode\": \"dontAsk\",\n    \"deny\": []\n  },\n",
             "",
         ),
     )
@@ -849,6 +849,124 @@ fn doctor_detects_missing_rust_permission_config() {
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust permission config");
     assert!(error.contains("missing permission config"));
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_python_runtime_enforces_permission_policy() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("python-runtime-permissions");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let initial = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    assert!(initial.contains("approval_mode=default"));
+    assert!(initial.contains("bash_policy=bash=approval-required"));
+
+    let config_path = out.join("agentkit.toml");
+    let config = fs::read_to_string(&config_path).expect("read python config");
+    fs::write(
+        &config_path,
+        config
+            .replace(
+                "approval_mode = \"default\"",
+                "approval_mode = \"acceptEdits\"",
+            )
+            .replace("deny = []", "deny = [\"bash\"]"),
+    )
+    .expect("write python permission config");
+
+    let updated = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    assert!(updated.contains("approval_mode=acceptEdits"));
+    assert!(updated.contains("bash_policy=bash=denied"));
+    assert!(updated.contains("file_write_policy=file_write=allowed"));
+    assert_ne!(initial, updated);
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_typescript_runtime_enforces_permission_policy() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-runtime-permissions");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let initial = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(initial.contains("approval_mode=default"));
+    assert!(initial.contains("bash_policy=bash=approval-required"));
+
+    let config_path = out.join("boilerplate.config.ts");
+    let config = fs::read_to_string(&config_path).expect("read typescript config");
+    fs::write(
+        &config_path,
+        config
+            .replace("approvalMode: 'default'", "approvalMode: 'acceptEdits'")
+            .replace("deny: []", "deny: ['bash']"),
+    )
+    .expect("write typescript permission config");
+
+    let updated = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(updated.contains("approval_mode=acceptEdits"));
+    assert!(updated.contains("bash_policy=bash=denied"));
+    assert!(updated.contains("file_write_policy=file_write=allowed"));
+    assert_ne!(initial, updated);
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_rust_runtime_enforces_permission_policy() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("rust-runtime-permissions");
+    init::run(&init::InitArgs {
+        project_name: "demo-rust".to_string(),
+        language: "rust".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("rust init works");
+
+    let initial = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(initial.contains("approval_mode=dontAsk"));
+    assert!(initial.contains("bash_policy=bash=allowed"));
+
+    let config_path = out.join(".claw.json");
+    let config = fs::read_to_string(&config_path).expect("read rust config");
+    fs::write(
+        &config_path,
+        config
+            .replace("\"defaultMode\": \"dontAsk\"", "\"defaultMode\": \"never\"")
+            .replace("\"deny\": []", "\"deny\": [\"file_write\"]"),
+    )
+    .expect("write rust permission config");
+
+    let updated = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(updated.contains("approval_mode=never"));
+    assert!(updated.contains("bash_policy=bash=blocked"));
+    assert!(updated.contains("file_write_policy=file_write=denied"));
+    assert_ne!(initial, updated);
     fs::remove_dir_all(out).ok();
 }
 

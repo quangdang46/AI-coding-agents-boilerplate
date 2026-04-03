@@ -21,12 +21,26 @@ def _checksum(parts: list[str]) -> str:
     return digest.hexdigest()[:12]
 
 
+def _policy_for_operation(
+    approval_mode: str, deny: list[str], operation: str, tool_name: str
+) -> str:
+    if tool_name in deny:
+        return f"{operation}=denied"
+    if approval_mode == "never":
+        return f"{operation}=blocked"
+    if approval_mode == "default":
+        return f"{operation}=approval-required"
+    return f"{operation}=allowed"
+
+
 def _load_runtime_summary() -> str:
     project_root = _project_root()
     config = tomllib.loads((project_root / "agentkit.toml").read_text(encoding="utf-8"))
 
     default_provider = config["app"]["default_provider"]
     provider_model = config["providers"][default_provider]["model"]
+    approval_mode = config["tools"]["approval_mode"]
+    deny = list(config["tools"]["deny"])
 
     prompt_paths = [project_root / config["prompts"]["system"]]
     prompt_paths.extend(project_root / path for path in config["prompts"]["sections"])
@@ -40,7 +54,10 @@ def _load_runtime_summary() -> str:
         f"provider={default_provider} "
         f"model={provider_model} "
         f"prompt_digest={_checksum(prompt_texts)} "
-        f"context_digest={_checksum(context_texts)}"
+        f"context_digest={_checksum(context_texts)} "
+        f"approval_mode={approval_mode} "
+        f"bash_policy={_policy_for_operation(approval_mode, deny, 'bash', 'bash')} "
+        f"file_write_policy={_policy_for_operation(approval_mode, deny, 'file_write', 'file_write')}"
     )
 
 
