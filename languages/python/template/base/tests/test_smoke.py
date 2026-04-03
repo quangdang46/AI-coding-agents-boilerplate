@@ -11,3 +11,5 @@ def test_main() -> None:
     assert "approval_mode=default" in output
     assert "bash_policy=bash=approval-required" in output
     assert "file_write_policy=file_write=approval-required" in output
+    assert "file_read_result=" in output
+    assert "web_fetch_result=tool-web-fetch" in output

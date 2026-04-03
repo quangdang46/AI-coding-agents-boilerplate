@@ -971,6 +971,111 @@ fn generated_rust_runtime_enforces_permission_policy() {
 }
 
 #[test]
+fn generated_python_runtime_executes_core_tools() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("python-runtime-tools");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let config_path = out.join("agentkit.toml");
+    let config = fs::read_to_string(&config_path).expect("read python config");
+    fs::write(
+        &config_path,
+        config.replace(
+            "approval_mode = \"default\"",
+            "approval_mode = \"acceptEdits\"",
+        ),
+    )
+    .expect("write python config");
+
+    let output = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    assert!(output.contains("bash_result=tool-bash-ok"));
+    assert!(output.contains("file_read_result="));
+    assert!(output.contains("file_write_result=tool-write-ok"));
+    assert!(output.contains("file_edit_result=tool-write-ok edited"));
+    assert!(output.contains("web_fetch_result=tool-web-fetch"));
+    assert_eq!(
+        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+            .expect("read python tool file"),
+        "tool-write-ok edited"
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_typescript_runtime_executes_core_tools() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-runtime-tools");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let config_path = out.join("boilerplate.config.ts");
+    let config = fs::read_to_string(&config_path).expect("read typescript config");
+    fs::write(
+        &config_path,
+        config.replace("approvalMode: 'default'", "approvalMode: 'acceptEdits'"),
+    )
+    .expect("write typescript config");
+
+    let output = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(output.contains("bash_result=tool-bash-ok"));
+    assert!(output.contains("file_read_result="));
+    assert!(output.contains("file_write_result=tool-write-ok"));
+    assert!(output.contains("file_edit_result=tool-write-ok edited"));
+    assert!(output.contains("web_fetch_result=tool-web-fetch"));
+    assert_eq!(
+        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+            .expect("read typescript tool file"),
+        "tool-write-ok edited"
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_rust_runtime_executes_core_tools() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("rust-runtime-tools");
+    init::run(&init::InitArgs {
+        project_name: "demo-rust".to_string(),
+        language: "rust".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("rust init works");
+
+    let output = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(output.contains("bash_result=tool-bash-ok"));
+    assert!(output.contains("file_read_result="));
+    assert!(output.contains("file_write_result=tool-write-ok"));
+    assert!(output.contains("file_edit_result=tool-write-ok edited"));
+    assert!(output.contains("web_fetch_result=tool-web-fetch"));
+    assert_eq!(
+        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+            .expect("read rust tool file"),
+        "tool-write-ok edited"
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
