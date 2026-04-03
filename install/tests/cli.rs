@@ -112,6 +112,8 @@ fn init_renders_python_template() {
     assert!(out.join(".agent/context/README.md").exists());
     assert!(out.join(".agent/usage/README.md").exists());
     assert!(out.join("src/demo_agent/app.py").exists());
+    let app_text = fs::read_to_string(out.join("src/demo_agent/app.py")).expect("read python app");
+    assert!(app_text.contains("session loop completed"));
     assert!(read_agentkit_toml(&out).unwrap().contains("enabled = []"));
     fs::remove_dir_all(out).ok();
 }
@@ -268,7 +270,7 @@ fn manifest_schema_accepts_valid_examples() {
         .expect("rust manifest should parse");
     assert_eq!(rust.id, "rust");
     assert_eq!(rust.display_name, "Rust");
-    assert_eq!(rust.runtime.config_file, "CLAW.md");
+    assert_eq!(rust.runtime.config_file, ".claw.json");
     assert_eq!(
         rust.feature_registry.as_deref(),
         Some(".agent/features/registry.json")
@@ -398,6 +400,8 @@ fn init_renders_typescript_template() {
     assert!(out.join("package.json").exists());
     assert!(out.join("tsconfig.json").exists());
     assert!(out.join("src/index.ts").exists());
+    let entry_text = fs::read_to_string(out.join("src/index.ts")).expect("read typescript entry");
+    assert!(entry_text.contains("session loop completed"));
     assert!(out.join(".agent/usage/README.md").exists());
     assert!(out.join(".agent/context/README.md").exists());
     assert!(out.join(".agent/sessions/README.md").exists());
@@ -717,6 +721,8 @@ fn init_renders_rust_template() {
     assert!(out.join("CLAW.md").exists());
     assert!(out.join(".claw.json").exists());
     assert!(out.join("src/main.rs").exists());
+    let entry_text = fs::read_to_string(out.join("src/main.rs")).expect("read rust entry");
+    assert!(entry_text.contains("session loop completed"));
     assert!(out.join(".agent/prompts/system.md").exists());
     assert!(out.join(".agent/context/README.md").exists());
     assert!(out.join(".agent/prompts/sections/style.md").exists());
