@@ -1486,6 +1486,80 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
 }
 
 #[test]
+fn generated_python_registry_modules_cover_runtime_slice() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("python-registry-runtime");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let warm = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert!(warm.contains("session_id=local-main-session"));
+
+    let registry_names = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import sys; sys.path.insert(0, '.'); from languages.python.runtime.registry.commands import command_registry; print(','.join(command_registry().keys()))",
+            )
+            .current_dir(&repo),
+    );
+    assert_eq!(
+        registry_names,
+        "status,session,export,config,doctor,context,usage,permissions,files,tasks"
+    );
+
+    let tool_names = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import sys; sys.path.insert(0, '.'); from languages.python.runtime.registry.tools import tool_registry; print(','.join(tool_registry().keys()))",
+            )
+            .current_dir(&repo),
+    );
+    assert_eq!(tool_names, "bash,file_read,file_write,file_edit,web_fetch");
+
+    let command_outputs = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import sys, pathlib; sys.path.insert(0, '.'); from languages.python.runtime.registry.execution_registry import execution_registry; root = pathlib.Path(sys.argv[1]); runtime_output = sys.argv[2]; registry = execution_registry(); run = registry['run_command']; names = ['session','export','config','doctor','context','usage','permissions','files','tasks']; print('\\n'.join(f'{name}:{run(name, root, runtime_output)}' for name in names))",
+            )
+            .arg(out.display().to_string())
+            .arg(warm.clone())
+            .current_dir(&repo),
+    );
+
+    assert_contains_all(
+        &command_outputs,
+        &[
+            "session:session_id=local-main-session",
+            "export:export_path=.agent/sessions/local-main-session.export.md export_exists=True",
+            "config:provider=openai model=gpt-5.4 approval_mode=default",
+            "doctor:doctor=ok",
+            "context:context_digest=",
+            "usage:usage_entries=1 total_cost_micros=",
+            "permissions:approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
+            "files:session_state=True export_state=True usage_state=True",
+            "tasks:task_count=1 active_task=session-loop turn_count=1",
+        ],
+    );
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
