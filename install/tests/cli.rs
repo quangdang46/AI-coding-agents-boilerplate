@@ -1426,6 +1426,66 @@ fn core_slice_fixture_projects_match_cross_language_parity_profile() {
 }
 
 #[test]
+fn generated_typescript_core_command_registry_covers_runtime_slice() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("typescript-command-registry");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let warm = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(warm.contains("session_id=local-main-session"));
+
+    let registry_names = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { coreCommands } from './languages/typescript/runtime/registry/coreCommands.ts'; console.log(coreCommands.map((command) => command.name).join(','));",
+            )
+            .current_dir(&repo),
+    );
+    assert_eq!(
+        registry_names,
+        "status,session,export,config,doctor,context,usage,permissions,files,tasks"
+    );
+
+    let command_outputs = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['session','export','config','doctor','context','usage','permissions','files','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
+            )
+            .arg(out.display().to_string())
+            .current_dir(&repo),
+    );
+
+    assert_contains_all(
+        &command_outputs,
+        &[
+            "session:session_id=local-main-session",
+            "export:export_path=.agent/sessions/local-main-session.export.md export_exists=true",
+            "config:provider=anthropic model=claude-sonnet-4-6 approval_mode=default",
+            "doctor:doctor=ok",
+            "context:context_digest=",
+            "usage:usage_entries=2 total_cost_micros=",
+            "permissions:approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
+            "files:session_state=true export_state=true usage_state=true",
+            "tasks:task_count=1 active_task=session-loop turn_count=3",
+        ],
+    );
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
