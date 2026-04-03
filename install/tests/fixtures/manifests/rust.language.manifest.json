@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "description": "Rust language support for AICD",
   "runtime": {
-    "configFile": "CLAW.md",
+    "configFile": ".claw.json",
     "projectMarkers": ["Cargo.toml", "src/main.rs"]
   },
   "templates": {

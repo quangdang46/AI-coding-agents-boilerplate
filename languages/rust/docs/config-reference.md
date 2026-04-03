@@ -1,8 +1,8 @@
 # Rust Language Pack Config Reference
 
-Rust currently uses `CLAW.md` as the primary shipped config file under `languages/rust/`.
+Rust currently uses `.claw.json` as the primary shipped config file under `languages/rust/`.
 
-Reference evidence shows the current Rust implementation uses `CLAW.md`, `.claw.json`, and `.claw/settings.local.json` as key workspace-local configuration surfaces.
+Reference evidence shows the current Rust implementation uses `.claw.json`, `.claw/settings.local.json`, and `CLAW.md` as key workspace-local configuration and instruction surfaces.
 
 In the current migration slice, the installer may scaffold those Rust workspace-local surfaces through `init`, `feature add/remove`, and `doctor`. Rust feature enablement is recorded in `.claw.json` under `features.enabled`.
 
@@ -22,7 +22,7 @@ Generated Rust projects also reserve `.agent/usage/` as the local usage and cost
 
 Generated Rust projects also expose local agent discovery through `.claw.json` under `agents`, including directories, enabled agents, and `defaultAgent`.
 
-Generated Rust projects also ship workspace instruction-memory files under `.agent/prompts/`, with `CLAW.md` remaining the primary top-level instruction file.
+Generated Rust projects also ship workspace instruction-memory files under `.agent/prompts/`, with `CLAW.md` remaining the primary top-level instruction file rather than the runtime config anchor.
 
 Prompt construction now includes layered prompt sections under `.agent/prompts/sections/`, starting with shared style and verification guidance.
 
