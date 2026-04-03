@@ -1,0 +1,112 @@
+{
+  "version": "1",
+  "prerequisites": {
+    "pythonProvingSliceRequired": true,
+    "installerManifestDiscoveryRequired": true,
+    "referenceIsolationRequired": true
+  },
+  "subsystems": [
+    {
+      "id": "core-engine",
+      "paths": ["languages/typescript/runtime/engine", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Reusable runtime kernel boundary from documented core extraction plan."
+    },
+    {
+      "id": "core-prompts",
+      "paths": ["languages/typescript/runtime/prompts", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Prompt composition and file-backed prompt loading belong in runtime core."
+    },
+    {
+      "id": "core-config",
+      "paths": ["languages/typescript/runtime/config", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Typed config contract and runtime loading are a language-pack core concern."
+    },
+    {
+      "id": "core-registry",
+      "paths": ["languages/typescript/runtime/registry", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Registry construction for commands/tools/skills/agents/features is a reusable boundary."
+    },
+    {
+      "id": "core-providers",
+      "paths": ["languages/typescript/runtime/providers", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Provider-neutral interfaces belong in runtime core."
+    },
+    {
+      "id": "base-template-config",
+      "paths": ["languages/typescript/template/base/boilerplate.config.ts", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/template/base",
+      "reason": "Current base template config is the seed for a generated TypeScript project."
+    },
+    {
+      "id": "top-level-runtime-registries",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "reference-only",
+      "reason": "Still product-facing delegators over core shims; must be decomposed before extraction."
+    },
+    {
+      "id": "main-cli-runtime",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "reference-only",
+      "reason": "Current interactive product runtime, not yet a clean language-pack ownership boundary."
+    },
+    {
+      "id": "interactive-ui-screens",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Large UI and hook surfaces should be decomposed into user-facing capability packs."
+    },
+    {
+      "id": "skill-pipeline",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Local skill discovery can inform core, but bundled skill pipelines remain optional."
+    },
+    {
+      "id": "plugin-system",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Plugins-first extensibility is not part of the minimal v1 boilerplate core."
+    },
+    {
+      "id": "bridge-system",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Bridge/remote control is an optional integration family."
+    },
+    {
+      "id": "voice-system",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Voice support is optional and not needed in the proving slice."
+    },
+    {
+      "id": "task-system",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "future-feature-packs",
+      "reason": "Task/team orchestration is an optional workflow family."
+    },
+    {
+      "id": "services-ecosystem",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "reference-only",
+      "reason": "Broad service ecosystem must be decomposed before any extraction."
+    },
+    {
+      "id": "state-layer",
+      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "destination": "reference-only",
+      "reason": "Current product state layer is still coupled to the monolith."
+    },
+    {
+      "id": "schema-files",
+      "paths": ["languages/typescript/runtime/schemas", "references/source-typescript/SNAPSHOT.md"],
+      "destination": "languages/typescript/runtime",
+      "reason": "Schema-backed validation is a reusable core concern once trimmed from product coupling."
+    }
+  ]
+}

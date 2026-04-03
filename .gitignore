@@ -20,3 +20,5 @@ python/.port_sessions/
 .omx/tmux-hook.json
 .omx/metrics.json
 source-references/
+.venv-migration/
+references/

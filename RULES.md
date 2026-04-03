@@ -61,13 +61,13 @@ aicd/
 
 ### Migration compatibility rule
 
-The current repo may still contain language roots such as `python/` and `typescript/` at top level during migration.
+Earlier migration phases may have used top-level language roots such as `python/` and `typescript/`.
 
-However:
+The current compatibility rule is:
 
 - no new language may be introduced outside `languages/`
 - no new long-term architecture document may assume top-level language roots are permanent
-- migration work SHOULD move existing language roots toward `languages/<id>/`
+- legacy language workspaces should be retired from repo root and, if still needed for history, preserved under `references/`
 
 ---
 
@@ -538,9 +538,9 @@ The current repository already contains useful building blocks, especially in Py
 
 Migration SHOULD move toward:
 
-- `python/` → `languages/python/`
-- `typescript/` → `languages/typescript/`
-- `source-references/` → `references/`
+- legacy `python/` workspace → `languages/python/` plus `references/legacy-python-workspace/`
+- legacy `typescript/` workspace → `languages/typescript/` plus `references/legacy-typescript-workspace/`
+- legacy source-archive roots → `references/`
 - shared schemas and cross-language docs → `shared/`
 
 During migration:

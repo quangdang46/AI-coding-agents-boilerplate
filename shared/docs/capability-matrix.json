@@ -1,0 +1,883 @@
+{
+  "version": "1",
+  "capabilities": [
+    {
+      "capabilityId": "interactive-repl",
+      "userFacingName": "Interactive REPL and prompt-driven coding sessions",
+      "sourceEvidence": [
+        "FEATURES.md#1.1",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["screens", "root-files"],
+      "targetBucket": "core",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Base interaction shell candidate from section 11.1."
+    },
+    {
+      "capabilityId": "rich-terminal-ui",
+      "userFacingName": "Rich terminal UI component system",
+      "sourceEvidence": [
+        "FEATURES.md#1.2",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["components"],
+      "targetBucket": "deferred",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Broad UI surface; not safe to migrate wholesale into core."
+    },
+    {
+      "capabilityId": "doctor-and-resume-screens",
+      "userFacingName": "Doctor, resume, and workflow-specific screens",
+      "sourceEvidence": [
+        "FEATURES.md#1.3",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["screens", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "doctor-ui",
+      "notes": "Candidate rich diagnostics/status pack rather than base core UI."
+    },
+    {
+      "capabilityId": "onboarding-auth-dialogs",
+      "userFacingName": "Onboarding, auth, and guided dialogs",
+      "sourceEvidence": [
+        "FEATURES.md#1.4",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["components", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "oauth-onboarding",
+      "notes": "Optional guided setup and auth flows."
+    },
+    {
+      "capabilityId": "companion-affordances",
+      "userFacingName": "Companion and user-facing helper affordances",
+      "sourceEvidence": [
+        "FEATURES.md#1.5",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["buddy"],
+      "targetBucket": "deferred",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Promising but not part of initial migration slice."
+    },
+    {
+      "capabilityId": "local-agent-discovery",
+      "userFacingName": "Local agent workflows and agent discovery",
+      "sourceEvidence": [
+        "FEATURES.md#2.1",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json",
+        "languages/python/template/base/.agent/agents/planner.agent.json",
+        "languages/typescript/template/base/.agent/agents/planner.agent.json",
+        "languages/rust/template/base/.agent/agents/planner.agent.json"
+      ],
+      "sourceSubsystems": ["tools", "agents"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Local agent discovery is now shipped and validated across Python, TypeScript, and Rust through language-specific agent config plus editable `.agent/agents` roots, including negative-path doctor checks for broken agent configuration."
+    },
+    {
+      "capabilityId": "built-in-specialist-agents",
+      "userFacingName": "Built-in specialist agents",
+      "sourceEvidence": [
+        "FEATURES.md#2.2",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "specialist-agents",
+      "notes": "Can layer beyond base agent discovery."
+    },
+    {
+      "capabilityId": "advanced-planning-modes",
+      "userFacingName": "Planning modes and deep-plan workflows",
+      "sourceEvidence": [
+        "FEATURES.md#2.3",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "advanced-planning",
+      "notes": "Explicit ultraplan/plan-mode behavior should remain optional."
+    },
+    {
+      "capabilityId": "task-team-orchestration",
+      "userFacingName": "Task and team orchestration",
+      "sourceEvidence": [
+        "FEATURES.md#2.4",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools", "tasks"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "multi-agent-workflows",
+      "notes": "Maps cleanly to optional agent-team workflows."
+    },
+    {
+      "capabilityId": "coordinator-permission-modes",
+      "userFacingName": "Coordinator and swarm-aware permission handling",
+      "sourceEvidence": [
+        "FEATURES.md#2.5",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["coordinator", "hooks"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "swarm-permissions",
+      "notes": "Worker/coordinator permission policy is optional orchestration behavior."
+    },
+    {
+      "capabilityId": "assistant-session-history",
+      "userFacingName": "Session history around assistant operation",
+      "sourceEvidence": [
+        "FEATURES.md#2.6",
+        "references/source-python/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["assistant"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "assistant-session-history",
+      "notes": "Separate from core resume/session persistence semantics."
+    },
+    {
+      "capabilityId": "slash-command-surface",
+      "userFacingName": "Broad slash-command and command-module surface",
+      "sourceEvidence": [
+        "FEATURES.md#3.1",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Full command inventory is a caution area and must be decomposed."
+    },
+    {
+      "capabilityId": "structured-remote-cli-transport",
+      "userFacingName": "Structured and remote CLI transports",
+      "sourceEvidence": [
+        "FEATURES.md#3.2",
+        "references/source-python/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["cli", "remote"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "structured-remote-transport",
+      "notes": "Separate transport stack rather than base CLI behavior."
+    },
+    {
+      "capabilityId": "session-management-and-export",
+      "userFacingName": "Session management, export, compaction, and status",
+      "sourceEvidence": [
+        "FEATURES.md#3.3",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands", "session"],
+      "targetBucket": "core",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Resume/session state is a base candidate cluster."
+    },
+    {
+      "capabilityId": "git-and-github-workflow-assistance",
+      "userFacingName": "Git and GitHub workflow assistance",
+      "sourceEvidence": [
+        "FEATURES.md#3.4",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands", "git"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "git-workflows",
+      "notes": "Optional Git/GitHub workflow automation family."
+    },
+    {
+      "capabilityId": "workspace-bootstrap-init",
+      "userFacingName": "Initialization and workspace bootstrap",
+      "sourceEvidence": [
+        "FEATURES.md#3.5",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/language.manifest.json",
+        "languages/typescript/language.manifest.json",
+        "languages/rust/language.manifest.json"
+      ],
+      "sourceSubsystems": ["commands", "entrypoints"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Installer bootstrap is now verified end to end for Python, TypeScript, and Rust. Python remains the deepest proving slice; TypeScript and Rust now both support init, doctor, and one verified feature-pack slice."
+    },
+    {
+      "capabilityId": "workspace-file-shell-web-tools",
+      "userFacingName": "Workspace file and shell tools",
+      "sourceEvidence": [
+        "FEATURES.md#4.1",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Workspace file and shell tool defaults are now shipped and validated across Python, TypeScript, and Rust generated configs, including explicit timeout and tool-budget settings."
+    },
+    {
+      "capabilityId": "lsp-code-intelligence",
+      "userFacingName": "Code intelligence and language-server support",
+      "sourceEvidence": [
+        "FEATURES.md#4.2",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools", "lsp"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "lsp-tooling",
+      "notes": "Could be optional depending on language/runtime support."
+    },
+    {
+      "capabilityId": "mcp-resource-tooling",
+      "userFacingName": "MCP tool invocation and MCP resource access",
+      "sourceEvidence": [
+        "FEATURES.md#4.3",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools", "mcp"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "mcp-integration",
+      "notes": "Explicit optional integration axis from sections 7.1 and 11.2."
+    },
+    {
+      "capabilityId": "web-fetch-and-search",
+      "userFacingName": "Web and remote fetch/search",
+      "sourceEvidence": [
+        "FEATURES.md#4.4",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/README.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Web fetch/search is now shipped and validated across Python, TypeScript, and Rust generated configs, with doctor catching missing web-fetch defaults."
+    },
+    {
+      "capabilityId": "planning-and-todo-tools",
+      "userFacingName": "Planning, todo, and workflow control tools",
+      "sourceEvidence": [
+        "FEATURES.md#4.5",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools", "tasks"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "advanced-planning",
+      "notes": "Plan mode and todo controls are optional beyond core prompt loading."
+    },
+    {
+      "capabilityId": "ask-user-and-brief-tools",
+      "userFacingName": "Ask-user / brief / message tools",
+      "sourceEvidence": [
+        "FEATURES.md#4.6",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "interactive-clarification-tools",
+      "notes": "Useful but not minimal core for the first migration wave."
+    },
+    {
+      "capabilityId": "tool-platform-breadth",
+      "userFacingName": "Breadth of tool system overall",
+      "sourceEvidence": [
+        "FEATURES.md#4.7",
+        "references/source-python/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Full tool inventory is a caution area and must be decomposed."
+    },
+    {
+      "capabilityId": "local-skill-discovery",
+      "userFacingName": "Local skill discovery and invocation",
+      "sourceEvidence": [
+        "FEATURES.md#5.1",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/skills/plan/SKILL.md",
+        "languages/typescript/template/base/.agent/skills/plan/SKILL.md",
+        "languages/rust/template/base/.agent/skills/plan/SKILL.md"
+      ],
+      "sourceSubsystems": ["skills", "tools"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Local file-backed skill roots are now shipped and validated across Python, TypeScript, and Rust generated projects. Bundled and registry-driven skill pipelines remain separate and unshipped."
+    },
+    {
+      "capabilityId": "bundled-skill-pipelines",
+      "userFacingName": "Bundled and registry-style skill pipelines",
+      "sourceEvidence": [
+        "FEATURES.md#5.2",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["skills"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "bundled-skills",
+      "notes": "Broader than local skill discovery and can remain optional."
+    },
+    {
+      "capabilityId": "workspace-instruction-memory",
+      "userFacingName": "Workspace-aware instruction memory files",
+      "sourceEvidence": [
+        "FEATURES.md#5.3",
+        "references/source-rust/README.md",
+        "references/parity/source-typescript-parity.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/prompts/system.md",
+        "languages/typescript/template/base/.agent/prompts/system.md",
+        "languages/rust/template/base/CLAW.md",
+        "languages/rust/template/base/.agent/prompts/system.md"
+      ],
+      "sourceSubsystems": ["runtime", "context"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Workspace instruction-memory files are now shipped and validated across Python, TypeScript, and Rust generated projects, with Rust using both `CLAW.md` and `.agent/prompts/` as local instruction surfaces."
+    },
+    {
+      "capabilityId": "system-prompt-layering",
+      "userFacingName": "Prompt construction and system prompt layering",
+      "sourceEvidence": [
+        "FEATURES.md#5.4",
+        "references/source-rust/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/prompts/system.md",
+        "languages/python/template/base/.agent/prompts/sections/verification.md",
+        "languages/typescript/template/base/.agent/prompts/system.md",
+        "languages/typescript/template/base/.agent/prompts/sections/style.md",
+        "languages/rust/template/base/.agent/prompts/system.md",
+        "languages/rust/template/base/.agent/prompts/sections/style.md",
+        "languages/rust/template/base/.agent/prompts/sections/verification.md"
+      ],
+      "sourceSubsystems": ["prompts", "runtime"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Prompt layering is now shipped and validated across Python, TypeScript, and Rust generated projects, with Rust participating through local prompt sections under `.agent/prompts/sections/`."
+    },
+    {
+      "capabilityId": "provider-and-model-selection",
+      "userFacingName": "Multiple provider families and model/provider selection",
+      "sourceEvidence": [
+        "FEATURES.md#6.1",
+        "references/source-rust/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json"
+      ],
+      "sourceSubsystems": ["providers", "api"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Provider and model selection are now shipped and validated across Python, TypeScript, and Rust generated projects through their language-specific config surfaces."
+    },
+    {
+      "capabilityId": "oauth-login-flows",
+      "userFacingName": "OAuth and credential-backed login flows",
+      "sourceEvidence": [
+        "FEATURES.md#6.2",
+        "references/source-rust/README.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands", "runtime", "auth"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "oauth-onboarding",
+      "notes": "Optional auth-first integration flow."
+    },
+    {
+      "capabilityId": "streaming-provider-responses",
+      "userFacingName": "Streaming model responses",
+      "sourceEvidence": [
+        "FEATURES.md#6.3",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["api", "providers"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "streaming-responses",
+      "notes": "Can be optional if first migration slice keeps simpler response handling."
+    },
+    {
+      "capabilityId": "usage-and-cost-tracking",
+      "userFacingName": "Usage and cost tracking",
+      "sourceEvidence": [
+        "FEATURES.md#6.4",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/SNAPSHOT.md",
+        "languages/python/docs/migration-baseline.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/usage/README.md",
+        "languages/typescript/template/base/.agent/usage/README.md",
+        "languages/rust/template/base/.agent/usage/README.md"
+      ],
+      "sourceSubsystems": ["runtime", "services"],
+      "targetBucket": "core",
+      "implementationState": "implemented",
+      "featureId": null,
+      "notes": "Generated projects now reserve explicit local usage roots across Python, TypeScript, and Rust, giving the repo a real shared seam for later usage and cost tracking behavior."
+    },
+    {
+      "capabilityId": "model-migration-rules",
+      "userFacingName": "Model migration and settings evolution",
+      "sourceEvidence": [
+        "FEATURES.md#6.5",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["migrations"],
+      "targetBucket": "deferred",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Important later but not a first-wave blocking semantic."
+    },
+    {
+      "capabilityId": "mcp-integration-subsystem",
+      "userFacingName": "MCP integration as a major subsystem",
+      "sourceEvidence": [
+        "FEATURES.md#7.1",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["mcp", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "mcp-integration",
+      "notes": "Major optional integration family."
+    },
+    {
+      "capabilityId": "remote-cli-transport-stack",
+      "userFacingName": "Remote/structured assistant and CLI transport",
+      "sourceEvidence": [
+        "FEATURES.md#7.2",
+        "references/source-python/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["cli", "remote"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "structured-remote-transport",
+      "notes": "Closely related to but broader than simple remote CLI transport."
+    },
+    {
+      "capabilityId": "bridge-remote-session-control",
+      "userFacingName": "Bridge / remote session / relay functionality",
+      "sourceEvidence": [
+        "FEATURES.md#7.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["bridge"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "bridge-remote-control",
+      "notes": "Explicit optional bridge subsystem."
+    },
+    {
+      "capabilityId": "upstream-proxy-support",
+      "userFacingName": "Upstream proxy and remote runtime support",
+      "sourceEvidence": [
+        "FEATURES.md#7.4",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["upstreamproxy", "remote"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "upstream-proxy",
+      "notes": "Optional remote runtime/proxy capability."
+    },
+    {
+      "capabilityId": "server-direct-connect",
+      "userFacingName": "Server/direct-connect capabilities",
+      "sourceEvidence": [
+        "FEATURES.md#7.5",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-rust/README.md"
+      ],
+      "sourceSubsystems": ["server"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "direct-connect-server",
+      "notes": "Supporting server layer, not minimal core."
+    },
+    {
+      "capabilityId": "external-app-integrations",
+      "userFacingName": "External app and channel integrations",
+      "sourceEvidence": [
+        "FEATURES.md#7.6",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands", "integrations"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "external-app-integrations",
+      "notes": "Covers Slack/GitHub app/install channel style integrations."
+    },
+    {
+      "capabilityId": "saved-sessions-and-resume",
+      "userFacingName": "Saved sessions, resume, and local conversation state",
+      "sourceEvidence": [
+        "FEATURES.md#8.1",
+        "references/source-rust/README.md",
+        "references/source-rust/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/sessions/README.md",
+        "languages/typescript/template/base/.agent/sessions/README.md",
+        "languages/rust/template/base/.agent/sessions/README.md"
+      ],
+      "sourceSubsystems": ["session", "runtime"],
+      "targetBucket": "core",
+      "implementationState": "implemented",
+      "featureId": null,
+      "notes": "Generated projects now reserve explicit local session roots across Python, TypeScript, and Rust, providing a real shared seam for later saved-session and resume behavior."
+    },
+    {
+      "capabilityId": "session-memory",
+      "userFacingName": "Session memory and relevant-memory retrieval",
+      "sourceEvidence": [
+        "FEATURES.md#8.2",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["services", "memdir"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "session-memory",
+      "notes": "Explicit optional memory subsystem."
+    },
+    {
+      "capabilityId": "team-memory",
+      "userFacingName": "Team/shared memory concepts",
+      "sourceEvidence": [
+        "FEATURES.md#8.3",
+        "references/source-python/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["memdir"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "team-memory",
+      "notes": "Distinct from local session memory by semantics."
+    },
+    {
+      "capabilityId": "workspace-context-building",
+      "userFacingName": "Prompt/context building from workspace state",
+      "sourceEvidence": [
+        "FEATURES.md#8.4",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json",
+        "languages/python/template/base/.agent/context/README.md",
+        "languages/typescript/template/base/.agent/context/README.md",
+        "languages/rust/template/base/.agent/context/README.md"
+      ],
+      "sourceSubsystems": ["context", "runtime"],
+      "targetBucket": "core",
+      "implementationState": "implemented",
+      "featureId": null,
+      "notes": "Generated projects now reserve explicit workspace-context roots across Python, TypeScript, and Rust, and TypeScript/Rust wire those roots into prompt or config surfaces for later context-building behavior."
+    },
+    {
+      "capabilityId": "session-compaction",
+      "userFacingName": "Session compaction and token-boundary management",
+      "sourceEvidence": [
+        "FEATURES.md#8.5",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["runtime", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "session-compaction",
+      "notes": "Useful but can remain optional beyond base resume semantics."
+    },
+    {
+      "capabilityId": "permissions-and-sandbox-safety",
+      "userFacingName": "Permission modes and sandbox/runtime safety",
+      "sourceEvidence": [
+        "FEATURES.md#8.6",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/agentkit.toml",
+        "languages/typescript/template/base/boilerplate.config.ts",
+        "languages/rust/template/base/.claw.json"
+      ],
+      "sourceSubsystems": ["hooks", "runtime"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Permission and sandbox-safety controls are now shipped and validated across Python, TypeScript, and Rust generated configs through approval or permission settings in their language-specific config surfaces."
+    },
+    {
+      "capabilityId": "hook-runtime",
+      "userFacingName": "Hook-driven runtime behavior",
+      "sourceEvidence": [
+        "FEATURES.md#9.1",
+        "references/parity/source-typescript-parity.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["hooks"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "hooks-runtime",
+      "notes": "Optional extension/runtime behavior."
+    },
+    {
+      "capabilityId": "plugin-marketplace-lifecycle",
+      "userFacingName": "Plugin installation, discovery, enable/disable, update, uninstall",
+      "sourceEvidence": [
+        "FEATURES.md#9.2",
+        "references/source-rust/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["plugins", "commands"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "plugin-marketplace-ui",
+      "notes": "Lifecycle/UI pack distinct from plugin runtime mechanics."
+    },
+    {
+      "capabilityId": "plugin-runtime-manifests",
+      "userFacingName": "Plugin manifests, permissions, lifecycle, hooks, tools, and commands",
+      "sourceEvidence": [
+        "FEATURES.md#9.3",
+        "references/source-rust/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["plugins"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "plugin-runtime",
+      "notes": "Core plugin runtime semantics, separate from marketplace UI."
+    },
+    {
+      "capabilityId": "plugin-source-kinds",
+      "userFacingName": "Bundled, builtin, and external plugin sources",
+      "sourceEvidence": [
+        "FEATURES.md#9.4",
+        "references/source-rust/SNAPSHOT.md",
+        "references/parity/source-typescript-parity.md"
+      ],
+      "sourceSubsystems": ["plugins"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "plugin-runtime",
+      "notes": "Captured as part of plugin-runtime family."
+    },
+    {
+      "capabilityId": "workspace-editable-extension-seams",
+      "userFacingName": "Skills/agents/plugins as user-editable workspace extension seams",
+      "sourceEvidence": [
+        "FEATURES.md#9.5",
+        "references/source-rust/README.md",
+        "references/parity/source-typescript-parity.md",
+        "install/tests/cli.rs",
+        "languages/python/template/base/.agent/agents/planner.agent.json",
+        "languages/typescript/template/base/.agent/agents/planner.agent.json",
+        "languages/rust/template/base/.agent/agents/planner.agent.json",
+        "languages/rust/template/base/.agent/features/registry.json",
+        "languages/rust/template/base/.agent/skills/plan/SKILL.md"
+      ],
+      "sourceSubsystems": ["skills", "agents", "plugins"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Editable extension seams are now shipped and validated across Python, TypeScript, and Rust through local `.agent/agents`, `.agent/skills`, and `.agent/features` roots in generated projects."
+    },
+    {
+      "capabilityId": "services-cluster-decomposition",
+      "userFacingName": "Large service ecosystem beyond the core loop",
+      "sourceEvidence": [
+        "FEATURES.md#10.1",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["services"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Large cluster; must be decomposed into smaller capabilities before extraction."
+    },
+    {
+      "capabilityId": "analytics-and-telemetry",
+      "userFacingName": "Analytics, event logging, and telemetry plumbing",
+      "sourceEvidence": [
+        "FEATURES.md#10.2",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["services"],
+      "targetBucket": "deferred",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Explicit services sub-capability split out from the broad services cluster."
+    },
+    {
+      "capabilityId": "magic-docs-and-prompt-suggestions",
+      "userFacingName": "Prompt suggestion, magic docs, and summarization helpers",
+      "sourceEvidence": [
+        "FEATURES.md#10.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["services"],
+      "targetBucket": "feature-pack",
+      "implementationState": "declared",
+      "featureId": "prompt-suggestion-services",
+      "notes": "Decomposed service slice rather than full services ecosystem."
+    },
+    {
+      "capabilityId": "native-performance-modules",
+      "userFacingName": "Native/high-performance support modules",
+      "sourceEvidence": [
+        "FEATURES.md#10.4",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["native-ts"],
+      "targetBucket": "deferred",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Useful later, not core to the first migration milestones."
+    },
+    {
+      "capabilityId": "schema-backed-validation",
+      "userFacingName": "Schema-backed configuration and validation",
+      "sourceEvidence": [
+        "FEATURES.md#10.5",
+        "references/source-python/SNAPSHOT.md",
+        "references/source-python/SNAPSHOT.md",
+        "shared/schemas/language.manifest.schema.json",
+        "shared/schemas/feature-pack.schema.json",
+        "install/src/manifest.rs",
+        "install/src/commands/feature.rs",
+        "install/tests/cli.rs",
+        "references/source-python/SNAPSHOT.md",
+        "languages/python/tests/README.md"
+      ],
+      "sourceSubsystems": ["schemas", "entrypoints"],
+      "targetBucket": "core",
+      "implementationState": "verified",
+      "featureId": null,
+      "notes": "Language and feature manifests now conform to shared schema-shaped contracts and are rejected when required schema fields are missing in both the installer path and the Python runtime proving path."
+    },
+    {
+      "capabilityId": "components-cluster-decomposition",
+      "userFacingName": "Components UI layer cluster",
+      "sourceEvidence": [
+        "FEATURES.md#11.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["components"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Explicit decomposition guard for oversized UI cluster."
+    },
+    {
+      "capabilityId": "hooks-cluster-decomposition",
+      "userFacingName": "Hooks cluster decomposition guard",
+      "sourceEvidence": [
+        "FEATURES.md#9.1",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["hooks"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Oversized hook cluster must be broken into runtime-focused slices."
+    },
+    {
+      "capabilityId": "command-inventory-decomposition",
+      "userFacingName": "Full command inventory decomposition guard",
+      "sourceEvidence": [
+        "FEATURES.md#11.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["commands"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Full command inventory must not become one shippable pack."
+    },
+    {
+      "capabilityId": "tool-inventory-decomposition",
+      "userFacingName": "Full tool inventory decomposition guard",
+      "sourceEvidence": [
+        "FEATURES.md#11.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["tools"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Full tool inventory must not become one shippable pack."
+    },
+    {
+      "capabilityId": "utils-cluster-decomposition",
+      "userFacingName": "Utils support layer decomposition guard",
+      "sourceEvidence": [
+        "FEATURES.md#11.3",
+        "references/source-python/SNAPSHOT.md"
+      ],
+      "sourceSubsystems": ["utils"],
+      "targetBucket": "reference-only",
+      "implementationState": "declared",
+      "featureId": null,
+      "notes": "Explicit caution area from section 11.3; do not ship wholesale."
+    }
+  ]
+}
