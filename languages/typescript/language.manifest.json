@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1",
+  "kind": "language-pack",
+  "id": "typescript",
+  "displayName": "TypeScript",
+  "version": "1.0.0",
+  "description": "TypeScript language support for AICD",
+  "runtime": {
+    "configFile": "boilerplate.config.ts",
+    "projectMarkers": ["package.json", "tsconfig.json"]
+  },
+  "templates": {
+    "base": "template/base"
+  },
+  "supports": {
+    "init": true,
+    "featureAdd": true,
+    "featureRemove": true,
+    "doctor": true
+  },
+  "featureRegistry": ".agent/features/registry.json",
+  "compatibility": {
+    "cli": "^1.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "reviewer",
+  "description": "Review Rust changes for correctness and risk.",
+  "prompt": ".agent/prompts/sections/verification.md",
+  "tools": ["file_read"],
+  "model": "inherit",
+  "effort": "medium",
+  "skills": ["verify"],
+  "memory": "project"
+}

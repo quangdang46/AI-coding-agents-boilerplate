@@ -1,0 +1,10 @@
+{
+  "id": "planner",
+  "description": "Plan Rust project changes before implementation.",
+  "prompt": ".agent/prompts/system.md",
+  "tools": ["file_read"],
+  "model": "inherit",
+  "effort": "medium",
+  "skills": ["plan"],
+  "memory": "project"
+}

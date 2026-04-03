@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1",
+  "kind": "language-pack",
+  "id": "rust",
+  "displayName": "Rust",
+  "version": "1.0.0",
+  "description": "Rust language support for AICD",
+  "runtime": {
+    "configFile": "CLAW.md",
+    "projectMarkers": ["Cargo.toml", "src/main.rs"]
+  },
+  "templates": {
+    "base": "template/base"
+  },
+  "supports": {
+    "init": true,
+    "featureAdd": true,
+    "featureRemove": true,
+    "doctor": true
+  },
+  "featureRegistry": ".agent/features/registry.json",
+  "compatibility": {
+    "cli": "^1.0.0"
+  }
+}

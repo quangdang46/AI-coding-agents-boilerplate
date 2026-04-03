@@ -1,0 +1,33 @@
+{
+  "defaultProvider": "anthropic",
+  "providers": {
+    "anthropic": {
+      "apiKeyEnv": "ANTHROPIC_API_KEY",
+      "model": "claude-sonnet-4-6"
+    },
+    "openai": {
+      "apiKeyEnv": "OPENAI_API_KEY",
+      "model": "gpt-5.2-codex"
+    }
+  },
+  "tools": {
+    "enabled": ["bash", "file_read", "file_edit", "file_write", "web_fetch"],
+    "bashTimeoutMs": 120000,
+    "webFetchTimeoutMs": 30000,
+    "maxToolCallsPerTurn": 50
+  },
+  "agents": {
+    "directories": [".agent/agents"],
+    "enabled": ["planner", "executor", "reviewer"],
+    "defaultAgent": "executor"
+  },
+  "permissions": {
+    "defaultMode": "dontAsk"
+  },
+  "features": {
+    "enabled": []
+  },
+  "context": {
+    "paths": [".agent/context/README.md"]
+  }
+}

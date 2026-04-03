@@ -1,0 +1,5 @@
+{
+  "features": [
+    {"id": "local-plugins", "path": "local-plugins"}
+  ]
+}
