@@ -58,6 +58,18 @@ fn run_command(command: &mut Command) -> String {
     String::from_utf8_lossy(&output.stdout).trim().to_string()
 }
 
+fn assert_runtime_state_artifacts(project_root: &PathBuf) {
+    assert!(project_root
+        .join(".agent/sessions/local-main-session.state")
+        .exists());
+    assert!(project_root.join(".agent/sessions/latest.state").exists());
+    assert!(project_root
+        .join(".agent/sessions/local-main-session.export.md")
+        .exists());
+    assert!(project_root.join(".agent/usage/ledger.log").exists());
+    assert!(project_root.join(".agent/usage/summary.state").exists());
+}
+
 fn clean_runtime_artifacts(project_root: &PathBuf) {
     for relative in [
         ".agent/sessions/latest.state",
@@ -156,6 +168,14 @@ fn doctor_validates_generated_project() {
         binary_name: None,
     })
     .expect("init works");
+    let runtime_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert!(runtime_output.contains("session_id=local-main-session"));
+    assert_runtime_state_artifacts(&out);
     let message = doctor::run(&out).expect("doctor works");
     assert!(message.contains("doctor ok"));
     fs::remove_dir_all(out).ok();
@@ -179,6 +199,14 @@ fn feature_add_and_remove_updates_project() {
         project: out.clone(),
     })
     .expect("feature add works");
+    let runtime_after_add = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert!(runtime_after_add.contains("session_id=local-main-session"));
+    assert_runtime_state_artifacts(&out);
     assert!(out.join(".agent/agents/review-agent.agent.json").exists());
     assert!(out
         .join(".agent/prompts/sections/github-review.md")
@@ -193,6 +221,14 @@ fn feature_add_and_remove_updates_project() {
         project: out.clone(),
     })
     .expect("feature remove works");
+    let runtime_after_remove = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert!(runtime_after_remove.contains("session_id=local-main-session"));
+    assert_runtime_state_artifacts(&out);
     assert!(!out.join(".agent/agents/review-agent.agent.json").exists());
     assert!(!out
         .join(".agent/prompts/sections/github-review.md")
@@ -446,6 +482,10 @@ fn doctor_validates_typescript_project() {
         binary_name: None,
     })
     .expect("typescript init works");
+
+    let runtime_output = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(runtime_output.contains("session_id=local-main-session"));
+    assert_runtime_state_artifacts(&out);
 
     let message = doctor::run(&out).expect("typescript doctor works");
     assert!(message.contains("doctor ok"));
@@ -777,6 +817,15 @@ fn doctor_validates_rust_project() {
         binary_name: None,
     })
     .expect("rust init works");
+
+    let runtime_output = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(runtime_output.contains("session_id=local-main-session"));
+    assert_runtime_state_artifacts(&out);
 
     let message = doctor::run(&out).expect("rust doctor works");
     assert!(message.contains("doctor ok"));
