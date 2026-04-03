@@ -62,3 +62,24 @@ def test_reference_and_porting_boundaries_are_documented() -> None:
     assert "canonical migration baseline" in python_pack_boundary
     assert "languages/python/" in python_pack_boundary
     assert "must remain manifest-driven" in python_pack_boundary
+
+
+def test_archive_noise_classes_are_documented_as_evidence_only() -> None:
+    archive_gate = (
+        REPO_ROOT / "shared" / "docs" / "archive-retirement-gate.md"
+    ).read_text(encoding="utf-8")
+    coverage_report = (
+        REPO_ROOT / "docs" / "porting" / "files-coverage-report.md"
+    ).read_text(encoding="utf-8")
+
+    expected_phrases = [
+        "session dumps and conversation logs",
+        "lockfiles and environment-state",
+        "screenshots and other visual evidence assets",
+        "parity harness scaffolding",
+        "reference_data/",
+    ]
+
+    for phrase in expected_phrases:
+        assert phrase in archive_gate
+        assert phrase in coverage_report

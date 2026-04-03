@@ -53,3 +53,18 @@ The archive remains evidence-only. runtime-facing manifests, configs, registries
 If any required evidence artifact is missing, or if runtime/reference isolation tests fail, archive retirement is blocked.
 
 If all required evidence artifacts are present and automated isolation checks are green, archive retirement may proceed to the explicit deletion review stage.
+
+---
+
+## 5. Evidence-only artifact classes
+
+The following archived artifact classes are evidence-only and must not be treated as shipped runtime implementation targets:
+
+- session dumps and conversation logs under archive-local `.claude/sessions/` or `.claw/sessions/`
+- lockfiles and environment-state captures such as `Cargo.lock`, `bun.lock`, or rustup settings
+- screenshots and other visual evidence assets
+- plan documents, enhancement notes, and mock parity harness writeups
+- parity harness scaffolding, compatibility harnesses, and archive-only runner scripts
+- archive audit helpers, snapshots, and `reference_data/` inventory material
+
+These artifacts remain useful for auditability, but they should be classified as evidence-only or tooling-only rather than active runtime port obligations.

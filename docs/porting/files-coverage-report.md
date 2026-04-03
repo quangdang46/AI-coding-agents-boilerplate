@@ -67,6 +67,19 @@ This section excludes umbrella coverage beads and counts only concrete coverage 
 - `TypeScript coverage: plugin runtime, plugin utilities, and marketplace support` -> `46` rows
 - `TypeScript coverage: root docs, build scripts, and repo metadata` -> `12` rows
 - `TypeScript coverage: root runtime shell files` -> `17` rows
+
+## Evidence-only noise classes
+
+The following archive clusters are tracked for audit truth but should not be treated as shipped runtime implementation targets:
+
+- archive-local session dumps and conversation logs under `.claude/sessions/` or `.claw/sessions/`
+- lockfiles and environment-state leftovers such as `Cargo.lock`, `bun.lock`, and rustup settings
+- screenshots and other visual evidence assets
+- plan and enhancement documents that explain historical design intent
+- parity harness scaffolding, mock harness scripts, and compatibility tooling
+- archive audit helpers, snapshots, and `reference_data/` inventory artifacts
+
+When these classes appear in `files.txt`, their disposition should be recorded as evidence-only or tooling-only instead of being mistaken for active runtime extraction work.
 - `TypeScript coverage: services cluster API, MCP, LSP, auth, memory, and suggestion families` -> `139` rows
 - `TypeScript coverage: utils cluster permissions, session, model, prompt, shell, and runtime helpers` -> `114` rows
 - `TypeScript fallback: auxiliary tool support modules` -> `6` rows
