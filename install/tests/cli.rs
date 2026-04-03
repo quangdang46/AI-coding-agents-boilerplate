@@ -70,6 +70,15 @@ fn assert_runtime_state_artifacts(project_root: &PathBuf) {
     assert!(project_root.join(".agent/usage/summary.state").exists());
 }
 
+fn assert_contains_all(haystack: &str, needles: &[&str]) {
+    for needle in needles {
+        assert!(
+            haystack.contains(needle),
+            "expected output to contain '{needle}', got: {haystack}"
+        );
+    }
+}
+
 fn clean_runtime_artifacts(project_root: &PathBuf) {
     for relative in [
         ".agent/sessions/latest.state",
@@ -1259,6 +1268,161 @@ fn generated_rust_runtime_persists_session_and_usage() {
             .contains("turn_count=2")
     );
     fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn core_slice_fixture_projects_match_cross_language_parity_profile() {
+    let _guard = acquire_cli_test_guard();
+
+    let python_out = temp_dir("core-parity-python");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: python_out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+    let python_config_path = python_out.join("agentkit.toml");
+    let python_config = fs::read_to_string(&python_config_path).expect("read python config");
+    fs::write(
+        &python_config_path,
+        python_config
+            .replace(
+                "default_provider = \"openai\"",
+                "default_provider = \"anthropic\"",
+            )
+            .replace(
+                "approval_mode = \"default\"",
+                "approval_mode = \"acceptEdits\"",
+            )
+            .replace("deny = []", "deny = [\"bash\"]"),
+    )
+    .expect("write python parity config");
+
+    let typescript_out = temp_dir("core-parity-typescript");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: typescript_out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+    let ts_config_path = typescript_out.join("boilerplate.config.ts");
+    let ts_config = fs::read_to_string(&ts_config_path).expect("read typescript config");
+    fs::write(
+        &ts_config_path,
+        ts_config
+            .replace("approvalMode: 'default'", "approvalMode: 'acceptEdits'")
+            .replace("deny: []", "deny: ['bash']"),
+    )
+    .expect("write typescript parity config");
+
+    let rust_out = temp_dir("core-parity-rust");
+    init::run(&init::InitArgs {
+        project_name: "demo-rust".to_string(),
+        language: "rust".to_string(),
+        output: rust_out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("rust init works");
+    let rust_config_path = rust_out.join(".claw.json");
+    let rust_config = fs::read_to_string(&rust_config_path).expect("read rust config");
+    fs::write(
+        &rust_config_path,
+        rust_config
+            .replace(
+                "\"defaultMode\": \"dontAsk\"",
+                "\"defaultMode\": \"acceptEdits\"",
+            )
+            .replace("\"deny\": []", "\"deny\": [\"bash\"]"),
+    )
+    .expect("write rust parity config");
+
+    let python_first = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&python_out),
+    );
+    let python_second = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&python_out),
+    );
+
+    let ts_first = run_command(
+        Command::new("node")
+            .arg("src/index.ts")
+            .current_dir(&typescript_out),
+    );
+    let ts_second = run_command(
+        Command::new("node")
+            .arg("src/index.ts")
+            .current_dir(&typescript_out),
+    );
+
+    let rust_first = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&rust_out),
+    );
+    let rust_second = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&rust_out),
+    );
+
+    let shared_first = [
+        "provider=anthropic",
+        "model=claude-sonnet-4-6",
+        "approval_mode=acceptEdits",
+        "bash_policy=bash=denied",
+        "file_write_policy=file_write=allowed",
+        "bash_result=bash=denied",
+        "file_write_result=tool-write-ok",
+        "file_edit_result=tool-write-ok edited",
+        "web_fetch_result=tool-web-fetch",
+        "session_id=local-main-session",
+        "turn_count=1",
+        "usage_entries=1",
+        "export_path=.agent/sessions/local-main-session.export.md",
+    ];
+    let shared_second = [
+        "provider=anthropic",
+        "model=claude-sonnet-4-6",
+        "approval_mode=acceptEdits",
+        "bash_policy=bash=denied",
+        "file_write_policy=file_write=allowed",
+        "bash_result=bash=denied",
+        "file_write_result=tool-write-ok",
+        "file_edit_result=tool-write-ok edited",
+        "web_fetch_result=tool-web-fetch",
+        "session_id=local-main-session",
+        "turn_count=2",
+        "usage_entries=2",
+        "export_path=.agent/sessions/local-main-session.export.md",
+    ];
+
+    assert_contains_all(&python_first, &shared_first);
+    assert_contains_all(&ts_first, &shared_first);
+    assert_contains_all(&rust_first, &shared_first);
+    assert_contains_all(&python_second, &shared_second);
+    assert_contains_all(&ts_second, &shared_second);
+    assert_contains_all(&rust_second, &shared_second);
+
+    assert_runtime_state_artifacts(&python_out);
+    assert_runtime_state_artifacts(&typescript_out);
+    assert_runtime_state_artifacts(&rust_out);
+
+    fs::remove_dir_all(python_out).ok();
+    fs::remove_dir_all(typescript_out).ok();
+    fs::remove_dir_all(rust_out).ok();
 }
 
 #[test]

@@ -607,11 +607,11 @@
 - [ ] references/typescript/src/utils/autoRunIssue.tsx
 - [ ] references/typescript/src/utils/autoUpdater.ts
 - [ ] references/typescript/src/utils/imageValidation.ts
-- [ ] references/typescript/src/Tool.ts
-- [ ] references/typescript/src/history.ts
+- [x] references/typescript/src/Tool.ts
+- [x] references/typescript/src/history.ts
 - [ ] references/typescript/src/voice/voiceModeEnabled.ts
-- [ ] references/typescript/src/setup.ts
-- [ ] references/typescript/src/query.ts
+- [x] references/typescript/src/setup.ts
+- [x] references/typescript/src/query.ts
 - [ ] references/typescript/src/entrypoints/mcp.ts
 - [ ] references/typescript/src/entrypoints/init.ts
 - [ ] references/typescript/src/entrypoints/agentSdkTypes.ts
@@ -623,8 +623,8 @@
 - [ ] references/typescript/src/entrypoints/sdk/runtimeTypes.ts
 - [ ] references/typescript/src/entrypoints/sdk/coreSchemas.ts
 - [ ] references/typescript/src/entrypoints/sandboxTypes.ts
-- [ ] references/typescript/src/replLauncher.tsx
-- [ ] references/typescript/src/cost-tracker.ts
+- [x] references/typescript/src/replLauncher.tsx
+- [x] references/typescript/src/cost-tracker.ts
 - [ ] references/typescript/src/schemas/hooks.ts
 - [ ] references/typescript/src/context/fpsMetrics.tsx
 - [ ] references/typescript/src/context/mailbox.tsx
@@ -824,8 +824,8 @@
 - [ ] references/typescript/src/tools/TaskListTool/TaskListTool.ts
 - [ ] references/typescript/src/tools/TaskListTool/prompt.ts
 - [ ] references/typescript/src/tools/TaskListTool/constants.ts
-- [ ] references/typescript/src/context.ts
-- [ ] references/typescript/src/interactiveHelpers.tsx
+- [x] references/typescript/src/context.ts
+- [x] references/typescript/src/interactiveHelpers.tsx
 - [ ] references/typescript/src/bridge/debugUtils.ts
 - [ ] references/typescript/src/bridge/bridgeStatusUtil.ts
 - [ ] references/typescript/src/bridge/pollConfigDefaults.ts
@@ -1009,7 +1009,7 @@
 - [ ] references/typescript/src/state/selectors.ts
 - [ ] references/typescript/src/plugins/bundled/index.ts
 - [ ] references/typescript/src/plugins/builtinPlugins.ts
-- [ ] references/typescript/src/Task.ts
+- [x] references/typescript/src/Task.ts
 - [ ] references/typescript/src/tasks/stopTask.ts
 - [ ] references/typescript/src/tasks/LocalMainSessionTask.ts
 - [ ] references/typescript/src/tasks/DreamTask/DreamTask.ts
@@ -1267,12 +1267,12 @@
 - [ ] references/typescript/src/remote/RemoteSessionManager.ts
 - [ ] references/typescript/src/remote/sdkMessageAdapter.ts
 - [ ] references/typescript/src/remote/SessionsWebSocket.ts
-- [ ] references/typescript/src/main.tsx
+- [x] references/typescript/src/main.tsx
 - [ ] references/typescript/src/native-ts/file-index/index.ts
 - [ ] references/typescript/src/native-ts/yoga-layout/enums.ts
 - [ ] references/typescript/src/native-ts/yoga-layout/index.ts
 - [ ] references/typescript/src/native-ts/color-diff/index.ts
-- [ ] references/typescript/src/QueryEngine.ts
+- [x] references/typescript/src/QueryEngine.ts
 - [ ] references/typescript/src/types/permissions.ts
 - [ ] references/typescript/src/types/generated/events_mono/growthbook/v1/growthbook_experiment_event.ts
 - [ ] references/typescript/src/types/generated/events_mono/common/v1/auth.ts
@@ -1389,7 +1389,7 @@
 - [ ] references/typescript/src/hooks/useElapsedTime.ts
 - [ ] references/typescript/src/hooks/useTasksV2.ts
 - [ ] references/typescript/src/hooks/useMergedCommands.ts
-- [ ] references/typescript/src/tasks.ts
+- [x] references/typescript/src/tasks.ts
 - [ ] references/typescript/src/migrations/migrateBypassPermissionsAcceptedToSettings.ts
 - [ ] references/typescript/src/migrations/migrateOpusToOpus1m.ts
 - [ ] references/typescript/src/migrations/migrateEnableAllProjectMcpServersToSettings.ts
@@ -1401,10 +1401,10 @@
 - [ ] references/typescript/src/migrations/migrateFennecToOpus.ts
 - [ ] references/typescript/src/migrations/migrateSonnet1mToSonnet45.ts
 - [ ] references/typescript/src/migrations/migrateAutoUpdatesToSettings.ts
-- [ ] references/typescript/src/costHook.ts
+- [x] references/typescript/src/costHook.ts
 - [ ] references/typescript/src/vendor/ripgrep/x64-linux/rg
-- [ ] references/typescript/src/tools.ts
-- [ ] references/typescript/src/dialogLaunchers.tsx
+- [x] references/typescript/src/tools.ts
+- [x] references/typescript/src/dialogLaunchers.tsx
 - [ ] references/typescript/src/query/config.ts
 - [ ] references/typescript/src/query/tokenBudget.ts
 - [ ] references/typescript/src/query/stopHooks.ts
@@ -1532,7 +1532,7 @@
 - [ ] references/typescript/src/ink/squash-text-nodes.ts
 - [ ] references/typescript/src/ink/supports-hyperlinks.ts
 - [ ] references/typescript/src/ink/styles.ts
-- [ ] references/typescript/src/commands.ts
+- [x] references/typescript/src/commands.ts
 - [ ] references/typescript/src/skills/bundled/loremIpsum.ts
 - [ ] references/typescript/src/skills/bundled/verify.ts
 - [ ] references/typescript/src/skills/bundled/loop.ts
