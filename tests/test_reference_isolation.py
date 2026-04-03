@@ -35,6 +35,9 @@ def test_reference_and_porting_boundaries_are_documented() -> None:
     references_readme = (REPO_ROOT / "references" / "README.md").read_text(
         encoding="utf-8"
     )
+    archive_gate = (
+        REPO_ROOT / "shared" / "docs" / "archive-retirement-gate.md"
+    ).read_text(encoding="utf-8")
     python_pack_boundary = (
         REPO_ROOT / "languages" / "python" / "docs" / "migration-baseline.md"
     ).read_text(encoding="utf-8")
@@ -48,6 +51,14 @@ def test_reference_and_porting_boundaries_are_documented() -> None:
     assert (REPO_ROOT / "references" / "source-typescript" / "README.md").exists()
     assert (REPO_ROOT / "references" / "source-rust" / "README.md").exists()
     assert (REPO_ROOT / "references" / "parity" / "README.md").exists()
+    assert "Archive Retirement Gate" in archive_gate
+    assert (
+        "archive may be removed only when all of the following are true" in archive_gate
+    )
+    assert (
+        "runtime-facing manifests, configs, registries, and generated-project contracts must not require `references/` to exist"
+        in archive_gate
+    )
     assert "canonical migration baseline" in python_pack_boundary
     assert "languages/python/" in python_pack_boundary
     assert "must remain manifest-driven" in python_pack_boundary

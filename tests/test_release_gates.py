@@ -5,6 +5,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 GATES_PATH = REPO_ROOT / "shared" / "docs" / "release-gates.md"
 MATRIX_PATH = REPO_ROOT / "shared" / "docs" / "capability-matrix.json"
+ARCHIVE_GATE_PATH = REPO_ROOT / "shared" / "docs" / "archive-retirement-gate.md"
 
 
 def _read(path: Path) -> str:
@@ -46,6 +47,7 @@ def _gate_artifacts_present() -> dict[str, bool]:
         "CLI lifecycle tests green in CI": (
             REPO_ROOT / "install" / "tests" / "cli.rs"
         ).exists(),
+        "archive retirement gate documented": ARCHIVE_GATE_PATH.exists(),
     }
 
 
@@ -95,3 +97,27 @@ def test_evidence_based_status_report() -> None:
     assert sum(report["states"].values()) == len(_load_matrix()["capabilities"])
     assert isinstance(report["blocked"], bool)
     assert isinstance(report["blockers"], list)
+
+
+def test_archive_retirement_gate_references_required_evidence() -> None:
+    archive_gate = _read(ARCHIVE_GATE_PATH)
+
+    assert (
+        "The archive may be removed only when all of the following are true:"
+        in archive_gate
+    )
+    assert "`files.txt`" in archive_gate
+    assert "`docs/porting/command-port-table.md`" in archive_gate
+    assert "`docs/porting/tool-port-table.md`" in archive_gate
+    assert "`docs/porting/feature-pack-port-table.md`" in archive_gate
+    assert "`tests/test_reference_isolation.py`" in archive_gate
+    assert "`install/tests/migration_red.rs`" in archive_gate
+
+
+def test_release_gates_include_archive_retirement_gate() -> None:
+    gates_doc = _read(GATES_PATH)
+    report = _status_report()
+
+    assert (REPO_ROOT / "shared" / "docs" / "archive-retirement-gate.md").exists()
+    assert report["gates"]["archive retirement gate documented"] is True
+    assert "reference/runtime isolation green" in gates_doc
