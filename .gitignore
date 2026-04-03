@@ -21,4 +21,23 @@ python/.port_sessions/
 .omx/metrics.json
 source-references/
 .venv-migration/
-references/
+references/*
+!references/README.md
+!references/parity/
+references/parity/*
+!references/parity/README.md
+!references/source-python/
+references/source-python/*
+!references/source-python/README.md
+!references/source-rust/
+references/source-rust/*
+!references/source-rust/README.md
+!references/source-typescript/
+references/source-typescript/*
+!references/source-typescript/README.md
+
+# bv (beads viewer) local config and caches
+.bv/
+
+# bv (beads viewer) local config and caches
+.bv/
