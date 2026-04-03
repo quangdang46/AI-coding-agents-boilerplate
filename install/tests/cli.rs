@@ -1760,6 +1760,37 @@ fn generated_typescript_core_tool_registry_covers_runtime_slice() {
 }
 
 #[test]
+fn owned_typescript_entrypoint_state_modules_match_generated_shell() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("typescript-entrypoint-runtime");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let generated_output = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+
+    let owned_output = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { buildEntrypointSummary } from './languages/typescript/runtime/entrypoints/main.ts'; console.log(buildEntrypointSummary(process.argv[1]));",
+            )
+            .arg(out.display().to_string())
+            .current_dir(&repo),
+    );
+
+    assert_eq!(owned_output, generated_output);
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn rust_workspace_ownership_map_covers_minimum_archived_crates() {
     let repo = repo_root();
     let ownership_map =
