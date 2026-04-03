@@ -7,6 +7,7 @@ Current contents in this migration slice:
 - `language.manifest.json` — installer discovery contract
 - `runtime/` — owned Rust runtime boundary required by `RULES.md`
 - `template/base/` — generated-project template for manifest-driven `init`
+- `docs/workspace-ownership-map.md` — canonical crate-to-language-pack ownership map for archived Rust workspace members
 - docs and test boundaries for future Rust extraction work
 
 Archived Rust reference material remains available through the repo's reference archive during migration.
@@ -20,3 +21,5 @@ Those Rust prompt files now include layered prompt sections under `.agent/prompt
 Generated Rust projects also now ship local file-backed agent roots under `.agent/agents/`.
 
 Generated Rust projects also now ship local file-backed skill roots under `.agent/skills/`.
+
+The archived Rust workspace root and the minimum crate ownership mapping are now frozen in `docs/workspace-ownership-map.md`.

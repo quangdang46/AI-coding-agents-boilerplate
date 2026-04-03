@@ -1760,6 +1760,27 @@ fn generated_typescript_core_tool_registry_covers_runtime_slice() {
 }
 
 #[test]
+fn rust_workspace_ownership_map_covers_minimum_archived_crates() {
+    let repo = repo_root();
+    let ownership_map =
+        fs::read_to_string(repo.join("languages/rust/docs/workspace-ownership-map.md"))
+            .expect("read rust workspace ownership map");
+    let rust_pack_readme =
+        fs::read_to_string(repo.join("languages/rust/README.md")).expect("read rust pack readme");
+
+    assert!(ownership_map.contains("references/rust/Cargo.toml"));
+    assert!(ownership_map.contains("references/rust/crates/runtime/Cargo.toml"));
+    assert!(ownership_map.contains("references/rust/crates/commands/Cargo.toml"));
+    assert!(ownership_map.contains("references/rust/crates/tools/Cargo.toml"));
+    assert!(ownership_map.contains("references/rust/crates/rusty-claude-cli/Cargo.toml"));
+    assert!(ownership_map.contains("owned by `languages/rust/runtime/`"));
+    assert!(ownership_map.contains("deferred crate extraction"));
+    assert!(rust_pack_readme.contains("docs/workspace-ownership-map.md"));
+    assert!(rust_pack_readme
+        .contains("archived Rust workspace root and the minimum crate ownership mapping"));
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
