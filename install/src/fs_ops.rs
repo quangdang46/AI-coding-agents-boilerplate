@@ -2,6 +2,18 @@ use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 
+fn should_skip_path(path: &Path) -> bool {
+    path.components().any(|component| {
+        matches!(
+            component.as_os_str().to_string_lossy().as_ref(),
+            "__pycache__" | "target"
+        )
+    }) || path
+        .file_name()
+        .map(|name| matches!(name.to_string_lossy().as_ref(), "Cargo.lock"))
+        .unwrap_or(false)
+}
+
 pub fn normalize_package_name(project_name: &str) -> String {
     project_name.to_lowercase().replace(['-', ' '], "_")
 }
@@ -99,6 +111,9 @@ fn walk(root: &Path) -> io::Result<Vec<PathBuf>> {
     let mut items = vec![root.to_path_buf()];
     let mut out = Vec::new();
     while let Some(path) = items.pop() {
+        if path != root && should_skip_path(&path) {
+            continue;
+        }
         if path != root {
             out.push(path.clone());
         }

@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::PathBuf;
+use std::process::Command;
 use std::sync::{Mutex, MutexGuard, OnceLock};
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -43,6 +44,18 @@ fn cleanup_broken_language_dirs() {
             fs::remove_dir_all(entry.path()).ok();
         }
     }
+}
+
+fn run_command(command: &mut Command) -> String {
+    let output = command.output().expect("command should run");
+    assert!(
+        output.status.success(),
+        "command failed: {:?}\nstdout:{}\nstderr:{}",
+        output.status,
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8_lossy(&output.stdout).trim().to_string()
 }
 
 fn acquire_cli_test_guard() -> MutexGuard<'static, ()> {
@@ -904,6 +917,148 @@ fn rust_feature_add_and_remove_updates_project() {
 
     let doctor_message = doctor::run(&out).expect("rust doctor after feature remove works");
     assert!(doctor_message.contains("doctor ok"));
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_python_runtime_uses_provider_prompt_and_context() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("python-runtime-summary");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let initial = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    assert!(initial.contains("provider=openai"));
+    assert!(initial.contains("model=gpt-5.4"));
+
+    let config_path = out.join("agentkit.toml");
+    let config = fs::read_to_string(&config_path).expect("read python config");
+    fs::write(
+        &config_path,
+        config.replace(
+            "default_provider = \"openai\"",
+            "default_provider = \"anthropic\"",
+        ),
+    )
+    .expect("write python config");
+    fs::write(
+        out.join(".agent/prompts/system.md"),
+        "You are the project-local coding agent for __PROJECT_NAME__. New prompt layer.\n",
+    )
+    .expect("write python prompt");
+    fs::write(
+        out.join(".agent/context/README.md"),
+        "# Context\n\nUpdated runtime context fragment.\n",
+    )
+    .expect("write python context");
+
+    let updated = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    assert!(updated.contains("provider=anthropic"));
+    assert!(updated.contains("model=claude-sonnet-4-6"));
+    assert_ne!(initial, updated);
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_typescript_runtime_uses_provider_prompt_and_context() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-runtime-summary");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let initial = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(initial.contains("provider=anthropic"));
+    assert!(initial.contains("model=claude-sonnet-4-6"));
+
+    let config_path = out.join("boilerplate.config.ts");
+    let config = fs::read_to_string(&config_path).expect("read typescript config");
+    fs::write(
+        &config_path,
+        config.replace("defaultProvider: 'anthropic'", "defaultProvider: 'openai'"),
+    )
+    .expect("write typescript config");
+    fs::write(
+        out.join(".agent/prompts/system.md"),
+        "You are the default coding agent for this generated project.\nPrompt override applied.\n",
+    )
+    .expect("write typescript prompt");
+    fs::write(
+        out.join(".agent/context/README.md"),
+        "# Context\n\nUpdated TypeScript runtime context fragment.\n",
+    )
+    .expect("write typescript context");
+
+    let updated = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    assert!(updated.contains("provider=openai"));
+    assert!(updated.contains("model=gpt-5.2-codex"));
+    assert_ne!(initial, updated);
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_rust_runtime_uses_provider_prompt_and_context() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("rust-runtime-summary");
+    init::run(&init::InitArgs {
+        project_name: "demo-rust".to_string(),
+        language: "rust".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("rust init works");
+
+    let initial = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(initial.contains("provider=anthropic"));
+    assert!(initial.contains("model=claude-sonnet-4-6"));
+
+    let config_path = out.join(".claw.json");
+    let config = fs::read_to_string(&config_path).expect("read rust config");
+    fs::write(
+        &config_path,
+        config.replace(
+            "\"defaultProvider\": \"anthropic\"",
+            "\"defaultProvider\": \"openai\"",
+        ),
+    )
+    .expect("write rust config");
+    fs::write(
+        out.join(".agent/prompts/system.md"),
+        "# Rust project instructions\n\nUpdated runtime prompt surface.\n",
+    )
+    .expect("write rust prompt");
+    fs::write(
+        out.join(".agent/context/README.md"),
+        "# Context\n\nUpdated Rust runtime context fragment.\n",
+    )
+    .expect("write rust context");
+
+    let updated = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    assert!(updated.contains("provider=openai"));
+    assert!(updated.contains("model=gpt-5.2-codex"));
+    assert_ne!(initial, updated);
     fs::remove_dir_all(out).ok();
 }
 
