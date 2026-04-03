@@ -22,6 +22,24 @@ def _checksum(parts: list[str]) -> str:
     return digest.hexdigest()[:12]
 
 
+def _read_state(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    state: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if "=" in line:
+            key, value = line.split("=", 1)
+            state[key] = value
+    return state
+
+
+def _write_state(path: Path, items: list[tuple[str, str]]) -> None:
+    path.write_text(
+        "\n".join(f"{key}={value}" for key, value in items) + "\n",
+        encoding="utf-8",
+    )
+
+
 def _policy_for_operation(
     approval_mode: str, deny: list[str], operation: str, tool_name: str
 ) -> str:
@@ -99,6 +117,82 @@ def _run_core_tools(
     return " ".join(results)
 
 
+def _persist_session_and_usage(
+    project_root: Path,
+    provider: str,
+    model: str,
+    prompt_digest: str,
+    context_digest: str,
+    prompt_texts: list[str],
+    context_texts: list[str],
+    tool_results: str,
+) -> str:
+    session_dir = project_root / ".agent/sessions"
+    usage_dir = project_root / ".agent/usage"
+    session_dir.mkdir(parents=True, exist_ok=True)
+    usage_dir.mkdir(parents=True, exist_ok=True)
+
+    session_id = "local-main-session"
+    session_path = session_dir / f"{session_id}.state"
+    latest_path = session_dir / "latest.state"
+    export_path = session_dir / f"{session_id}.export.md"
+    usage_log_path = usage_dir / "ledger.log"
+    usage_summary_path = usage_dir / "summary.state"
+
+    previous_session = _read_state(session_path)
+    turn_count = int(previous_session.get("turn_count", "0")) + 1
+    previous_summary = _read_state(usage_summary_path)
+    usage_entries = int(previous_summary.get("usage_entries", "0")) + 1
+    cost_micros = (sum(len(text) for text in prompt_texts + context_texts) * 2) + (
+        len(tool_results) * 3
+    )
+    total_cost_micros = (
+        int(previous_summary.get("total_cost_micros", "0")) + cost_micros
+    )
+
+    state_items = [
+        ("session_id", session_id),
+        ("turn_count", str(turn_count)),
+        ("provider", provider),
+        ("model", model),
+        ("prompt_digest", prompt_digest),
+        ("context_digest", context_digest),
+    ]
+    _write_state(session_path, state_items)
+    _write_state(latest_path, state_items)
+
+    export_path.write_text(
+        "# Session Export\n\n"
+        f"- session_id: {session_id}\n"
+        f"- turn_count: {turn_count}\n"
+        f"- provider: {provider}\n"
+        f"- model: {model}\n"
+        f"- prompt_digest: {prompt_digest}\n"
+        f"- context_digest: {context_digest}\n",
+        encoding="utf-8",
+    )
+
+    with usage_log_path.open("a", encoding="utf-8") as handle:
+        handle.write(
+            f"session_id={session_id} turn_count={turn_count} cost_micros={cost_micros}\n"
+        )
+    _write_state(
+        usage_summary_path,
+        [
+            ("usage_entries", str(usage_entries)),
+            ("total_cost_micros", str(total_cost_micros)),
+        ],
+    )
+
+    return (
+        f"session_id={session_id} "
+        f"turn_count={turn_count} "
+        f"export_path=.agent/sessions/{session_id}.export.md "
+        f"usage_entries={usage_entries} "
+        f"total_cost_micros={total_cost_micros}"
+    )
+
+
 def _load_runtime_summary() -> str:
     project_root = _project_root()
     config = tomllib.loads((project_root / "agentkit.toml").read_text(encoding="utf-8"))
@@ -117,16 +211,32 @@ def _load_runtime_summary() -> str:
     context_texts = [
         _read_text(project_root / path) for path in config["prompts"]["context"]
     ]
+    prompt_digest = _checksum(prompt_texts)
+    context_digest = _checksum(context_texts)
+    tool_results = _run_core_tools(
+        project_root, enabled, approval_mode, deny, bash_timeout_ms
+    )
+    session_summary = _persist_session_and_usage(
+        project_root,
+        default_provider,
+        provider_model,
+        prompt_digest,
+        context_digest,
+        prompt_texts,
+        context_texts,
+        tool_results,
+    )
 
     return (
         f"provider={default_provider} "
         f"model={provider_model} "
-        f"prompt_digest={_checksum(prompt_texts)} "
-        f"context_digest={_checksum(context_texts)} "
+        f"prompt_digest={prompt_digest} "
+        f"context_digest={context_digest} "
         f"approval_mode={approval_mode} "
         f"bash_policy={_policy_for_operation(approval_mode, deny, 'bash', 'bash')} "
         f"file_write_policy={_policy_for_operation(approval_mode, deny, 'file_write', 'file_write')} "
-        f"{_run_core_tools(project_root, enabled, approval_mode, deny, bash_timeout_ms)}"
+        f"{tool_results} "
+        f"{session_summary}"
     )
 
 

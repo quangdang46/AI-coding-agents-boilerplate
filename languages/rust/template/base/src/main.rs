@@ -1,4 +1,5 @@
 use std::fs;
+use std::fs::OpenOptions;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -22,6 +23,34 @@ fn checksum(parts: &[String]) -> String {
         total = (total.wrapping_mul(31) + 1) % 0x7fff_ffff;
     }
     format!("{total:08x}")
+}
+
+fn read_state(path: &Path) -> Vec<(String, String)> {
+    if !path.exists() {
+        return Vec::new();
+    }
+    read_text(path)
+        .lines()
+        .filter_map(|line| line.split_once('='))
+        .map(|(key, value)| (key.to_string(), value.to_string()))
+        .collect()
+}
+
+fn get_state_value(state: &[(String, String)], key: &str) -> Option<String> {
+    state
+        .iter()
+        .find(|(entry_key, _)| entry_key == key)
+        .map(|(_, value)| value.clone())
+}
+
+fn write_state(path: &Path, entries: &[(String, String)]) {
+    let content = entries
+        .iter()
+        .map(|(key, value)| format!("{key}={value}"))
+        .collect::<Vec<_>>()
+        .join("\n");
+    fs::write(path, format!("{content}\n"))
+        .unwrap_or_else(|err| panic!("failed to write {}: {err}", path.display()));
 }
 
 fn extract_json_string(source: &str, key: &str) -> String {
@@ -196,6 +225,91 @@ fn run_core_tools(root: &Path, config_text: &str, approval_mode: &str, deny: &[S
     results.join(" ")
 }
 
+fn persist_session_and_usage(
+    root: &Path,
+    provider: &str,
+    model: &str,
+    prompt_digest: &str,
+    context_digest: &str,
+    prompt_texts: &[String],
+    context_texts: &[String],
+    tool_results: &str,
+) -> String {
+    let session_id = String::from("local-main-session");
+    let session_path = root.join(".agent/sessions/local-main-session.state");
+    let latest_path = root.join(".agent/sessions/latest.state");
+    let export_relative = ".agent/sessions/local-main-session.export.md";
+    let export_path = root.join(export_relative);
+    let usage_log_path = root.join(".agent/usage/ledger.log");
+    let usage_summary_path = root.join(".agent/usage/summary.state");
+
+    let previous_session = read_state(&session_path);
+    let turn_count = get_state_value(&previous_session, "turn_count")
+        .and_then(|value| value.parse::<u64>().ok())
+        .unwrap_or(0)
+        + 1;
+    let previous_summary = read_state(&usage_summary_path);
+    let usage_entries = get_state_value(&previous_summary, "usage_entries")
+        .and_then(|value| value.parse::<u64>().ok())
+        .unwrap_or(0)
+        + 1;
+    let cost_micros = ((prompt_texts
+        .iter()
+        .chain(context_texts.iter())
+        .map(|text| text.len() as u64)
+        .sum::<u64>())
+        * 2)
+        + ((tool_results.len() as u64) * 3);
+    let total_cost_micros = get_state_value(&previous_summary, "total_cost_micros")
+        .and_then(|value| value.parse::<u64>().ok())
+        .unwrap_or(0)
+        + cost_micros;
+
+    let state_entries = vec![
+        (String::from("session_id"), session_id.clone()),
+        (String::from("turn_count"), turn_count.to_string()),
+        (String::from("provider"), provider.to_string()),
+        (String::from("model"), model.to_string()),
+        (String::from("prompt_digest"), prompt_digest.to_string()),
+        (String::from("context_digest"), context_digest.to_string()),
+    ];
+    write_state(&session_path, &state_entries);
+    write_state(&latest_path, &state_entries);
+    fs::write(
+        &export_path,
+        format!(
+            "# Session Export\n\n- session_id: {session_id}\n- turn_count: {turn_count}\n- provider: {provider}\n- model: {model}\n- prompt_digest: {prompt_digest}\n- context_digest: {context_digest}\n"
+        ),
+    )
+    .unwrap_or_else(|err| panic!("failed to write {}: {err}", export_path.display()));
+
+    let mut ledger = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&usage_log_path)
+        .unwrap_or_else(|err| panic!("failed to open {}: {err}", usage_log_path.display()));
+    use std::io::Write;
+    writeln!(
+        ledger,
+        "session_id={session_id} turn_count={turn_count} cost_micros={cost_micros}"
+    )
+    .unwrap_or_else(|err| panic!("failed to append {}: {err}", usage_log_path.display()));
+    write_state(
+        &usage_summary_path,
+        &[
+            (String::from("usage_entries"), usage_entries.to_string()),
+            (
+                String::from("total_cost_micros"),
+                total_cost_micros.to_string(),
+            ),
+        ],
+    );
+
+    format!(
+        "session_id={session_id} turn_count={turn_count} export_path={export_relative} usage_entries={usage_entries} total_cost_micros={total_cost_micros}"
+    )
+}
+
 fn load_runtime_summary() -> String {
     let root = project_root();
     let config_text = read_text(&root.join(".claw.json"));
@@ -215,15 +329,29 @@ fn load_runtime_summary() -> String {
         .into_iter()
         .map(|path| read_text(&root.join(path)))
         .collect::<Vec<_>>();
+    let prompt_digest = checksum(&prompt_texts);
+    let context_digest = checksum(&context_texts);
+    let tool_results = run_core_tools(&root, &config_text, &approval_mode, &deny);
+    let session_summary = persist_session_and_usage(
+        &root,
+        &default_provider,
+        &provider_model,
+        &prompt_digest,
+        &context_digest,
+        &prompt_texts,
+        &context_texts,
+        &tool_results,
+    );
 
     format!(
-        "provider={default_provider} model={provider_model} prompt_digest={} context_digest={} approval_mode={} bash_policy={} file_write_policy={} {}",
-        checksum(&prompt_texts),
-        checksum(&context_texts),
+        "provider={default_provider} model={provider_model} prompt_digest={} context_digest={} approval_mode={} bash_policy={} file_write_policy={} {} {}",
+        prompt_digest,
+        context_digest,
         approval_mode,
         policy_for_operation(&approval_mode, &deny, "bash", "bash"),
         policy_for_operation(&approval_mode, &deny, "file_write", "file_write"),
-        run_core_tools(&root, &config_text, &approval_mode, &deny)
+        tool_results,
+        session_summary
     )
 }
 

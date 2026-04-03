@@ -58,6 +58,19 @@ fn run_command(command: &mut Command) -> String {
     String::from_utf8_lossy(&output.stdout).trim().to_string()
 }
 
+fn clean_runtime_artifacts(project_root: &PathBuf) {
+    for relative in [
+        ".agent/sessions/latest.state",
+        ".agent/sessions/local-main-session.state",
+        ".agent/sessions/local-main-session.export.md",
+        ".agent/usage/ledger.log",
+        ".agent/usage/summary.state",
+        ".agent/usage/runtime-tool-smoke.txt",
+    ] {
+        fs::remove_file(project_root.join(relative)).ok();
+    }
+}
+
 fn acquire_cli_test_guard() -> MutexGuard<'static, ()> {
     let guard = match cli_test_lock().lock() {
         Ok(guard) => guard,
@@ -1076,6 +1089,130 @@ fn generated_rust_runtime_executes_core_tools() {
 }
 
 #[test]
+fn generated_python_runtime_persists_session_and_usage() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("python-runtime-session");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let first = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+    let second = run_command(Command::new("python3").arg("-c").arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())").current_dir(&out));
+
+    assert!(first.contains("session_id=local-main-session"));
+    assert!(first.contains("turn_count=1"));
+    assert!(second.contains("turn_count=2"));
+    assert!(second.contains("usage_entries=2"));
+    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
+    assert!(out
+        .join(".agent/sessions/local-main-session.state")
+        .exists());
+    assert!(out.join(".agent/sessions/latest.state").exists());
+    assert!(out
+        .join(".agent/sessions/local-main-session.export.md")
+        .exists());
+    assert!(out.join(".agent/usage/ledger.log").exists());
+    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(
+        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+            .expect("read python session state")
+            .contains("turn_count=2")
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_typescript_runtime_persists_session_and_usage() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-runtime-session");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let first = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+    let second = run_command(Command::new("node").arg("src/index.ts").current_dir(&out));
+
+    assert!(first.contains("session_id=local-main-session"));
+    assert!(first.contains("turn_count=1"));
+    assert!(second.contains("turn_count=2"));
+    assert!(second.contains("usage_entries=2"));
+    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
+    assert!(out
+        .join(".agent/sessions/local-main-session.state")
+        .exists());
+    assert!(out.join(".agent/sessions/latest.state").exists());
+    assert!(out
+        .join(".agent/sessions/local-main-session.export.md")
+        .exists());
+    assert!(out.join(".agent/usage/ledger.log").exists());
+    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(
+        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+            .expect("read typescript session state")
+            .contains("turn_count=2")
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn generated_rust_runtime_persists_session_and_usage() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("rust-runtime-session");
+    init::run(&init::InitArgs {
+        project_name: "demo-rust".to_string(),
+        language: "rust".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("rust init works");
+
+    let first = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+    let second = run_command(
+        Command::new("cargo")
+            .arg("run")
+            .arg("--quiet")
+            .current_dir(&out),
+    );
+
+    assert!(first.contains("session_id=local-main-session"));
+    assert!(first.contains("turn_count=1"));
+    assert!(second.contains("turn_count=2"));
+    assert!(second.contains("usage_entries=2"));
+    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
+    assert!(out
+        .join(".agent/sessions/local-main-session.state")
+        .exists());
+    assert!(out.join(".agent/sessions/latest.state").exists());
+    assert!(out
+        .join(".agent/sessions/local-main-session.export.md")
+        .exists());
+    assert!(out.join(".agent/usage/ledger.log").exists());
+    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(
+        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+            .expect("read rust session state")
+            .contains("turn_count=2")
+    );
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
@@ -1236,11 +1373,15 @@ fn owned_typescript_runtime_engine_matches_template_loop_output() {
     let repo = repo_root();
     let template_root = repo.join("languages/typescript/template/base");
 
+    clean_runtime_artifacts(&template_root);
+
     let template_output = run_command(
         Command::new("node")
             .arg("src/index.ts")
             .current_dir(&template_root),
     );
+
+    clean_runtime_artifacts(&template_root);
 
     let owned_output = run_command(
         Command::new("node")

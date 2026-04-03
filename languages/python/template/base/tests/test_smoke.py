@@ -13,3 +13,8 @@ def test_main() -> None:
     assert "file_write_policy=file_write=approval-required" in output
     assert "file_read_result=" in output
     assert "web_fetch_result=tool-web-fetch" in output
+    assert "session_id=local-main-session" in output
+    assert "export_path=.agent/sessions/local-main-session.export.md" in output
+    assert "turn_count=" in output
+    assert "usage_entries=" in output
+    assert "total_cost_micros=" in output

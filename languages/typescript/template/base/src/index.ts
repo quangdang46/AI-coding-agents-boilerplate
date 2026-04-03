@@ -32,6 +32,30 @@ function checksum(parts: string[]): string {
   return total.toString(16).padStart(8, '0')
 }
 
+function readState(path: string): Record<string, string> {
+  try {
+    return Object.fromEntries(
+      readText(path)
+        .split('\n')
+        .filter((line) => line.includes('='))
+        .map((line) => {
+          const [key, ...rest] = line.split('=')
+          return [key, rest.join('=')]
+        }),
+    )
+  } catch {
+    return {}
+  }
+}
+
+function writeState(path: string, entries: Array<[string, string]>): void {
+  writeFileSync(
+    path,
+    `${entries.map(([key, value]) => `${key}=${value}`).join('\n')}\n`,
+    'utf8',
+  )
+}
+
 function readText(path: string): string {
   return readFileSync(path, 'utf8').trim()
 }
@@ -122,6 +146,62 @@ function runCoreTools(
   return results.join(' ')
 }
 
+function persistSessionAndUsage(
+  root: string,
+  defaultProvider: string,
+  providerModel: string,
+  promptDigest: string,
+  contextDigest: string,
+  promptTexts: string[],
+  contextTexts: string[],
+  toolResults: string,
+): string {
+  const sessionId = 'local-main-session'
+  const sessionPath = join(root, '.agent/sessions/local-main-session.state')
+  const latestPath = join(root, '.agent/sessions/latest.state')
+  const exportPath = '.agent/sessions/local-main-session.export.md'
+  const exportFilePath = join(root, exportPath)
+  const usageLogPath = join(root, '.agent/usage/ledger.log')
+  const usageSummaryPath = join(root, '.agent/usage/summary.state')
+
+  const previousSession = readState(sessionPath)
+  const turnCount = Number(previousSession.turn_count ?? '0') + 1
+  const previousSummary = readState(usageSummaryPath)
+  const usageEntries = Number(previousSummary.usage_entries ?? '0') + 1
+  const costMicros = (promptTexts.concat(contextTexts).join('').length * 2) + toolResults.length * 3
+  const totalCostMicros = Number(previousSummary.total_cost_micros ?? '0') + costMicros
+
+  const stateEntries: Array<[string, string]> = [
+    ['session_id', sessionId],
+    ['turn_count', String(turnCount)],
+    ['provider', defaultProvider],
+    ['model', providerModel],
+    ['prompt_digest', promptDigest],
+    ['context_digest', contextDigest],
+  ]
+  writeState(sessionPath, stateEntries)
+  writeState(latestPath, stateEntries)
+
+  writeFileSync(
+    exportFilePath,
+    `# Session Export\n\n- session_id: ${sessionId}\n- turn_count: ${turnCount}\n- provider: ${defaultProvider}\n- model: ${providerModel}\n- prompt_digest: ${promptDigest}\n- context_digest: ${contextDigest}\n`,
+    'utf8',
+  )
+
+  const existingLog = existsSync(usageLogPath) ? `${readText(usageLogPath)}\n` : ''
+  writeFileSync(
+    usageLogPath,
+    `${existingLog}session_id=${sessionId} turn_count=${turnCount} cost_micros=${costMicros}\n`,
+    'utf8',
+  )
+  writeState(usageSummaryPath, [
+    ['usage_entries', String(usageEntries)],
+    ['total_cost_micros', String(totalCostMicros)],
+  ])
+
+  return `session_id=${sessionId} turn_count=${turnCount} export_path=${exportPath} usage_entries=${usageEntries} total_cost_micros=${totalCostMicros}`
+}
+
 function buildTemplateLoopSummary(root: string): string {
   const configText = readText(join(root, 'boilerplate.config.ts'))
   const defaultProvider = extractString(configText, /defaultProvider:\s*'([^']+)'/)
@@ -143,8 +223,21 @@ function buildTemplateLoopSummary(root: string): string {
   }
 
   const contextTexts = contextPaths.map((path) => readText(join(root, path)))
+  const promptDigest = checksum(promptTexts)
+  const contextDigest = checksum(contextTexts)
+  const toolResults = runCoreTools(root, enabledTools, approvalMode, deny, bashTimeoutMs)
+  const sessionSummary = persistSessionAndUsage(
+    root,
+    defaultProvider,
+    providerModel,
+    promptDigest,
+    contextDigest,
+    promptTexts,
+    contextTexts,
+    toolResults,
+  )
 
-  return `__PROJECT_NAME__ session loop completed provider=${defaultProvider} model=${providerModel} prompt_digest=${checksum(promptTexts)} context_digest=${checksum(contextTexts)} approval_mode=${approvalMode} bash_policy=${policyForOperation(approvalMode, deny, 'bash', 'bash')} file_write_policy=${policyForOperation(approvalMode, deny, 'file_write', 'file_write')} ${runCoreTools(root, enabledTools, approvalMode, deny, bashTimeoutMs)}`
+  return `__PROJECT_NAME__ session loop completed provider=${defaultProvider} model=${providerModel} prompt_digest=${promptDigest} context_digest=${contextDigest} approval_mode=${approvalMode} bash_policy=${policyForOperation(approvalMode, deny, 'bash', 'bash')} file_write_policy=${policyForOperation(approvalMode, deny, 'file_write', 'file_write')} ${toolResults} ${sessionSummary}`
 }
 
 export function main(): string {

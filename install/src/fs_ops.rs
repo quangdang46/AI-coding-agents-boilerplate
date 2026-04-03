@@ -10,7 +10,18 @@ fn should_skip_path(path: &Path) -> bool {
         )
     }) || path
         .file_name()
-        .map(|name| matches!(name.to_string_lossy().as_ref(), "Cargo.lock"))
+        .map(|name| {
+            matches!(
+                name.to_string_lossy().as_ref(),
+                "Cargo.lock"
+                    | "latest.state"
+                    | "local-main-session.state"
+                    | "local-main-session.export.md"
+                    | "ledger.log"
+                    | "summary.state"
+                    | "runtime-tool-smoke.txt"
+            )
+        })
         .unwrap_or(false)
 }
 
