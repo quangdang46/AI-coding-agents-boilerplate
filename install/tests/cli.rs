@@ -1560,6 +1560,69 @@ fn generated_python_registry_modules_cover_runtime_slice() {
 }
 
 #[test]
+fn generated_typescript_core_tool_registry_covers_runtime_slice() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("typescript-tool-registry");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    let config_path = out.join("boilerplate.config.ts");
+    let config = fs::read_to_string(&config_path).expect("read typescript config");
+    fs::write(
+        &config_path,
+        config.replace("approvalMode: 'default'", "approvalMode: 'acceptEdits'"),
+    )
+    .expect("write typescript config");
+
+    let tool_names = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { coreTools } from './languages/typescript/runtime/registry/coreTools.ts'; console.log(coreTools.map((tool) => tool.name).join(','));",
+            )
+            .current_dir(&repo),
+    );
+    assert_eq!(tool_names, "bash,file_read,file_write,file_edit,web_fetch");
+
+    let tool_outputs = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { getCoreToolRegistry } from './languages/typescript/runtime/registry/coreTools.ts'; const registry = getCoreToolRegistry(); const root = process.argv[1]; for (const name of ['bash','file_read','file_write','file_edit','web_fetch']) { console.log(`${name}:${registry[name](root)}`); }",
+            )
+            .arg(out.display().to_string())
+            .current_dir(&repo),
+    );
+
+    assert_contains_all(
+        &tool_outputs,
+        &[
+            "bash:tool-bash-ok",
+            "file_read:",
+            "file_write:tool-write-ok",
+            "file_edit:tool-write-ok edited",
+            "web_fetch:tool-web-fetch",
+        ],
+    );
+    assert_eq!(
+        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+            .expect("read typescript tool file"),
+        "tool-write-ok edited"
+    );
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_rust_tool_defaults() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-tool-defaults-missing");
