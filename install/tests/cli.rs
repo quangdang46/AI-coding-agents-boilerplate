@@ -1607,6 +1607,96 @@ fn owned_python_runtime_entrypoint_matches_generated_shell() {
 }
 
 #[test]
+fn owned_python_query_runtime_modules_cover_session_slice() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("python-query-runtime");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let first = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    let second = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+
+    let owned_script = r#"
+import pathlib
+import sys
+
+sys.path.insert(0, '.')
+
+from languages.python.runtime.session_store import load_latest_session, load_named_session
+from languages.python.runtime.history import load_usage_summary, load_usage_ledger
+from languages.python.runtime.transcript import load_session_export
+from languages.python.runtime.query import summarize_query_state
+from languages.python.runtime.query_engine import QueryEngine
+from languages.python.runtime.runtime import run_runtime
+
+project_root = pathlib.Path(sys.argv[1])
+runtime_output = sys.argv[2]
+latest = load_latest_session(project_root)
+named = load_named_session(project_root, "local-main-session")
+usage = load_usage_summary(project_root)
+ledger = load_usage_ledger(project_root)
+export_text = load_session_export(project_root)
+engine = QueryEngine(project_root)
+
+print(f"latest:{latest['session_id']}:{latest['turn_count']}")
+print(f"named:{named['session_id']}:{named['turn_count']}")
+print(f"usage:{usage['usage_entries']}:{usage['total_cost_micros']}")
+print(f"ledger_count:{len(ledger)}")
+print(f"export_has_turn:{'- turn_count: 2' in export_text}")
+print(f"query:{summarize_query_state(project_root, runtime_output)}")
+print(f"engine:{engine.run(runtime_output)}")
+print(f"runtime:{run_runtime(project_root, runtime_output)}")
+"#;
+
+    let owned_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(owned_script)
+            .arg(out.display().to_string())
+            .arg(second.clone())
+            .current_dir(&repo),
+    );
+
+    assert!(first.contains("turn_count=1"));
+    assert!(second.contains("turn_count=2"));
+    assert_contains_all(
+        &owned_output,
+        &[
+            "latest:local-main-session:2",
+            "named:local-main-session:2",
+            "usage:2:",
+            "ledger_count:2",
+            "export_has_turn:True",
+            "query:",
+            "query_session_id=local-main-session",
+            "query_turn_count=2",
+            "query_usage_entries=2",
+            "engine:",
+            "runtime:",
+        ],
+    );
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn generated_typescript_core_tool_registry_covers_runtime_slice() {
     let _guard = acquire_cli_test_guard();
     let repo = repo_root();
