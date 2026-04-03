@@ -2,12 +2,18 @@ use std::io;
 use std::path::{Path, PathBuf};
 
 use crate::fs_ops::{copy_dir_with_placeholders, normalize_package_name};
+use crate::manifest::LanguageManifest;
 
-pub fn python_template_root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../python/templates/base")
+pub fn template_root(manifest: &LanguageManifest) -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("..")
+        .join("languages")
+        .join(&manifest.id)
+        .join(&manifest.templates.base)
 }
 
-pub fn render_python_template(
+pub fn render_template_from_manifest(
+    manifest: &LanguageManifest,
     project_name: &str,
     output_root: &Path,
     package_name: Option<&str>,
@@ -18,7 +24,7 @@ pub fn render_python_template(
         .unwrap_or_else(|| normalize_package_name(project_name));
     let binary_name = binary_name.unwrap_or(project_name);
     copy_dir_with_placeholders(
-        &python_template_root(),
+        &template_root(manifest),
         output_root,
         project_name,
         &package_name,

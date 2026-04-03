@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1",
+  "kind": "language-pack",
+  "id": "python",
+  "displayName": "Python",
+  "version": "1.0.0",
+  "description": "Python language support for AICD",
+  "runtime": {
+    "configFile": "agentkit.toml",
+    "projectMarkers": ["pyproject.toml", "requirements.txt"]
+  },
+  "templates": {
+    "base": "template/base"
+  },
+  "supports": {
+    "init": true,
+    "featureAdd": true,
+    "featureRemove": true,
+    "doctor": true
+  },
+  "featureRegistry": ".agent/features/registry.json",
+  "compatibility": {
+    "cli": "^1.0.0"
+  }
+}

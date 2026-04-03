@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
-use crate::renderer::render_python_template;
+use crate::manifest::discover_language;
+use crate::renderer::render_template_from_manifest;
 
 #[derive(Clone, Debug)]
 pub struct InitArgs {
@@ -12,13 +13,15 @@ pub struct InitArgs {
 }
 
 pub fn run(args: &InitArgs) -> Result<String, String> {
-    if args.language != "python" {
+    let manifest = discover_language(&args.language)?;
+    if !manifest.supports.init {
         return Err(format!(
-            "unsupported language for current slice: {}",
+            "unsupported capability init for language: {}",
             args.language
         ));
     }
-    render_python_template(
+    render_template_from_manifest(
+        &manifest,
         &args.project_name,
         &args.output,
         args.package_name.as_deref(),
@@ -26,7 +29,8 @@ pub fn run(args: &InitArgs) -> Result<String, String> {
     )
     .map_err(|err| format!("init failed: {err}"))?;
     Ok(format!(
-        "initialized python project at {}",
+        "initialized {} project at {}",
+        manifest.id,
         args.output.display()
     ))
 }

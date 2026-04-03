@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1",
+  "kind": "language-pack",
+  "id": "python",
+  "displayName": "Python",
+  "version": "1.0.0",
+  "description": "Incomplete manifest missing runtime supports and feature registry",
+  "templates": {
+    "base": "template/base"
+  }
+}
