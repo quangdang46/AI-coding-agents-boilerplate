@@ -1,24 +1,16 @@
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
 
-function policyForOperation(
-  approvalMode: string,
-  deny: string[],
-  operation: string,
-  toolName: string,
-): string {
-  if (deny.includes(toolName)) {
-    return `${operation}=denied`
-  }
-  if (approvalMode === 'never') {
-    return `${operation}=blocked`
-  }
-  if (approvalMode === 'default' && ['bash', 'file_edit', 'file_write'].includes(toolName)) {
-    return `${operation}=approval-required`
-  }
-  return `${operation}=allowed`
+export type RuntimeSummary = {
+  defaultProvider: string
+  providerModel: string
+  promptDigest: string
+  contextDigest: string
+  approvalMode: string
+  bashPolicy: string
+  fileWritePolicy: string
+  toolResults: string
 }
 
 function checksum(parts: string[]): string {
@@ -52,8 +44,22 @@ function extractStringList(source: string, pattern: RegExp): string[] {
   return [...match[1].matchAll(/'([^']+)'/g)].map((entry) => entry[1])
 }
 
-function projectRoot(): string {
-  return dirname(dirname(fileURLToPath(import.meta.url)))
+function policyForOperation(
+  approvalMode: string,
+  deny: string[],
+  operation: string,
+  toolName: string,
+): string {
+  if (deny.includes(toolName)) {
+    return `${operation}=denied`
+  }
+  if (approvalMode === 'never') {
+    return `${operation}=blocked`
+  }
+  if (approvalMode === 'default' && ['bash', 'file_edit', 'file_write'].includes(toolName)) {
+    return `${operation}=approval-required`
+  }
+  return `${operation}=allowed`
 }
 
 function runCoreTools(
@@ -122,7 +128,7 @@ function runCoreTools(
   return results.join(' ')
 }
 
-function buildTemplateLoopSummary(root: string): string {
+export function loadRuntimeSummary(root: string): RuntimeSummary {
   const configText = readText(join(root, 'boilerplate.config.ts'))
   const defaultProvider = extractString(configText, /defaultProvider:\s*'([^']+)'/)
   const providerModel = extractString(
@@ -132,10 +138,10 @@ function buildTemplateLoopSummary(root: string): string {
   const systemPath = extractString(configText, /systemPath:\s*'([^']+)'/)
   const appendPaths = extractStringList(configText, /appendPaths:\s*\[([\s\S]*?)\]/)
   const contextPaths = extractStringList(configText, /contextPaths:\s*\[([\s\S]*?)\]/)
-  const approvalMode = extractString(configText, /approvalMode:\s*'([^']+)'/)
-  const deny = extractStringList(configText, /deny:\s*\[([\s\S]*?)\]/)
   const enabledTools = extractStringList(configText, /enabled:\s*\[([\s\S]*?)\]/)
   const bashTimeoutMs = Number(extractString(configText, /bashTimeoutMs:\s*(\d+)/))
+  const approvalMode = extractString(configText, /approvalMode:\s*'([^']+)'/)
+  const deny = extractStringList(configText, /deny:\s*\[([\s\S]*?)\]/)
 
   const promptTexts = [readText(join(root, systemPath))]
   for (const path of appendPaths) {
@@ -144,13 +150,14 @@ function buildTemplateLoopSummary(root: string): string {
 
   const contextTexts = contextPaths.map((path) => readText(join(root, path)))
 
-  return `__PROJECT_NAME__ session loop completed provider=${defaultProvider} model=${providerModel} prompt_digest=${checksum(promptTexts)} context_digest=${checksum(contextTexts)} approval_mode=${approvalMode} bash_policy=${policyForOperation(approvalMode, deny, 'bash', 'bash')} file_write_policy=${policyForOperation(approvalMode, deny, 'file_write', 'file_write')} ${runCoreTools(root, enabledTools, approvalMode, deny, bashTimeoutMs)}`
-}
-
-export function main(): string {
-  return buildTemplateLoopSummary(projectRoot())
-}
-
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  console.log(main())
+  return {
+    defaultProvider,
+    providerModel,
+    promptDigest: checksum(promptTexts),
+    contextDigest: checksum(contextTexts),
+    approvalMode,
+    bashPolicy: policyForOperation(approvalMode, deny, 'bash', 'bash'),
+    fileWritePolicy: policyForOperation(approvalMode, deny, 'file_write', 'file_write'),
+    toolResults: runCoreTools(root, enabledTools, approvalMode, deny, bashTimeoutMs),
+  }
 }

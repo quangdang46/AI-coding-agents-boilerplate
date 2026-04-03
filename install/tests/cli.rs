@@ -1231,6 +1231,31 @@ fn generated_typescript_runtime_uses_provider_prompt_and_context() {
 }
 
 #[test]
+fn owned_typescript_runtime_engine_matches_template_loop_output() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let template_root = repo.join("languages/typescript/template/base");
+
+    let template_output = run_command(
+        Command::new("node")
+            .arg("src/index.ts")
+            .current_dir(&template_root),
+    );
+
+    let owned_output = run_command(
+        Command::new("node")
+            .arg("--input-type=module")
+            .arg("-e")
+            .arg(
+                "import { runSessionLoop, runtimeProjectRoot } from './languages/typescript/runtime/engine/sessionLoop.ts'; console.log(runSessionLoop(runtimeProjectRoot(new URL('./languages/typescript/runtime/engine/sessionLoop.ts', import.meta.url).href)));",
+            )
+            .current_dir(&repo),
+    );
+
+    assert_eq!(owned_output, template_output);
+}
+
+#[test]
 fn generated_rust_runtime_uses_provider_prompt_and_context() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-runtime-summary");
