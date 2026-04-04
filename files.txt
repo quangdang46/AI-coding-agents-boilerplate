@@ -2072,16 +2072,16 @@
 - [ ] references/rust/TUI-ENHANCEMENT-PLAN.md
 - [ ] references/rust/crates/runtime/Cargo.toml
 - [ ] references/rust/crates/runtime/src/file_ops.rs
-- [ ] references/rust/crates/runtime/src/session.rs
+- [x] references/rust/crates/runtime/src/session.rs
 - [ ] references/rust/crates/runtime/src/green_contract.rs
-- [ ] references/rust/crates/runtime/src/json.rs
-- [ ] references/rust/crates/runtime/src/lib.rs
+- [x] references/rust/crates/runtime/src/json.rs
+- [x] references/rust/crates/runtime/src/lib.rs
 - [ ] references/rust/crates/runtime/src/team_cron_registry.rs
 - [ ] references/rust/crates/runtime/src/mcp_tool_bridge.rs
 - [ ] references/rust/crates/runtime/src/permission_enforcer.rs
 - [ ] references/rust/crates/runtime/src/sse.rs
 - [ ] references/rust/crates/runtime/src/trust_resolver.rs
-- [ ] references/rust/crates/runtime/src/compact.rs
+- [x] references/rust/crates/runtime/src/compact.rs
 - [ ] references/rust/crates/runtime/src/bash_validation.rs
 - [ ] references/rust/crates/runtime/src/summary_compression.rs
 - [ ] references/rust/crates/runtime/src/plugin_lifecycle.rs
@@ -2095,18 +2095,18 @@
 - [ ] references/rust/crates/runtime/src/task_registry.rs
 - [ ] references/rust/crates/runtime/src/mcp_stdio.rs
 - [ ] references/rust/crates/runtime/src/sandbox.rs
-- [ ] references/rust/crates/runtime/src/usage.rs
+- [x] references/rust/crates/runtime/src/usage.rs
 - [ ] references/rust/crates/runtime/src/lsp_client.rs
-- [ ] references/rust/crates/runtime/src/config.rs
+- [x] references/rust/crates/runtime/src/config.rs
 - [ ] references/rust/crates/runtime/src/task_packet.rs
 - [ ] references/rust/crates/runtime/src/stale_branch.rs
 - [ ] references/rust/crates/runtime/src/policy_engine.rs
-- [ ] references/rust/crates/runtime/src/bootstrap.rs
+- [x] references/rust/crates/runtime/src/bootstrap.rs
 - [ ] references/rust/crates/runtime/src/remote.rs
-- [ ] references/rust/crates/runtime/src/prompt.rs
+- [x] references/rust/crates/runtime/src/prompt.rs
 - [ ] references/rust/crates/runtime/src/mcp_lifecycle_hardened.rs
 - [ ] references/rust/crates/runtime/src/session_control.rs
-- [ ] references/rust/crates/runtime/src/conversation.rs
+- [x] references/rust/crates/runtime/src/conversation.rs
 - [ ] references/rust/crates/runtime/src/hooks.rs
 - [x] references/rust/crates/api/Cargo.toml
 - [ ] references/rust/crates/api/tests/client_integration.rs

@@ -1,16 +1,21 @@
+mod bootstrap;
 mod config;
+mod conversation;
+mod prompt;
 mod providers;
 mod runtime_summary;
+mod session;
+mod usage;
 
-use runtime_summary::load_runtime_summary;
+use bootstrap::run_session_loop;
 
-fn run_session_loop() -> String {
+fn main_output() -> String {
     format!(
         "__PROJECT_NAME__ session loop completed {}",
-        load_runtime_summary()
+        run_session_loop()
     )
 }
 
 fn main() {
-    println!("{}", run_session_loop());
+    println!("{}", main_output());
 }
