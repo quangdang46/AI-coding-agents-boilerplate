@@ -1987,7 +1987,7 @@
 - [ ] references/python/src/cost_tracker.py
 - [ ] references/python/src/_archive_helper.py
 - [ ] references/python/src/bridge/__init__.py
-- [ ] references/python/src/tasks.py
+- [x] references/python/src/tasks.py
 - [ ] references/python/src/vim/__init__.py
 - [ ] references/python/src/models.py
 - [ ] references/python/src/services/__init__.py
@@ -2047,9 +2047,9 @@
 - [ ] references/python/src/ink.py
 - [ ] references/python/src/types/__init__.py
 - [ ] references/python/src/hooks/__init__.py
-- [ ] references/python/src/task.py
+- [x] references/python/src/task.py
 - [ ] references/python/src/migrations/__init__.py
-- [ ] references/python/src/permissions.py
+- [x] references/python/src/permissions.py
 - [ ] references/python/src/replLauncher.py
 - [ ] references/python/src/cli/__init__.py
 - [ ] references/python/src/assistant/__init__.py
@@ -2061,8 +2061,8 @@
 - [ ] references/python/src/skills/__init__.py
 - [ ] references/python/src/components/__init__.py
 - [ ] references/python/src/commands.py
-- [ ] references/python/src/direct_modes.py
-- [ ] references/python/src/remote_runtime.py
+- [x] references/python/src/direct_modes.py
+- [x] references/python/src/remote_runtime.py
 - [ ] references/python/src/screens/__init__.py
 - [ ] references/python/src/main.py
 - [ ] references/python/src/costHook.py

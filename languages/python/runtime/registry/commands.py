@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ..permissions import summarize_permission_state
+from ..tasks import summarize_task_state
+
 
 def _read_state(path: Path) -> dict[str, str]:
     if not path.exists():
@@ -83,11 +86,7 @@ def run_command(command_name: str, project_root: Path, runtime_output: str) -> s
             f"total_cost_micros={summary.get('total_cost_micros', '0')}"
         )
     if command_name == "permissions":
-        return (
-            f"approval_mode={_extract_value(runtime_output, 'approval_mode=')} "
-            f"bash_policy={_extract_value(runtime_output, 'bash_policy=')} "
-            f"file_write_policy={_extract_value(runtime_output, 'file_write_policy=')}"
-        )
+        return summarize_permission_state(runtime_output)
     if command_name == "files":
         session_state = (
             project_root / ".agent" / "sessions" / "local-main-session.state"
@@ -101,9 +100,5 @@ def run_command(command_name: str, project_root: Path, runtime_output: str) -> s
             f"usage_state={usage_state}"
         )
     if command_name == "tasks":
-        latest = _read_state(project_root / ".agent" / "sessions" / "latest.state")
-        return (
-            "task_count=1 active_task=session-loop "
-            f"turn_count={latest.get('turn_count', '0')}"
-        )
+        return summarize_task_state(project_root)
     raise KeyError(f"unknown command: {command_name}")
