@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "interactive-clarification-tools",
+  "displayName": "Interactive Clarification Tools",
+  "description": "Adds ask-user, brief, and send-message tool wiring plus a reusable clarification skill for TypeScript projects.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "clarify-requirements",
+    "prompts": [],
+    "tools": ["ask_user", "brief", "send_message"]
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["interactive-clarification-tools"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["clarify-requirements"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "tools.enabled",
+      "value": ["ask_user", "brief", "send_message"]
+    }
+  ]
+}

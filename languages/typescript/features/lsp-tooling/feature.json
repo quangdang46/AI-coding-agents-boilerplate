@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "lsp-tooling",
+  "displayName": "LSP Tooling",
+  "description": "Adds the optional LSP tool configuration and a reusable skill for TypeScript projects that want code-intelligence workflows.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-lsp-tooling",
+    "prompts": [],
+    "tools": ["lsp"]
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["lsp-tooling"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-lsp-tooling"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "tools.enabled",
+      "value": ["lsp"]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "mcp-integration",
+  "displayName": "MCP Integration",
+  "description": "Adds optional MCP tool wiring and a reusable skill for TypeScript projects that need MCP resource and tool workflows.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-mcp-integration",
+    "prompts": [],
+    "tools": ["mcp", "list_mcp_resources", "read_mcp_resource", "mcp_auth"]
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["mcp-integration"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-mcp-integration"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "tools.enabled",
+      "value": ["mcp", "list_mcp_resources", "read_mcp_resource", "mcp_auth"]
+    }
+  ]
+}

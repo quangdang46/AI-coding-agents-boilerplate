@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "advanced-planning",
+  "displayName": "Advanced Planning",
+  "description": "Adds optional plan-mode, todo, and tool-discovery workflows plus a reusable planning skill for TypeScript projects.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "advanced-plan",
+    "prompts": [],
+    "tools": ["enter_plan_mode", "exit_plan_mode", "todo_write", "tool_search", "skill"]
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["advanced-planning"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["advanced-plan"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "tools.enabled",
+      "value": ["enter_plan_mode", "exit_plan_mode", "todo_write", "tool_search", "skill"]
+    }
+  ]
+}

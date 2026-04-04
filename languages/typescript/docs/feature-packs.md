@@ -1,8 +1,12 @@
 # TypeScript Language Pack Feature Packs
 
-The TypeScript pack currently ships one add-only feature pack:
+The TypeScript pack currently ships these add-only feature packs:
 
+- `advanced-planning`
 - `github-pr-review`
+- `interactive-clarification-tools`
+- `lsp-tooling`
+- `mcp-integration`
 
 Canonical TypeScript feature authoring lives under:
 
