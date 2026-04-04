@@ -217,7 +217,11 @@ fn list_features_reports_shipped_feature_packs() {
         vec![
             "python:github-pr-review",
             "rust:local-plugins",
-            "typescript:github-pr-review"
+            "typescript:advanced-planning",
+            "typescript:github-pr-review",
+            "typescript:interactive-clarification-tools",
+            "typescript:lsp-tooling",
+            "typescript:mcp-integration"
         ]
     );
 }
@@ -394,7 +398,10 @@ fn manifest_schema_accepts_valid_examples() {
     assert!(rust.supports.feature_add);
     assert!(rust.supports.doctor);
     assert_eq!(rust.runtime.generic_workspace_root, ".agents");
-    assert_eq!(rust.runtime.native_workspace_root.as_deref(), Some(".<brand>"));
+    assert_eq!(
+        rust.runtime.native_workspace_root.as_deref(),
+        Some(".<brand>")
+    );
 
     let typescript = read_language_manifest(&fixture_path("typescript.language.manifest.json"))
         .expect("typescript manifest should parse");
@@ -702,6 +709,86 @@ fn doctor_detects_missing_typescript_feature_asset() {
 }
 
 #[test]
+fn typescript_optional_feature_packs_add_tools_and_skills() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-optional-feature-packs");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    for feature_id in [
+        "typescript:advanced-planning",
+        "typescript:interactive-clarification-tools",
+        "typescript:lsp-tooling",
+        "typescript:mcp-integration",
+    ] {
+        feature::add(&feature::FeatureArgs {
+            feature_id: feature_id.to_string(),
+            project: out.clone(),
+        })
+        .expect("typescript optional feature add works");
+    }
+
+    assert!(brand_root(&out)
+        .join("skills/advanced-plan/SKILL.md")
+        .exists());
+    assert!(brand_root(&out)
+        .join("skills/clarify-requirements/SKILL.md")
+        .exists());
+    assert!(brand_root(&out)
+        .join("skills/use-lsp-tooling/SKILL.md")
+        .exists());
+    assert!(brand_root(&out)
+        .join("skills/use-mcp-integration/SKILL.md")
+        .exists());
+    assert!(out.join(".agents/skills/advanced-plan/SKILL.md").exists());
+    assert!(out
+        .join(".agents/skills/clarify-requirements/SKILL.md")
+        .exists());
+    assert!(out.join(".agents/skills/use-lsp-tooling/SKILL.md").exists());
+    assert!(out
+        .join(".agents/skills/use-mcp-integration/SKILL.md")
+        .exists());
+
+    let config =
+        std::fs::read_to_string(out.join("boilerplate.config.ts")).expect("read typescript config");
+    for expected in [
+        "interactive-clarification-tools",
+        "lsp-tooling",
+        "mcp-integration",
+        "advanced-plan",
+        "clarify-requirements",
+        "use-lsp-tooling",
+        "use-mcp-integration",
+        "enter_plan_mode",
+        "exit_plan_mode",
+        "todo_write",
+        "tool_search",
+        "skill",
+        "ask_user",
+        "brief",
+        "send_message",
+        "lsp",
+        "mcp",
+        "list_mcp_resources",
+        "read_mcp_resource",
+        "mcp_auth",
+    ] {
+        assert!(config.contains(expected), "missing {expected} in config");
+    }
+
+    let doctor_message = doctor::run(&out).expect("doctor after optional feature adds works");
+    assert!(doctor_message.contains("doctor ok"));
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_typescript_session_root() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("typescript-session-root-missing");
@@ -714,7 +801,8 @@ fn doctor_detects_missing_typescript_session_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(brand_root(&out).join("sessions/README.md")).expect("remove typescript session root");
+    fs::remove_file(brand_root(&out).join("sessions/README.md"))
+        .expect("remove typescript session root");
 
     let error =
         doctor::run(&out).expect_err("doctor should detect missing typescript session root");
@@ -735,7 +823,8 @@ fn doctor_detects_missing_typescript_context_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(brand_root(&out).join("instructions.md")).expect("remove typescript context root");
+    fs::remove_file(brand_root(&out).join("instructions.md"))
+        .expect("remove typescript context root");
 
     let error =
         doctor::run(&out).expect_err("doctor should detect missing typescript context root");
@@ -756,7 +845,8 @@ fn doctor_detects_missing_typescript_usage_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(brand_root(&out).join("settings.json")).expect("remove typescript settings root");
+    fs::remove_file(brand_root(&out).join("settings.json"))
+        .expect("remove typescript settings root");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing typescript usage root");
     assert!(error.contains("missing required file:"));
@@ -1079,8 +1169,7 @@ fn generated_python_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(runtime_tool_file(&out))
-            .expect("read python tool file"),
+        fs::read_to_string(runtime_tool_file(&out)).expect("read python tool file"),
         "tool-write-ok edited"
     );
     fs::remove_dir_all(out).ok();
@@ -1114,8 +1203,7 @@ fn generated_typescript_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(runtime_tool_file(&out))
-            .expect("read typescript tool file"),
+        fs::read_to_string(runtime_tool_file(&out)).expect("read typescript tool file"),
         "tool-write-ok edited"
     );
     fs::remove_dir_all(out).ok();
@@ -1146,8 +1234,7 @@ fn generated_rust_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(runtime_tool_file(&out))
-            .expect("read rust tool file"),
+        fs::read_to_string(runtime_tool_file(&out)).expect("read rust tool file"),
         "tool-write-ok edited"
     );
     fs::remove_dir_all(out).ok();
@@ -1753,8 +1840,7 @@ fn generated_typescript_core_tool_registry_covers_runtime_slice() {
         ],
     );
     assert_eq!(
-        fs::read_to_string(runtime_tool_file(&out))
-            .expect("read typescript tool file"),
+        fs::read_to_string(runtime_tool_file(&out)).expect("read typescript tool file"),
         "tool-write-ok edited"
     );
 
@@ -1858,7 +1944,10 @@ fn rust_feature_add_updates_project() {
     })
     .expect("rust feature add works");
 
-    assert!(out.join(format!("{}-plugin", brand_root_name(&out))).join("plugin.json").exists());
+    assert!(out
+        .join(format!("{}-plugin", brand_root_name(&out)))
+        .join("plugin.json")
+        .exists());
     let config = std::fs::read_to_string(brand_config_path(&out)).expect("read rust config");
     assert!(config.contains("\"enabled\": [\n      \"local-plugins\"\n    ]"));
 
@@ -2058,7 +2147,11 @@ fn doctor_detects_missing_rust_feature_asset() {
     })
     .expect("rust feature add works");
 
-    fs::remove_file(out.join(format!("{}-plugin", brand_root_name(&out))).join("plugin.json")).expect("remove rust feature asset");
+    fs::remove_file(
+        out.join(format!("{}-plugin", brand_root_name(&out)))
+            .join("plugin.json"),
+    )
+    .expect("remove rust feature asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust asset");
     assert!(error.contains("missing feature asset:"));
@@ -2139,8 +2232,7 @@ fn doctor_detects_missing_rust_agent_asset() {
     })
     .expect("rust init works");
 
-    fs::remove_file(brand_root(&out).join("agents/executor.md"))
-        .expect("remove rust agent asset");
+    fs::remove_file(brand_root(&out).join("agents/executor.md")).expect("remove rust agent asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust agent asset");
     assert!(error.contains("missing required file:"));
