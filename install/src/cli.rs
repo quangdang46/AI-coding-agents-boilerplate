@@ -91,7 +91,6 @@ fn dispatch(args: Vec<String>) -> Result<String, String> {
             };
             match action.as_str() {
                 "add" => feature::add(&args),
-                "remove" => feature::remove(&args),
                 other => Err(usage(&format!("unknown feature action: {other}"))),
             }
         }
@@ -121,6 +120,6 @@ fn dispatch(args: Vec<String>) -> Result<String, String> {
 
 fn usage(message: &str) -> String {
     format!(
-        "{message}\nusage:\n  aicd list <languages|templates|features|prompt-packs>\n  aicd init <project-name> --language python [--output <dir>] [--package-name <name>] [--binary-name <name>] [--yes]\n  aicd feature <add|remove> <feature-id> --project <dir>\n  aicd doctor --project <dir>"
+        "{message}\nusage:\n  aicd list <languages|templates|features|prompt-packs>\n  aicd init <project-name> --language python [--output <dir>] [--package-name <name>] [--binary-name <name>] [--yes]\n  aicd feature add <feature-id> --project <dir>\n  aicd doctor --project <dir>"
     )
 }

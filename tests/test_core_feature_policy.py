@@ -63,13 +63,13 @@ def test_minimal_core_policy() -> None:
         assert rows[forbidden]["targetBucket"] != "core"
 
 
-def test_feature_pack_reversibility_policy() -> None:
+def test_feature_pack_install_policy() -> None:
     policy = _read(POLICY_PATH)
     schema = json.loads(FEATURE_SCHEMA_PATH.read_text(encoding="utf-8"))
     rows = _load_matrix()["capabilities"]
 
     assert (
-        "If a capability is classified as `feature-pack`, its manifest and implementation must be compatible with reversible add/remove flows."
+        "If a capability is classified as `feature-pack`, its manifest and implementation must be compatible with add-only installation flows."
         in policy
     )
     assert (

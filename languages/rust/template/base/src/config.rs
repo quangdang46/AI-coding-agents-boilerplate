@@ -27,6 +27,10 @@ pub fn read_text(path: &Path) -> String {
         .to_string()
 }
 
+pub fn read_optional_text(path: &Path) -> Option<String> {
+    path.exists().then(|| read_text(path))
+}
+
 pub fn checksum(parts: &[String]) -> String {
     let mut total: u64 = 0;
     for part in parts {
@@ -139,7 +143,7 @@ pub fn extract_tools_enabled(source: &str) -> Vec<String> {
 }
 
 pub fn load_runtime_config(root: &Path) -> RuntimeConfig {
-    let config_text = read_text(&root.join(".claw.json"));
+    let config_text = read_text(&root.join("__BRAND_CONFIG__"));
     let default_provider = extract_json_string(&config_text, "defaultProvider");
     let approval_mode = extract_json_string(&config_text, "defaultMode");
 

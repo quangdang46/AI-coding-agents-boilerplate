@@ -8,13 +8,14 @@ const boilerplateConfig = {
     workingDirectoryPolicy: 'project-root',
   },
   prompts: {
-    systemPath: '.agent/prompts/system.md',
+    systemPath: '__BRAND_DOC__',
     appendPaths: [
-      '.agent/prompts/sections/style.md',
-      '.agent/prompts/sections/verification.md',
-      '.agent/prompts/sections/security.md',
+      'AGENTS.md',
+      'CLAUDE.md',
+      '__BRAND_ROOT__/__BRAND_DOC__',
+      '__BRAND_ROOT__/instructions.md',
     ],
-    contextPaths: ['.agent/context/README.md'],
+    contextPaths: ['__BRAND_ROOT__/__BRAND_DOC__', '__BRAND_ROOT__/instructions.md'],
   },
   tools: {
     enabled: ['bash', 'file_read', 'file_edit', 'file_write', 'web_fetch'],
@@ -39,12 +40,12 @@ const boilerplateConfig = {
     },
   },
   agents: {
-    directories: ['.agent/agents'],
+    directories: ['__BRAND_ROOT__/agents'],
     enabled: ['planner', 'executor', 'reviewer'],
     defaultAgent: 'executor',
   },
   skills: {
-    directories: ['.agent/skills'],
+    directories: ['__BRAND_ROOT__/skills', '.agents/skills'],
     enabled: ['plan', 'verify', 'add-feature'],
     autoDiscover: true,
   },

@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { loadRuntimeConfig } from '../utils/config.ts'
@@ -14,11 +15,21 @@ export type ContextState = {
 export function loadContextState(root: string): ContextState {
   const { systemPath, appendPaths, contextPaths } = loadRuntimeConfig(root)
 
-  const promptTexts = [readText(join(root, systemPath))]
-  for (const path of appendPaths) {
-    promptTexts.push(readText(join(root, path)))
+  const promptTexts = []
+  const systemFull = join(root, systemPath)
+  if (existsSync(systemFull)) {
+    promptTexts.push(readText(systemFull))
   }
-  const contextTexts = contextPaths.map((path) => readText(join(root, path)))
+  for (const path of appendPaths) {
+    const full = join(root, path)
+    if (existsSync(full)) {
+      promptTexts.push(readText(full))
+    }
+  }
+  const contextTexts = contextPaths
+    .map((path) => join(root, path))
+    .filter(existsSync)
+    .map(readText)
 
   return {
     promptTexts,

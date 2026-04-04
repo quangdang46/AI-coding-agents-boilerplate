@@ -5,6 +5,9 @@ import subprocess
 import tomllib
 from pathlib import Path
 
+BRAND_ROOT = "__BRAND_ROOT__"
+BRAND_DOC = "__BRAND_DOC__"
+
 
 def _project_root() -> Path:
     return Path(__file__).resolve().parents[2]
@@ -12,6 +15,10 @@ def _project_root() -> Path:
 
 def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8").strip()
+
+
+def _read_optional_text(path: Path) -> str:
+    return _read_text(path) if path.exists() else ""
 
 
 def _checksum(parts: list[str]) -> str:
@@ -54,12 +61,13 @@ def _policy_for_operation(
 
 def _run_core_tools(
     project_root: Path,
+    context_paths: list[Path],
     enabled: set[str],
     approval_mode: str,
     deny: list[str],
     bash_timeout_ms: int,
 ) -> str:
-    usage_path = project_root / ".agent/usage/runtime-tool-smoke.txt"
+    usage_path = project_root / BRAND_ROOT / "sessions" / "runtime-tool-smoke.txt"
 
     def status(tool_name: str, operation: str) -> str:
         if tool_name not in enabled:
@@ -83,9 +91,8 @@ def _run_core_tools(
 
     file_read_status = status("file_read", "file_read")
     if file_read_status == "file_read=allowed":
-        file_read_result = _checksum(
-            [_read_text(project_root / ".agent/context/README.md")]
-        )
+        readable = [_read_optional_text(path) for path in context_paths]
+        file_read_result = _checksum([text for text in readable if text])
         results.append(f"file_read_result={file_read_result}")
     else:
         results.append(f"file_read_result={file_read_status}")
@@ -127,17 +134,14 @@ def _persist_session_and_usage(
     context_texts: list[str],
     tool_results: str,
 ) -> str:
-    session_dir = project_root / ".agent/sessions"
-    usage_dir = project_root / ".agent/usage"
+    session_dir = project_root / BRAND_ROOT / "sessions"
     session_dir.mkdir(parents=True, exist_ok=True)
-    usage_dir.mkdir(parents=True, exist_ok=True)
 
     session_id = "local-main-session"
     session_path = session_dir / f"{session_id}.state"
     latest_path = session_dir / "latest.state"
     export_path = session_dir / f"{session_id}.export.md"
-    usage_log_path = usage_dir / "ledger.log"
-    usage_summary_path = usage_dir / "summary.state"
+    usage_summary_path = session_dir / "summary.state"
 
     previous_session = _read_state(session_path)
     turn_count = int(previous_session.get("turn_count", "0")) + 1
@@ -157,6 +161,8 @@ def _persist_session_and_usage(
         ("model", model),
         ("prompt_digest", prompt_digest),
         ("context_digest", context_digest),
+        ("usage_entries", str(usage_entries)),
+        ("total_cost_micros", str(total_cost_micros)),
     ]
     _write_state(session_path, state_items)
     _write_state(latest_path, state_items)
@@ -172,10 +178,6 @@ def _persist_session_and_usage(
         encoding="utf-8",
     )
 
-    with usage_log_path.open("a", encoding="utf-8") as handle:
-        handle.write(
-            f"session_id={session_id} turn_count={turn_count} cost_micros={cost_micros}\n"
-        )
     _write_state(
         usage_summary_path,
         [
@@ -187,10 +189,14 @@ def _persist_session_and_usage(
     return (
         f"session_id={session_id} "
         f"turn_count={turn_count} "
-        f"export_path=.agent/sessions/{session_id}.export.md "
+        f"export_path={BRAND_ROOT}/sessions/{session_id}.export.md "
         f"usage_entries={usage_entries} "
         f"total_cost_micros={total_cost_micros}"
     )
+
+
+def _existing_paths(project_root: Path, paths: list[str]) -> list[Path]:
+    return [project_root / path for path in paths if (project_root / path).exists()]
 
 
 def _load_runtime_summary() -> str:
@@ -204,17 +210,18 @@ def _load_runtime_summary() -> str:
     deny = list(config["tools"]["deny"])
     bash_timeout_ms = int(config["tools"]["bash_timeout_ms"])
 
-    prompt_paths = [project_root / config["prompts"]["system"]]
-    prompt_paths.extend(project_root / path for path in config["prompts"]["sections"])
+    prompt_paths = _existing_paths(project_root, [config["prompts"]["system"]])
+    prompt_paths.extend(
+        _existing_paths(project_root, list(config["prompts"]["sections"]))
+    )
     prompt_texts = [_read_text(path) for path in prompt_paths]
 
-    context_texts = [
-        _read_text(project_root / path) for path in config["prompts"]["context"]
-    ]
+    context_paths = _existing_paths(project_root, list(config["prompts"]["context"]))
+    context_texts = [_read_text(path) for path in context_paths]
     prompt_digest = _checksum(prompt_texts)
     context_digest = _checksum(context_texts)
     tool_results = _run_core_tools(
-        project_root, enabled, approval_mode, deny, bash_timeout_ms
+        project_root, context_paths, enabled, approval_mode, deny, bash_timeout_ms
     )
     session_summary = _persist_session_and_usage(
         project_root,

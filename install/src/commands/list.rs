@@ -41,22 +41,24 @@ fn list_templates() -> Result<String, String> {
 fn list_features() -> Result<String, String> {
     let mut features = Vec::new();
     for manifest in discover_languages()? {
-        let features_root = repo_root()
+        let registry_path = repo_root()
             .join("languages")
             .join(&manifest.id)
-            .join(&manifest.templates.base)
-            .join(".agent/features");
-        if !features_root.exists() {
+            .join(&manifest.feature_registry);
+        if !registry_path.exists() {
             continue;
         }
-        let entries = std::fs::read_dir(&features_root)
-            .map_err(|err| format!("failed to read {}: {err}", features_root.display()))?;
+        let raw = std::fs::read_to_string(&registry_path)
+            .map_err(|err| format!("failed to read {}: {err}", registry_path.display()))?;
+        let value: serde_json::Value = serde_json::from_str(&raw)
+            .map_err(|err| format!("failed to parse {}: {err}", registry_path.display()))?;
+        let entries = value
+            .get("features")
+            .and_then(|features| features.as_array())
+            .ok_or_else(|| format!("invalid feature registry: {}", registry_path.display()))?;
         for entry in entries {
-            let entry = entry.map_err(|err| format!("failed to read feature entry: {err}"))?;
-            let feature_manifest = entry.path().join("feature.json");
-            if feature_manifest.exists() {
-                let name = entry.file_name().to_string_lossy().to_string();
-                features.push(format!("{}:{}", manifest.id, name));
+            if let Some(id) = entry.get("id").and_then(|id| id.as_str()) {
+                features.push(format!("{}:{id}", manifest.id));
             }
         }
     }

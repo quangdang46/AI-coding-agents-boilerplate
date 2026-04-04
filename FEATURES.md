@@ -648,6 +648,7 @@ Those should be split into smaller user-facing capabilities rather than migrated
    - dependencies
    - conflicts
    - files/assets added
+   - feature-owned `SKILL.md` when the feature should carry AI best-practice guidance
    - config/runtime patches needed
 3. Prefer extracting **coherent capability slices** rather than source-tree mirrors. For example:
    - “mcp-integration” instead of copying all MCP-adjacent files wholesale
@@ -658,5 +659,6 @@ Those should be split into smaller user-facing capabilities rather than migrated
    - **current parity status in each language pack**
    - **shipped feature-pack support in AICD manifests**
 5. When a feature is implemented in multiple languages, prefer one shared semantic feature id, even if the implementations differ, consistent with `RULES.md`.
+6. Prefer add-only feature delivery. Do not assume automatic reversible removal is part of the long-term contract.
 
 In short: this file should help future work avoid losing the broader original-source feature map while still building AICD as a clean, manifest-driven, multi-language boilerplate system rather than as a direct mirror of the archived source trees.

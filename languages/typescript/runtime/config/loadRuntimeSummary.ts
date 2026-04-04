@@ -2,6 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { loadRuntimeConfig } from '../utils/config.ts'
+import { inferBrandRoot } from '../utils/brand.ts'
 import { readText } from '../utils/files.ts'
 import { policyForOperation } from '../utils/policy.ts'
 import { checksum } from '../utils/text.ts'
@@ -58,13 +59,14 @@ function persistSessionAndUsage(
   contextTexts: string[],
   toolResults: string,
 ): Pick<RuntimeSummary, 'sessionId' | 'turnCount' | 'exportPath' | 'usageEntries' | 'totalCostMicros'> {
+  const brandRoot = inferBrandRoot(root)
+  const brandRootName = brandRoot.split('/').at(-1) ?? '.claude'
   const sessionId = 'local-main-session'
-  const sessionPath = join(root, '.agent/sessions/local-main-session.state')
-  const latestPath = join(root, '.agent/sessions/latest.state')
-  const exportPath = '.agent/sessions/local-main-session.export.md'
+  const sessionPath = join(brandRoot, 'sessions/local-main-session.state')
+  const latestPath = join(brandRoot, 'sessions/latest.state')
+  const exportPath = `${brandRootName}/sessions/local-main-session.export.md`
   const exportFilePath = join(root, exportPath)
-  const usageLogPath = join(root, '.agent/usage/ledger.log')
-  const usageSummaryPath = join(root, '.agent/usage/summary.state')
+  const usageSummaryPath = join(brandRoot, 'sessions/summary.state')
 
   const previousSession = readState(sessionPath)
   const turnCount = Number(previousSession.turn_count ?? '0') + 1
@@ -90,12 +92,6 @@ function persistSessionAndUsage(
     'utf8',
   )
 
-  const existingLog = existsSync(usageLogPath) ? `${readText(usageLogPath)}\n` : ''
-  writeFileSync(
-    usageLogPath,
-    `${existingLog}session_id=${sessionId} turn_count=${turnCount} cost_micros=${costMicros}\n`,
-    'utf8',
-  )
   writeState(usageSummaryPath, [
     ['usage_entries', String(usageEntries)],
     ['total_cost_micros', String(totalCostMicros)],
@@ -117,12 +113,15 @@ export function loadRuntimeSummary(root: string): RuntimeSummary {
     deny,
   } = loadRuntimeConfig(root)
 
-  const promptTexts = [readText(join(root, systemPath))]
+  const promptTexts = [systemPath].map((path) => join(root, path)).filter(existsSync).map(readText)
   for (const path of appendPaths) {
-    promptTexts.push(readText(join(root, path)))
+    const full = join(root, path)
+    if (existsSync(full)) {
+      promptTexts.push(readText(full))
+    }
   }
 
-  const contextTexts = contextPaths.map((path) => readText(join(root, path)))
+  const contextTexts = contextPaths.map((path) => join(root, path)).filter(existsSync).map(readText)
   const promptDigest = checksum(promptTexts)
   const contextDigest = checksum(contextTexts)
   const toolResults = runCoreTools(root, {

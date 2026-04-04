@@ -88,7 +88,7 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("file_write=disabled")
     };
     if matches!(
-        enforcer.check_file_write(".agent/usage/runtime-tool-smoke.txt", &workspace_root),
+        enforcer.check_file_write("__BRAND_ROOT__/sessions/runtime-tool-smoke.txt", &workspace_root),
         EnforcementResult::Allowed
     ) && file_write_status == "file_write=allowed"
     {
@@ -108,7 +108,7 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("file_edit=disabled")
     };
     if matches!(
-        enforcer.check_file_write(".agent/usage/runtime-tool-smoke.txt", &workspace_root),
+        enforcer.check_file_write("__BRAND_ROOT__/sessions/runtime-tool-smoke.txt", &workspace_root),
         EnforcementResult::Allowed
     ) && file_edit_status == "file_edit=allowed"
     {

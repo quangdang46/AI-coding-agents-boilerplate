@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { inferBrandRoot } from '../utils/brand.ts'
 
 export type SessionState = {
   sessionId: string
@@ -41,7 +42,7 @@ function writeState(path: string, entries: Array<[string, string]>): void {
 }
 
 export function loadLatestSessionState(root: string): SessionState {
-  const state = readState(join(root, '.agent/sessions/latest.state'))
+  const state = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   return {
     sessionId: state.session_id ?? 'missing',
     turnCount: Number(state.turn_count ?? '0'),
@@ -53,7 +54,7 @@ export function loadLatestSessionState(root: string): SessionState {
 }
 
 export function loadUsageState(root: string): UsageState {
-  const state = readState(join(root, '.agent/usage/summary.state'))
+  const state = readState(join(inferBrandRoot(root), 'sessions/summary.state'))
   return {
     usageEntries: Number(state.usage_entries ?? '0'),
     totalCostMicros: Number(state.total_cost_micros ?? '0'),
@@ -65,11 +66,11 @@ export function persistSessionState(
   nextState: SessionState,
   costMicros: number,
 ): UsageState {
-  const sessionPath = join(root, '.agent/sessions/local-main-session.state')
-  const latestPath = join(root, '.agent/sessions/latest.state')
-  const exportFilePath = join(root, '.agent/sessions/local-main-session.export.md')
-  const usageLogPath = join(root, '.agent/usage/ledger.log')
-  const usageSummaryPath = join(root, '.agent/usage/summary.state')
+  const brandRoot = inferBrandRoot(root)
+  const sessionPath = join(brandRoot, 'sessions/local-main-session.state')
+  const latestPath = join(brandRoot, 'sessions/latest.state')
+  const exportFilePath = join(brandRoot, 'sessions/local-main-session.export.md')
+  const usageSummaryPath = join(brandRoot, 'sessions/summary.state')
 
   const stateEntries: Array<[string, string]> = [
     ['session_id', nextState.sessionId],
@@ -94,12 +95,6 @@ export function persistSessionState(
     totalCostMicros: previousUsage.totalCostMicros + costMicros,
   }
 
-  const existingLog = existsSync(usageLogPath) ? `${readFileSync(usageLogPath, 'utf8').trim()}\n` : ''
-  writeFileSync(
-    usageLogPath,
-    `${existingLog}session_id=${nextState.sessionId} turn_count=${nextState.turnCount} cost_micros=${costMicros}\n`,
-    'utf8',
-  )
   writeState(usageSummaryPath, [
     ['usage_entries', String(nextUsage.usageEntries)],
     ['total_cost_micros', String(nextUsage.totalCostMicros)],

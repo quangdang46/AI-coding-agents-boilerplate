@@ -3,6 +3,7 @@ import { join } from 'node:path'
 
 import { loadRuntimeSummary } from '../config/loadRuntimeSummary.ts'
 import { runSessionLoop } from '../engine/sessionLoop.ts'
+import { inferBrandRoot, instructionCandidates } from '../utils/brand.ts'
 
 export type CoreCommandName =
   | 'status'
@@ -62,14 +63,15 @@ function configSummary(root: string): string {
 }
 
 function sessionSummary(root: string): string {
-  const latest = readState(join(root, '.agent/sessions/latest.state'))
+  const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   return `session_id=${latest.session_id ?? 'missing'} turn_count=${latest.turn_count ?? '0'}`
 }
 
 function exportSummary(root: string): string {
-  const exportPath = join(root, '.agent/sessions/local-main-session.export.md')
+  const brandRoot = inferBrandRoot(root)
+  const exportPath = join(brandRoot, 'sessions/local-main-session.export.md')
   const exists = existsSync(exportPath)
-  return `export_path=.agent/sessions/local-main-session.export.md export_exists=${exists}`
+  return `export_path=${brandRoot.split('/').at(-1) ?? '.claude'}/sessions/local-main-session.export.md export_exists=${exists}`
 }
 
 function contextSummary(root: string): string {
@@ -78,7 +80,7 @@ function contextSummary(root: string): string {
 }
 
 function usageSummary(root: string): string {
-  const usage = readState(join(root, '.agent/usage/summary.state'))
+  const usage = readState(join(inferBrandRoot(root), 'sessions/summary.state'))
   return `usage_entries=${usage.usage_entries ?? '0'} total_cost_micros=${usage.total_cost_micros ?? '0'}`
 }
 
@@ -88,27 +90,32 @@ function permissionSummary(root: string): string {
 }
 
 function fileSummary(root: string): string {
-  const sessionState = existsSync(join(root, '.agent/sessions/local-main-session.state'))
-  const exportState = existsSync(join(root, '.agent/sessions/local-main-session.export.md'))
-  const usageState = existsSync(join(root, '.agent/usage/summary.state'))
+  const brandRoot = inferBrandRoot(root)
+  const sessionState = existsSync(join(brandRoot, 'sessions/local-main-session.state'))
+  const exportState = existsSync(join(brandRoot, 'sessions/local-main-session.export.md'))
+  const usageState = existsSync(join(brandRoot, 'sessions/summary.state'))
   return `session_state=${sessionState} export_state=${exportState} usage_state=${usageState}`
 }
 
 function taskSummary(root: string): string {
-  const latest = readState(join(root, '.agent/sessions/latest.state'))
+  const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   const turnCount = latest.turn_count ?? '0'
   return `task_count=1 active_task=session-loop turn_count=${turnCount}`
 }
 
 function doctorSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
   const required = [
-    '.agent/sessions/README.md',
-    '.agent/usage/README.md',
-    '.agent/context/README.md',
-    '.agent/sessions/latest.state',
-    '.agent/usage/summary.state',
+    join(brandRoot, 'sessions/README.md'),
+    join(brandRoot, 'sessions/latest.state'),
+    join(brandRoot, 'sessions/summary.state'),
   ]
-  const missing = required.filter((relative) => !existsSync(join(root, relative)))
+  const missing = required
+    .filter((path) => !existsSync(path))
+    .map((path) => path.replace(`${root}/`, ''))
+  if (instructionCandidates(root, brandRoot).length === 0) {
+    missing.push('instruction-surface')
+  }
   return missing.length === 0 ? 'doctor=ok' : `doctor=missing:${missing.join(',')}`
 }
 

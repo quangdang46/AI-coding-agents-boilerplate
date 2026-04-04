@@ -7,12 +7,14 @@ default_mode = "interactive"
 working_directory_policy = "project-root"
 
 [prompts]
-system = ".agent/prompts/system.md"
+system = "__BRAND_DOC__"
 sections = [
-  ".agent/prompts/sections/coding-style.md",
-  ".agent/prompts/sections/verification.md",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "__BRAND_ROOT__/__BRAND_DOC__",
+  "__BRAND_ROOT__/instructions.md",
 ]
-context = [".agent/context/README.md"]
+context = ["__BRAND_ROOT__/__BRAND_DOC__", "__BRAND_ROOT__/instructions.md"]
 append = []
 
 [tools]
@@ -34,15 +36,14 @@ model = "claude-sonnet-4-6"
 base_url = ""
 
 [agents]
-directories = [".agent/agents"]
+directories = ["__BRAND_ROOT__/agents"]
 enabled = ["planner", "executor", "reviewer"]
 default = "executor"
 
 [skills]
-directories = [".agent/skills"]
+directories = ["__BRAND_ROOT__/skills", ".agents/skills"]
 enabled = ["plan", "add-feature", "verify"]
 auto_discover = true
 
 [features]
 enabled = []
-registry = ".agent/features/registry.json"

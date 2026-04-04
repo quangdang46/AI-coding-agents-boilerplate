@@ -9,4 +9,4 @@ This directory exists to establish the required language-pack test boundary defi
 
 Legacy smoke tests preserved under `references/legacy-typescript-workspace/` remain historical migration artifacts and are not the canonical language-pack verification boundary.
 
-The current TypeScript slice covers `init`, `feature add/remove`, and `doctor` through `install/tests/cli.rs`.
+The current TypeScript slice covers `init`, `feature add`, and `doctor` through `install/tests/cli.rs`.

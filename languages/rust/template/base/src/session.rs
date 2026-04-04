@@ -1,5 +1,4 @@
 use std::fs;
-use std::fs::OpenOptions;
 use std::path::Path;
 
 use crate::config::{get_state_value, read_state, write_state, RuntimeConfig};
@@ -36,12 +35,11 @@ pub fn persist_session_and_usage(
     tool_results: &str,
 ) -> SessionSummary {
     let session_id = String::from("local-main-session");
-    let session_path = root.join(".agent/sessions/local-main-session.state");
-    let latest_path = root.join(".agent/sessions/latest.state");
-    let export_relative = ".agent/sessions/local-main-session.export.md";
+    let session_path = root.join("__BRAND_ROOT__/sessions/local-main-session.state");
+    let latest_path = root.join("__BRAND_ROOT__/sessions/latest.state");
+    let export_relative = "__BRAND_ROOT__/sessions/local-main-session.export.md";
     let export_path = root.join(export_relative);
-    let usage_log_path = root.join(".agent/usage/ledger.log");
-    let usage_summary_path = root.join(".agent/usage/summary.state");
+    let usage_summary_path = root.join("__BRAND_ROOT__/sessions/summary.state");
 
     let previous_session = read_state(&session_path);
     let turn_count = get_state_value(&previous_session, "turn_count")
@@ -66,6 +64,11 @@ pub fn persist_session_and_usage(
         (String::from("model"), config.provider_model.clone()),
         (String::from("prompt_digest"), prompt_digest.to_string()),
         (String::from("context_digest"), context_digest.to_string()),
+        (String::from("usage_entries"), usage_entries.to_string()),
+        (
+            String::from("total_cost_micros"),
+            total_cost_micros.to_string(),
+        ),
     ];
     write_state(&session_path, &state_entries);
     write_state(&latest_path, &state_entries);
@@ -78,17 +81,6 @@ pub fn persist_session_and_usage(
     )
     .unwrap_or_else(|err| panic!("failed to write {}: {err}", export_path.display()));
 
-    let mut ledger = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(&usage_log_path)
-        .unwrap_or_else(|err| panic!("failed to open {}: {err}", usage_log_path.display()));
-    use std::io::Write;
-    writeln!(
-        ledger,
-        "session_id={session_id} turn_count={turn_count} cost_micros={cost_micros}"
-    )
-    .unwrap_or_else(|err| panic!("failed to append {}: {err}", usage_log_path.display()));
     write_state(
         &usage_summary_path,
         &[

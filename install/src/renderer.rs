@@ -1,6 +1,7 @@
 use std::io;
 use std::path::{Path, PathBuf};
 
+use crate::brand::BrandPaths;
 use crate::fs_ops::{copy_dir_with_placeholders, normalize_package_name};
 use crate::manifest::LanguageManifest;
 
@@ -18,6 +19,7 @@ pub fn render_template_from_manifest(
     output_root: &Path,
     package_name: Option<&str>,
     binary_name: Option<&str>,
+    brand: &BrandPaths,
 ) -> io::Result<()> {
     let package_name = package_name
         .map(|value| value.to_string())
@@ -29,5 +31,6 @@ pub fn render_template_from_manifest(
         project_name,
         &package_name,
         binary_name,
+        brand,
     )
 }

@@ -1,9 +1,16 @@
 # Rust Language Pack Feature Packs
 
-The Rust pack currently ships one reversible feature pack:
+The Rust pack currently ships one add-only feature pack:
 
 - `local-plugins`
 
-This boundary exists so future Rust extraction work can add reversible feature packs under `languages/rust/` without mixing shipped artifacts with archived Rust reference material.
+Canonical Rust feature authoring lives under:
 
-The first Rust feature-pack slice creates a workspace-local `.claw/plugins/` boundary and records the feature in `.claw.json` without claiming the full upstream plugin lifecycle.
+- `languages/rust/features/registry.json`
+- `languages/rust/features/<feature-id>/feature.json`
+
+The first Rust feature-pack slice creates a branded local plugin manifest at:
+
+- `.<brand>-plugin/plugin.json`
+
+and records the feature in the branded compat config `.<brand>.json`.

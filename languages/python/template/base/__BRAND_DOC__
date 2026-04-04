@@ -1,0 +1,11 @@
+# __BRAND_DOC__
+
+This file provides workspace guidance for the generated `__PROJECT_NAME__` tool.
+
+## Verification
+- Run the relevant Python checks from the repo root before declaring completion.
+
+## Working agreement
+- Prefer small, reviewable changes.
+- Keep shared defaults in `__BRAND_CONFIG__` and `__BRAND_ROOT__/settings.json`.
+- Use `__BRAND_ROOT__/instructions.md` for local instruction layering.

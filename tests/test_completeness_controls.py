@@ -65,43 +65,49 @@ def test_runtime_reference_binding() -> None:
             "schemaVersion": "1",
             "kind": "language-pack",
             "id": "python",
-            "runtime": {"configFile": "agentkit.toml"},
+            "runtime": {
+                "configFile": "agentkit.toml",
+                "genericWorkspaceRoot": ".agents",
+            },
             "templates": {"base": "template/base"},
             "supports": {
                 "init": True,
                 "featureAdd": True,
-                "featureRemove": True,
                 "doctor": True,
             },
-            "featureRegistry": ".agent/features/registry.json",
+            "featureRegistry": "features/registry.json",
         },
         {
             "schemaVersion": "1",
             "kind": "language-pack",
             "id": "python",
-            "runtime": {"configFile": "references/config.json"},
+            "runtime": {
+                "configFile": "references/config.json",
+                "genericWorkspaceRoot": ".agents",
+            },
             "templates": {"base": "template/base"},
             "supports": {
                 "init": True,
                 "featureAdd": True,
-                "featureRemove": True,
                 "doctor": True,
             },
-            "featureRegistry": ".agent/features/registry.json",
+            "featureRegistry": "features/registry.json",
         },
         {
             "schemaVersion": "1",
             "kind": "language-pack",
             "id": "python",
-            "runtime": {"configFile": "agentkit.toml"},
+            "runtime": {
+                "configFile": "agentkit.toml",
+                "genericWorkspaceRoot": ".agents",
+            },
             "templates": {"base": "archive/claw_code_ts_snapshot/template/base"},
             "supports": {
                 "init": True,
                 "featureAdd": True,
-                "featureRemove": True,
                 "doctor": True,
             },
-            "featureRegistry": ".agent/features/registry.json",
+            "featureRegistry": "features/registry.json",
         },
     ]
 

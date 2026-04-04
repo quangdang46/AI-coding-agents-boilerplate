@@ -37,5 +37,5 @@ Any archived legacy TypeScript workspace belongs under `references/legacy-typesc
 2. Agents remain manifest-backed and user-editable.
 3. Prompt layering stays configurable.
 4. Cleanup work must be protected by language-pack or installer-owned verification.
-5. Generated projects should customize through config + `.agent/` assets, not kernel edits.
+5. Generated projects should customize through config + `.agents/` assets, not kernel edits.
 6. The Rust installer must target a stable template contract, not ad hoc source assumptions.

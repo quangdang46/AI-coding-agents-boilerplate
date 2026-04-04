@@ -7,6 +7,8 @@
   "description": "TypeScript language support for AICD",
   "runtime": {
     "configFile": "boilerplate.config.ts",
+    "genericWorkspaceRoot": ".agents",
+    "nativeWorkspaceRoot": ".<brand>",
     "projectMarkers": ["package.json", "tsconfig.json"]
   },
   "templates": {
@@ -15,10 +17,9 @@
   "supports": {
     "init": true,
     "featureAdd": true,
-    "featureRemove": true,
     "doctor": true
   },
-  "featureRegistry": ".agent/features/registry.json",
+  "featureRegistry": "features/registry.json",
   "compatibility": {
     "cli": "^1.0.0"
   }

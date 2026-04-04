@@ -78,4 +78,3 @@ pub fn recipe_for(scenario: FailureScenario) -> RecoveryRecipe {
         },
     }
 }
-#![allow(dead_code)]

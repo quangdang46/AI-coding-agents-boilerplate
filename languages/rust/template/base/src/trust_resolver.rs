@@ -128,4 +128,3 @@ fn path_matches(candidate: &str, root: &Path) -> bool {
 fn normalize_path(path: &Path) -> PathBuf {
     std::fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf())
 }
-#![allow(dead_code)]

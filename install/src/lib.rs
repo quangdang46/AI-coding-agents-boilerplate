@@ -1,3 +1,4 @@
+pub mod brand;
 pub mod catalog;
 pub mod cli;
 pub mod fs_ops;

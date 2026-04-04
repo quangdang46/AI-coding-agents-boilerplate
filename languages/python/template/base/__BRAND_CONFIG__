@@ -1,0 +1,9 @@
+{
+  "defaultProvider": "openai",
+  "instructions": {
+    "primary": "__BRAND_DOC__",
+    "compatibility": ["AGENTS.md", "CLAUDE.md"],
+    "local": ["__BRAND_ROOT__/__BRAND_DOC__", "__BRAND_ROOT__/instructions.md"]
+  },
+  "runtimeRoot": "__BRAND_ROOT__"
+}

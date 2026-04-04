@@ -1,11 +1,18 @@
 # TypeScript Language Pack Feature Packs
 
-The TypeScript pack currently ships one reversible feature pack:
+The TypeScript pack currently ships one add-only feature pack:
 
 - `github-pr-review`
 
-It adds review-oriented prompt, agent, and skill assets and updates `boilerplate.config.ts` so the generated project records the feature as enabled.
+Canonical TypeScript feature authoring lives under:
 
-The TypeScript language pack currently seeds project-local feature discovery from:
+- `languages/typescript/features/registry.json`
+- `languages/typescript/features/<feature-id>/feature.json`
+- `languages/typescript/features/<feature-id>/agents/*.md` when the feature ships subagents
+- `languages/typescript/features/<feature-id>/skill/SKILL.md` when the feature ships a skill
 
-- `.agent/features/registry.json`
+Generated TypeScript projects then receive branded project-local assets under:
+
+- `.<brand>/agents/`
+- `.<brand>/skills/<skill-name>/SKILL.md`
+- `.agents/skills/<skill-name>/SKILL.md` as an optional interoperability mirror

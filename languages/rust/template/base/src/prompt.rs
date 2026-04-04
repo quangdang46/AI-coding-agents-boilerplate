@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use crate::config::{checksum, read_text, RuntimeConfig};
+use crate::config::{checksum, read_optional_text, read_text, RuntimeConfig};
 
 pub struct PromptState {
     pub prompt_texts: Vec<String>,
@@ -10,17 +10,22 @@ pub struct PromptState {
 }
 
 pub fn load_prompt_state(root: &Path, config: &RuntimeConfig) -> PromptState {
-    let prompt_texts = vec![
-        read_text(&root.join("CLAW.md")),
-        read_text(&root.join(".agent/prompts/system.md")),
-        read_text(&root.join(".agent/prompts/sections/style.md")),
-        read_text(&root.join(".agent/prompts/sections/verification.md")),
-    ];
+    let mut prompt_texts = vec![read_text(&root.join("__BRAND_DOC__"))];
+    for path in [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "__BRAND_ROOT__/__BRAND_DOC__",
+        "__BRAND_ROOT__/instructions.md",
+    ] {
+        if let Some(text) = read_optional_text(&root.join(path)) {
+            prompt_texts.push(text);
+        }
+    }
 
     let context_texts = config
         .context_paths
         .iter()
-        .map(|path| read_text(&root.join(path)))
+        .filter_map(|path| read_optional_text(&root.join(path)))
         .collect::<Vec<_>>();
 
     PromptState {

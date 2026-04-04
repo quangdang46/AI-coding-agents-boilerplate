@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .brand import infer_brand_root
+
 
 def load_usage_summary(project_root: Path) -> dict[str, str]:
-    summary_path = project_root / ".agent" / "usage" / "summary.state"
+    summary_path = infer_brand_root(project_root) / "sessions" / "summary.state"
     if not summary_path.exists():
         return {}
     state: dict[str, str] = {}
@@ -16,9 +18,10 @@ def load_usage_summary(project_root: Path) -> dict[str, str]:
 
 
 def load_usage_ledger(project_root: Path) -> list[str]:
-    ledger_path = project_root / ".agent" / "usage" / "ledger.log"
-    if not ledger_path.exists():
+    summary = load_usage_summary(project_root)
+    if not summary:
         return []
     return [
-        line for line in ledger_path.read_text(encoding="utf-8").splitlines() if line
+        f"usage_entries={summary.get('usage_entries', '0')}",
+        f"total_cost_micros={summary.get('total_cost_micros', '0')}",
     ]

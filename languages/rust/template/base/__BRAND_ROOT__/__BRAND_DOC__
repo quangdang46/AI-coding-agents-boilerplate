@@ -1,0 +1,6 @@
+# __BRAND_DOC__
+
+This brand-local instruction surface supplements the top-level `__BRAND_DOC__`.
+
+- Keep local agent assets under `__BRAND_ROOT__/agents/`.
+- Keep branded skills under `__BRAND_ROOT__/skills/`.

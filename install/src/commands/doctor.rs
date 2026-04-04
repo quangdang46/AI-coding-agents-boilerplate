@@ -1,6 +1,9 @@
 use std::path::Path;
 
-use crate::manifest::{detect_project_language, read_agentkit_toml, validate_agentkit_toml};
+use crate::brand::{infer_brand_paths, BrandPaths};
+use crate::manifest::{
+    detect_project_language, read_agentkit_toml, repo_root, validate_agentkit_toml, LanguageManifest,
+};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -13,11 +16,26 @@ struct FeatureAdds {
     #[serde(default)]
     agents: Vec<String>,
     #[serde(default)]
+    skill: Option<String>,
+    #[serde(default)]
     skills: Vec<String>,
     #[serde(default)]
     prompts: Vec<String>,
     #[serde(default)]
     tools: Vec<String>,
+}
+
+impl FeatureManifest {
+    fn skill_name(&self) -> Option<&str> {
+        self.adds
+            .skill
+            .as_deref()
+            .or_else(|| self.adds.skills.first().map(|item| item.as_str()))
+    }
+}
+
+fn rust_config_path(project_root: &Path, brand: &BrandPaths) -> std::path::PathBuf {
+    project_root.join(brand.config_file())
 }
 
 pub fn run(project_root: &Path) -> Result<String, String> {
@@ -31,13 +49,14 @@ pub fn run(project_root: &Path) -> Result<String, String> {
             ));
         }
     };
+    let brand = infer_brand_paths(project_root)?;
     if !language.supports.doctor {
         return Err(format!(
             "unsupported capability doctor for language: {}",
             language.id
         ));
     }
-    for required in required_paths(&language.id) {
+    for required in required_paths(&language, &brand) {
         let path = project_root.join(required);
         if !path.exists() {
             return Err(format!("missing required file: {}", path.display()));
@@ -46,14 +65,14 @@ pub fn run(project_root: &Path) -> Result<String, String> {
     if language.id == "python" {
         validate_agentkit_toml(project_root)?;
     }
-    validate_provider_selection(project_root, &language.id)?;
-    validate_web_fetch_support(project_root, &language.id)?;
-    validate_permission_controls(project_root, &language.id)?;
-    validate_tool_runtime_defaults(project_root, &language.id)?;
-    validate_agent_discovery_config(project_root, &language.id)?;
+    validate_provider_selection(project_root, &language.id, &brand)?;
+    validate_web_fetch_support(project_root, &language.id, &brand)?;
+    validate_permission_controls(project_root, &language.id, &brand)?;
+    validate_tool_runtime_defaults(project_root, &language.id, &brand)?;
+    validate_agent_discovery_config(project_root, &language.id, &brand)?;
 
     let enabled_features = load_enabled_features(project_root, &language.id)?;
-    let registry_ids = load_registry_feature_ids(project_root)?;
+    let registry_ids = load_registry_feature_ids(&language)?;
     for feature_id in enabled_features {
         if !registry_ids
             .iter()
@@ -64,13 +83,17 @@ pub fn run(project_root: &Path) -> Result<String, String> {
                 feature_id
             ));
         }
-        validate_feature_assets(project_root, &feature_id)?;
+        validate_feature_assets(project_root, &language, &brand, &feature_id)?;
     }
 
     Ok(format!("doctor ok: {}", project_root.display()))
 }
 
-fn validate_provider_selection(project_root: &Path, language_id: &str) -> Result<(), String> {
+fn validate_provider_selection(
+    project_root: &Path,
+    language_id: &str,
+    brand: &BrandPaths,
+) -> Result<(), String> {
     match language_id {
         "python" => {
             let config_text = read_agentkit_toml(project_root)?;
@@ -113,7 +136,7 @@ fn validate_provider_selection(project_root: &Path, language_id: &str) -> Result
             Ok(())
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let path = rust_config_path(project_root, brand);
             let config_text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&config_text)
@@ -169,7 +192,11 @@ fn validate_provider_selection(project_root: &Path, language_id: &str) -> Result
     }
 }
 
-fn validate_web_fetch_support(project_root: &Path, language_id: &str) -> Result<(), String> {
+fn validate_web_fetch_support(
+    project_root: &Path,
+    language_id: &str,
+    brand: &BrandPaths,
+) -> Result<(), String> {
     match language_id {
         "python" => {
             let config_text = read_agentkit_toml(project_root)?;
@@ -194,7 +221,7 @@ fn validate_web_fetch_support(project_root: &Path, language_id: &str) -> Result<
             Ok(())
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let path = rust_config_path(project_root, brand);
             let config_text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&config_text)
@@ -221,7 +248,11 @@ fn validate_web_fetch_support(project_root: &Path, language_id: &str) -> Result<
     }
 }
 
-fn validate_permission_controls(project_root: &Path, language_id: &str) -> Result<(), String> {
+fn validate_permission_controls(
+    project_root: &Path,
+    language_id: &str,
+    brand: &BrandPaths,
+) -> Result<(), String> {
     match language_id {
         "python" => {
             let config_text = read_agentkit_toml(project_root)?;
@@ -252,7 +283,7 @@ fn validate_permission_controls(project_root: &Path, language_id: &str) -> Resul
             Ok(())
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let path = rust_config_path(project_root, brand);
             let config_text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&config_text)
@@ -292,7 +323,11 @@ fn validate_permission_controls(project_root: &Path, language_id: &str) -> Resul
     }
 }
 
-fn validate_tool_runtime_defaults(project_root: &Path, language_id: &str) -> Result<(), String> {
+fn validate_tool_runtime_defaults(
+    project_root: &Path,
+    language_id: &str,
+    brand: &BrandPaths,
+) -> Result<(), String> {
     match language_id {
         "python" => {
             let config_text = read_agentkit_toml(project_root)?;
@@ -331,7 +366,7 @@ fn validate_tool_runtime_defaults(project_root: &Path, language_id: &str) -> Res
             Ok(())
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let path = rust_config_path(project_root, brand);
             let config_text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&config_text)
@@ -357,13 +392,17 @@ fn validate_tool_runtime_defaults(project_root: &Path, language_id: &str) -> Res
     }
 }
 
-fn validate_agent_discovery_config(project_root: &Path, language_id: &str) -> Result<(), String> {
+fn validate_agent_discovery_config(
+    project_root: &Path,
+    language_id: &str,
+    brand: &BrandPaths,
+) -> Result<(), String> {
     match language_id {
         "python" => {
             let config_text = read_agentkit_toml(project_root)?;
             for required in [
                 "[agents]",
-                "directories = [\".agent/agents\"]",
+                &format!("directories = [\"{}/agents\"]", brand.hidden_root()),
                 "default = \"executor\"",
             ] {
                 if !config_text.contains(required) {
@@ -401,7 +440,7 @@ fn validate_agent_discovery_config(project_root: &Path, language_id: &str) -> Re
             Ok(())
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let path = rust_config_path(project_root, brand);
             let config_text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&config_text)
@@ -418,11 +457,13 @@ fn validate_agent_discovery_config(project_root: &Path, language_id: &str) -> Re
                 })?;
             if !directories
                 .iter()
-                .any(|item| item.as_str() == Some(".agent/agents"))
+                .any(|item| item.as_str() == Some(&format!("{}/agents", brand.hidden_root())))
             {
                 return Err(format!(
-                    "missing agent config in {}: .agent/agents",
+                    "missing agent config in {}: {}/agents",
                     path.display()
+                    ,
+                    brand.hidden_root()
                 ));
             }
             let enabled = agents
@@ -454,9 +495,18 @@ fn validate_agent_discovery_config(project_root: &Path, language_id: &str) -> Re
     }
 }
 
-fn validate_feature_assets(project_root: &Path, feature_id: &str) -> Result<(), String> {
-    let manifest_path = project_root
-        .join(".agent/features")
+fn validate_feature_assets(
+    project_root: &Path,
+    language: &LanguageManifest,
+    brand: &BrandPaths,
+    feature_id: &str,
+) -> Result<(), String> {
+    let manifest_path = repo_root()
+        .join("languages")
+        .join(&language.id)
+        .join(&language.feature_registry)
+        .parent()
+        .expect("feature registry should have a parent")
         .join(feature_id)
         .join("feature.json");
     let raw = std::fs::read_to_string(&manifest_path)
@@ -464,28 +514,23 @@ fn validate_feature_assets(project_root: &Path, feature_id: &str) -> Result<(), 
     let manifest: FeatureManifest = serde_json::from_str(&raw)
         .map_err(|err| format!("failed to parse {}: {err}", manifest_path.display()))?;
 
-    for agent in manifest.adds.agents {
-        let path = project_root.join(".agent/agents").join(agent);
+    for agent in &manifest.adds.agents {
+        let path = project_root.join(brand.hidden_root()).join("agents").join(agent);
         if !path.exists() {
             return Err(format!("missing feature asset: {}", path.display()));
         }
     }
-    for skill in manifest.adds.skills {
+    if let Some(skill) = manifest.skill_name() {
         let path = project_root
-            .join(".agent/skills")
+            .join(brand.hidden_root())
+            .join("skills")
             .join(skill)
             .join("SKILL.md");
         if !path.exists() {
             return Err(format!("missing feature asset: {}", path.display()));
         }
     }
-    for prompt in manifest.adds.prompts {
-        let path = project_root.join(".agent/prompts/sections").join(prompt);
-        if !path.exists() {
-            return Err(format!("missing feature asset: {}", path.display()));
-        }
-    }
-    for tool in manifest.adds.tools {
+    for tool in &manifest.adds.tools {
         let tool = tool.trim();
         if tool.is_empty() {
             continue;
@@ -493,7 +538,7 @@ fn validate_feature_assets(project_root: &Path, feature_id: &str) -> Result<(), 
     }
 
     if feature_id == "local-plugins" {
-        let path = project_root.join(".claw/plugins/README.md");
+        let path = project_root.join(format!("{}-plugin", brand.hidden_root())).join("plugin.json");
         if !path.exists() {
             return Err(format!("missing feature asset: {}", path.display()));
         }
@@ -502,71 +547,41 @@ fn validate_feature_assets(project_root: &Path, feature_id: &str) -> Result<(), 
     Ok(())
 }
 
-fn required_paths(language_id: &str) -> &'static [&'static str] {
-    match language_id {
-        "python" => &[
-            "README.md",
-            "agentkit.toml",
-            "pyproject.toml",
-            ".agent/prompts/system.md",
-            ".agent/prompts/sections/coding-style.md",
-            ".agent/prompts/sections/verification.md",
-            ".agent/context/README.md",
-            ".agent/agents/planner.agent.json",
-            ".agent/agents/executor.agent.json",
-            ".agent/agents/reviewer.agent.json",
-            ".agent/sessions/README.md",
-            ".agent/usage/README.md",
-            ".agent/skills/plan/SKILL.md",
-            ".agent/skills/add-feature/SKILL.md",
-            ".agent/skills/verify/SKILL.md",
-            ".agent/features/registry.json",
-            ".agent/features/github-pr-review/feature.json",
-        ],
-        "typescript" => &[
-            "README.md",
-            "boilerplate.config.ts",
-            "package.json",
-            "tsconfig.json",
-            "src/index.ts",
-            ".agent/prompts/system.md",
-            ".agent/prompts/sections/style.md",
-            ".agent/prompts/sections/verification.md",
-            ".agent/prompts/sections/security.md",
-            ".agent/context/README.md",
-            ".agent/agents/planner.agent.json",
-            ".agent/agents/executor.agent.json",
-            ".agent/agents/reviewer.agent.json",
-            ".agent/sessions/README.md",
-            ".agent/usage/README.md",
-            ".agent/skills/plan/SKILL.md",
-            ".agent/skills/add-feature/SKILL.md",
-            ".agent/skills/verify/SKILL.md",
-            ".agent/features/registry.json",
-        ],
-        "rust" => &[
-            "README.md",
-            "CLAW.md",
-            ".claw.json",
-            ".claw/settings.local.json",
-            "Cargo.toml",
-            "src/main.rs",
-            ".agent/prompts/system.md",
-            ".agent/prompts/sections/style.md",
-            ".agent/prompts/sections/verification.md",
-            ".agent/context/README.md",
-            ".agent/agents/planner.agent.json",
-            ".agent/agents/executor.agent.json",
-            ".agent/agents/reviewer.agent.json",
-            ".agent/sessions/README.md",
-            ".agent/usage/README.md",
-            ".agent/skills/plan/SKILL.md",
-            ".agent/skills/add-feature/SKILL.md",
-            ".agent/skills/verify/SKILL.md",
-            ".agent/features/registry.json",
-        ],
-        _ => &[],
+fn required_paths(language: &LanguageManifest, brand: &BrandPaths) -> Vec<String> {
+    let mut paths = vec!["README.md".to_string(), brand.doc_file(), brand.config_file()];
+    paths.push(format!("{}/settings.json", brand.hidden_root()));
+    paths.push(format!("{}/settings.local.json", brand.hidden_root()));
+    paths.push(format!("{}/instructions.md", brand.hidden_root()));
+    paths.push(format!("{}/sessions/README.md", brand.hidden_root()));
+    paths.push(format!("{}/agents/planner.md", brand.hidden_root()));
+    paths.push(format!("{}/agents/executor.md", brand.hidden_root()));
+    paths.push(format!("{}/agents/reviewer.md", brand.hidden_root()));
+    paths.push(format!("{}/skills/plan/SKILL.md", brand.hidden_root()));
+    paths.push(format!("{}/skills/add-feature/SKILL.md", brand.hidden_root()));
+    paths.push(format!("{}/skills/verify/SKILL.md", brand.hidden_root()));
+    paths.push(".agents/skills/plan/SKILL.md".to_string());
+    paths.push(".agents/skills/add-feature/SKILL.md".to_string());
+    paths.push(".agents/skills/verify/SKILL.md".to_string());
+
+    match language.id.as_str() {
+        "python" => {
+            paths.push("agentkit.toml".to_string());
+            paths.push("pyproject.toml".to_string());
+        }
+        "typescript" => {
+            paths.push("boilerplate.config.ts".to_string());
+            paths.push("package.json".to_string());
+            paths.push("tsconfig.json".to_string());
+            paths.push("src/index.ts".to_string());
+        }
+        "rust" => {
+            paths.push("Cargo.toml".to_string());
+            paths.push("src/main.rs".to_string());
+        }
+        _ => {}
     }
+
+    paths
 }
 
 fn parse_enabled_features(config_text: &str) -> Vec<String> {
@@ -628,7 +643,8 @@ fn load_enabled_features(project_root: &Path, language_id: &str) -> Result<Vec<S
             Ok(parse_typescript_enabled_features(&text))
         }
         "rust" => {
-            let path = project_root.join(".claw.json");
+            let brand = infer_brand_paths(project_root)?;
+            let path = rust_config_path(project_root, &brand);
             let text = std::fs::read_to_string(&path)
                 .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
             let value: serde_json::Value = serde_json::from_str(&text)
@@ -649,8 +665,11 @@ fn load_enabled_features(project_root: &Path, language_id: &str) -> Result<Vec<S
     }
 }
 
-fn load_registry_feature_ids(project_root: &Path) -> Result<Vec<String>, String> {
-    let registry_path = project_root.join(".agent/features/registry.json");
+fn load_registry_feature_ids(language: &LanguageManifest) -> Result<Vec<String>, String> {
+    let registry_path = repo_root()
+        .join("languages")
+        .join(&language.id)
+        .join(&language.feature_registry);
     let raw = std::fs::read_to_string(&registry_path)
         .map_err(|err| format!("failed to read {}: {err}", registry_path.display()))?;
     let value: serde_json::Value = serde_json::from_str(&raw)

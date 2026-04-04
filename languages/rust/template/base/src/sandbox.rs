@@ -66,4 +66,3 @@ pub fn resolve_sandbox_status_for_request(request: &SandboxRequest) -> SandboxSt
         fallback_reason,
     }
 }
-#![allow(dead_code)]

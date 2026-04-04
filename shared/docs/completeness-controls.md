@@ -30,7 +30,9 @@ Validation MUST fail when any of the following occurs:
 - a capability row disappears without a recorded disposition
 - a capability row has no `targetBucket`
 - a capability row has no `implementationState`
+- a capability row in state `implemented` or `verified` has no concrete `evidence`
 - a broad source cluster is treated as one shippable pack instead of decomposition-guarded `reference-only`
+- a capability row claims the current contract but still points only at known-stale contract surfaces without an explicit migration note
 
 ### 2.2 State downgrade failure
 
@@ -43,6 +45,15 @@ State order is:
 - `verified`
 
 Downgrades from a higher state to a lower state require an audit trail in evidence or review artifacts.
+
+### 2.3 Evidence integrity rule
+
+Capability states above `declared` require concrete proof:
+
+- `implemented` MUST cite at least one shipped code path or generated-project runtime path plus one validating test or fixture
+- `verified` MUST cite automated proof strong enough to justify the stronger state
+
+Notes alone are not evidence.
 
 ---
 
@@ -89,6 +100,7 @@ The completeness system is correct only when all of the following are true:
 
 - every capability row has a `targetBucket`
 - every capability row has an `implementationState`
+- every capability row above `declared` has concrete `evidence`
 - oversized source clusters remain decomposition-guarded
 - runtime-facing manifests do not point at archived reference paths
 - state downgrades require audit evidence

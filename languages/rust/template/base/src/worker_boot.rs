@@ -146,4 +146,3 @@ fn push_event(
         timestamp,
     });
 }
-#![allow(dead_code)]

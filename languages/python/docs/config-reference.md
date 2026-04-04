@@ -1,17 +1,28 @@
 # Python Language Pack Config Reference
 
-The Python language pack currently generates projects with `agentkit.toml` as the base config file.
+The Python language pack generates projects with `agentkit.toml` as the language-specific app config file.
 
-The active proving-slice template lives under `languages/python/template/base/`.
+Generated Python projects also scaffold branded runtime/config surfaces:
 
-Generated Python projects include provider and model selection through `default_provider` plus provider-specific sections such as `[providers.openai]` and `[providers.anthropic]`.
+- `.<brand>.json`
+- `<BRAND>.md`
+- `.<brand>/settings.json`
+- `.<brand>/settings.local.json`
+- `.<brand>/instructions.md`
+- `.<brand>/<BRAND>.md`
+- `.<brand>/agents/`
+- `.<brand>/skills/`
+- `.<brand>/commands/`
+- `.<brand>/sessions/`
 
-Generated Python projects also include permission and sandbox controls through `[tools]`, including `approval_mode` and `deny`.
+`agentkit.toml` still owns Python app/runtime configuration such as providers, tools, and feature toggles.
 
-Generated Python projects also reserve `.agent/sessions/` as the local persisted-session root for future session and resume flows.
+The branded root owns Claude-compatible local surfaces such as:
 
-Generated Python projects also reserve `.agent/context/` as the local workspace-context root for prompt and instruction composition.
+- merged settings files
+- branded instruction files
+- markdown subagents
+- skills and commands
+- persisted session artifacts
 
-Generated Python projects also reserve `.agent/usage/` as the local usage and cost tracking root for future accounting flows.
-
-Generated Python projects also expose local agent discovery through `[agents]`, including agent directories, enabled agents, and the default agent.
+`.agents/skills/` may still exist as a generic interoperability mirror for skills, but it is not the primary branded runtime root.

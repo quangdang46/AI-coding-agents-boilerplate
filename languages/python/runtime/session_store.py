@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .brand import infer_brand_root
+
 
 def _read_state(path: Path) -> dict[str, str]:
     if not path.exists():
@@ -15,8 +17,10 @@ def _read_state(path: Path) -> dict[str, str]:
 
 
 def load_latest_session(project_root: Path) -> dict[str, str]:
-    return _read_state(project_root / ".agent" / "sessions" / "latest.state")
+    brand_root = infer_brand_root(project_root)
+    return _read_state(brand_root / "sessions" / "latest.state")
 
 
 def load_named_session(project_root: Path, session_id: str) -> dict[str, str]:
-    return _read_state(project_root / ".agent" / "sessions" / f"{session_id}.state")
+    brand_root = infer_brand_root(project_root)
+    return _read_state(brand_root / "sessions" / f"{session_id}.state")

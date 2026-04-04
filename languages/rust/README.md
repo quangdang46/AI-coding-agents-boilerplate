@@ -8,18 +8,16 @@ Current contents in this migration slice:
 - `runtime/` — owned Rust runtime boundary required by `RULES.md`
 - `template/base/` — generated-project template for manifest-driven `init`
 - `docs/workspace-ownership-map.md` — canonical crate-to-language-pack ownership map for archived Rust workspace members
-- docs and test boundaries for future Rust extraction work
 
-Archived Rust reference material remains available through the repo's reference archive during migration.
+Generated Rust projects now use branded runtime/config surfaces:
 
-This pack now supports manifest-driven `init`, `feature add/remove`, and `doctor`, but only the first Rust feature-pack slice is currently shipped.
+- `.<brand>.json`
+- `<BRAND>.md`
+- `.<brand>/agents/`
+- `.<brand>/skills/`
+- `.<brand>/commands/`
+- `.<brand>/sessions/`
 
-Generated Rust projects also now ship workspace instruction-memory files under `.agent/prompts/` alongside `CLAW.md`.
+`.agents/skills/` may still exist as a generic skill mirror, but it is not the primary runtime root.
 
-Those Rust prompt files now include layered prompt sections under `.agent/prompts/sections/`.
-
-Generated Rust projects also now ship local file-backed agent roots under `.agent/agents/`.
-
-Generated Rust projects also now ship local file-backed skill roots under `.agent/skills/`.
-
-The archived Rust workspace root and the minimum crate ownership mapping are now frozen in `docs/workspace-ownership-map.md`.
+The archived Rust workspace root and the minimum crate ownership mapping remain documented in `docs/workspace-ownership-map.md`.

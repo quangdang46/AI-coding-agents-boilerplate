@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use crate::brand::{normalize_brand, BrandPaths};
 use crate::manifest::discover_language;
 use crate::renderer::render_template_from_manifest;
 
@@ -20,12 +21,15 @@ pub fn run(args: &InitArgs) -> Result<String, String> {
             args.language
         ));
     }
+    let brand_name = normalize_brand(args.binary_name.as_deref().unwrap_or(&args.project_name));
+    let brand = BrandPaths::new(&brand_name)?;
     render_template_from_manifest(
         &manifest,
         &args.project_name,
         &args.output,
         args.package_name.as_deref(),
         args.binary_name.as_deref(),
+        &brand,
     )
     .map_err(|err| format!("init failed: {err}"))?;
     Ok(format!(

@@ -222,4 +222,3 @@ pub fn permission_mode_from_config(value: &str) -> PermissionMode {
         _ => PermissionMode::DontAsk,
     }
 }
-#![allow(dead_code)]

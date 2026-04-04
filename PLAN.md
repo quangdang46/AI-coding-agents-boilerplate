@@ -62,7 +62,7 @@ When the migration is complete, `aicd init --language <python|typescript|rust>` 
 - real local skills
 - real local feature packs
 - real doctor validation
-- real feature add/remove support
+- real feature add support
 - real session save/resume foundations
 
 Optional subsystems from the original system must be shipped as feature packs when they are too large or too specialized for core.
@@ -82,9 +82,9 @@ Optional subsystems from the original system must be shipped as feature packs wh
 
 - The installer is real and working.
 - Manifest-driven language discovery exists.
-- `init`, `feature add`, `feature remove`, and `doctor` exist and are tested.
-- All three language packs already expose config plus `.agent/*` seams.
-- Reversible feature-pack mechanics already exist in the installer.
+- `init`, `feature add`, and `doctor` exist and are tested.
+- All three language packs already expose generated-project config plus hidden local asset seams, though the current `.agent/*` contract is still an interim shape rather than the intended final model.
+- Feature-pack materialization already exists in the installer, but the long-term contract should be add-only rather than reversible.
 
 ### 5.2 What is still incomplete
 
@@ -206,13 +206,18 @@ These must be decomposed into bounded owned modules with capability IDs and test
 Every language must generate a project with:
 
 - one main config file
-- `.agent/prompts/`
-- `.agent/agents/`
-- `.agent/skills/`
-- `.agent/features/`
-- `.agent/context/`
-- `.agent/sessions/`
-- `.agent/usage/`
+- one top-level branded instruction file `<BRAND>.md`
+- one top-level branded compat config `.<brand>.json` when the shipped tool has a Claude-style compat surface
+- one branded hidden runtime root `.<brand>/`
+- `.<brand>/settings.json`
+- `.<brand>/settings.local.json`
+- `.<brand>/instructions.md`
+- `.<brand>/<BRAND>.md`
+- `.<brand>/agents/`
+- `.<brand>/skills/<skill-name>/SKILL.md`
+- `.<brand>/commands/`
+- `.<brand>/sessions/`
+- `.agents/skills/<skill-name>/SKILL.md` only when a generic interoperability skill mirror is intentionally shipped
 - `src/`
 - `tests/`
 - README
@@ -223,15 +228,20 @@ Every language must generate a project with:
 <project>/
 ├─ agentkit.toml
 ├─ pyproject.toml
+├─ <BRAND>.md
+├─ .<brand>.json
 ├─ README.md
-├─ .agent/
-│  ├─ prompts/
+├─ .<brand>/
+│  ├─ settings.json
+│  ├─ settings.local.json
+│  ├─ instructions.md
+│  ├─ <BRAND>.md
 │  ├─ agents/
 │  ├─ skills/
-│  ├─ features/
-│  ├─ context/
-│  ├─ sessions/
-│  └─ usage/
+│  ├─ commands/
+│  └─ sessions/
+├─ .agents/
+│  └─ skills/
 ├─ src/
 │  └─ <package_name>/
 │     ├─ entrypoints/
@@ -253,15 +263,20 @@ Every language must generate a project with:
 ├─ boilerplate.config.ts
 ├─ package.json
 ├─ tsconfig.json
+├─ <BRAND>.md
+├─ .<brand>.json
 ├─ README.md
-├─ .agent/
-│  ├─ prompts/
+├─ .<brand>/
+│  ├─ settings.json
+│  ├─ settings.local.json
+│  ├─ instructions.md
+│  ├─ <BRAND>.md
 │  ├─ agents/
 │  ├─ skills/
-│  ├─ features/
-│  ├─ context/
-│  ├─ sessions/
-│  └─ usage/
+│  ├─ commands/
+│  └─ sessions/
+├─ .agents/
+│  └─ skills/
 ├─ src/
 │  ├─ entrypoints/
 │  ├─ runtime/
@@ -279,18 +294,22 @@ Every language must generate a project with:
 
 ```text
 <project>/
-├─ CLAW.md
-├─ .claw.json
 ├─ Cargo.toml
+├─ <BRAND>.md
+├─ .<brand>.json
 ├─ README.md
-├─ .agent/
-│  ├─ prompts/
+├─ .<brand>/
+│  ├─ settings.json
+│  ├─ settings.local.json
+│  ├─ instructions.md
+│  ├─ <BRAND>.md
 │  ├─ agents/
 │  ├─ skills/
-│  ├─ features/
-│  ├─ context/
-│  ├─ sessions/
-│  └─ usage/
+│  ├─ commands/
+│  └─ sessions/
+├─ .agents/
+│  └─ skills/
+├─ .<brand>-plugin/
 ├─ src/
 │  ├─ entrypoints/
 │  ├─ runtime/
@@ -363,7 +382,8 @@ The port must cover these capability families in order.
 - local agents
 - local skills
 - local feature packs
-- reversible feature add/remove
+- add-only feature materialization
+- one `SKILL.md` per feature as the preferred AI development entrypoint
 - doctor validation of extension assets
 
 ### 9.7 Advanced ecosystems
@@ -397,7 +417,7 @@ This matrix is the mandatory no-loss checklist. No row may be silently dropped.
 | `local-agent-discovery` | `core` | `verified` | Keep and deepen existing local agent discovery without regressions. |
 | `built-in-specialist-agents` | `feature-pack` | `declared` | Port built-in specialist presets as optional packs over the base agent seam. |
 | `advanced-planning-modes` | `feature-pack` | `declared` | Port plan mode and deep-plan behaviors as an advanced planning pack. |
-| `task-team-orchestration` | `feature-pack` | `declared` | Port task/team runtime as a reversible pack with real lifecycle tests. |
+| `task-team-orchestration` | `feature-pack` | `declared` | Port task/team runtime as an add-only pack with real lifecycle tests and shipped skill guidance where appropriate. |
 | `coordinator-permission-modes` | `feature-pack` | `declared` | Port coordinator/swarm permission policy separately from base permissions. |
 | `assistant-session-history` | `feature-pack` | `declared` | Port assistant-specific history behavior after base session lifecycle is done. |
 
@@ -408,7 +428,7 @@ This matrix is the mandatory no-loss checklist. No row may be silently dropped.
 | `slash-command-surface` | `reference-only` | `declared` | Do not clone the full command inventory; decompose and classify every command into core, feature-pack, deferred, or rejected. |
 | `structured-remote-cli-transport` | `feature-pack` | `declared` | Port structured remote CLI transport as an optional advanced transport pack. |
 | `session-management-and-export` | `core` | `declared` | Implement real status, export, resume, and session control behavior in core. |
-| `git-and-github-workflow-assistance` | `feature-pack` | `declared` | Port Git/GitHub automation as a dedicated reversible pack. |
+| `git-and-github-workflow-assistance` | `feature-pack` | `declared` | Port Git/GitHub automation as a dedicated add-only pack with feature-owned workflow skill guidance. |
 | `workspace-bootstrap-init` | `core` | `verified` | Preserve and extend current init behavior into real runtime scaffolding. |
 
 ### 10.4 Tool runtime and execution platform
@@ -725,9 +745,9 @@ Definition of done:
 - manifest validation
 - generated-project shape
 - init lifecycle
-- feature add/remove lifecycle
+- feature add lifecycle
 - doctor lifecycle
-- feature-pack reversibility
+- feature-pack add robustness after customization
 
 ### 14.2 Runtime parity tests
 

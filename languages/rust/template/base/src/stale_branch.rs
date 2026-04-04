@@ -56,4 +56,3 @@ pub fn apply_policy(freshness: &BranchFreshness, policy: StaleBranchPolicy) -> S
         },
     }
 }
-#![allow(dead_code)]

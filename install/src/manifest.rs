@@ -1,12 +1,17 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use crate::brand::{infer_brand_paths, resolve_brand_placeholders};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct LanguageRuntimeManifest {
     #[serde(rename = "configFile")]
     pub config_file: String,
+    #[serde(rename = "genericWorkspaceRoot")]
+    pub generic_workspace_root: String,
+    #[serde(rename = "nativeWorkspaceRoot")]
+    pub native_workspace_root: Option<String>,
     #[serde(rename = "projectMarkers", default)]
     pub project_markers: Vec<String>,
 }
@@ -21,8 +26,6 @@ pub struct LanguageSupportsManifest {
     pub init: bool,
     #[serde(rename = "featureAdd")]
     pub feature_add: bool,
-    #[serde(rename = "featureRemove")]
-    pub feature_remove: bool,
     pub doctor: bool,
 }
 
@@ -40,7 +43,7 @@ pub struct LanguageManifest {
     pub templates: LanguageTemplateManifest,
     pub supports: LanguageSupportsManifest,
     #[serde(rename = "featureRegistry")]
-    pub feature_registry: Option<String>,
+    pub feature_registry: String,
 }
 
 pub fn read_language_manifest(path: &Path) -> Result<LanguageManifest, String> {
@@ -61,16 +64,17 @@ pub fn read_language_manifest(path: &Path) -> Result<LanguageManifest, String> {
             path.display()
         ));
     }
-    if manifest
-        .feature_registry
-        .as_deref()
-        .unwrap_or_default()
-        .is_empty()
-    {
+    if manifest.feature_registry.is_empty() {
         return Err(format!("missing featureRegistry in {}", path.display()));
     }
     if manifest.runtime.config_file.is_empty() {
         return Err(format!("missing runtime.configFile in {}", path.display()));
+    }
+    if manifest.runtime.generic_workspace_root.is_empty() {
+        return Err(format!(
+            "missing runtime.genericWorkspaceRoot in {}",
+            path.display()
+        ));
     }
     if manifest.templates.base.is_empty() {
         return Err(format!("missing templates.base in {}", path.display()));
@@ -120,8 +124,7 @@ pub fn discover_language(language_id: &str) -> Result<LanguageManifest, String> 
 
 pub fn detect_project_language(project_root: &Path) -> Result<LanguageManifest, String> {
     for manifest in discover_languages()? {
-        let config_path = project_root.join(&manifest.runtime.config_file);
-        let has_config = config_path.exists();
+        let has_config = runtime_path_exists(project_root, &manifest.runtime.config_file);
         let has_marker = manifest
             .runtime
             .project_markers
@@ -136,6 +139,22 @@ pub fn detect_project_language(project_root: &Path) -> Result<LanguageManifest, 
         "unable to detect project language for {}",
         project_root.display()
     ))
+}
+
+fn runtime_path_exists(project_root: &Path, raw_path: &str) -> bool {
+    if !raw_path.contains("<brand>") && !raw_path.contains("<BRAND>") {
+        return project_root.join(raw_path).exists();
+    }
+    let Ok(brand) = infer_brand_paths(project_root) else {
+        return false;
+    };
+    let resolved = resolve_brand_placeholders(
+        &raw_path
+            .replace("<brand>", "__BRAND__")
+            .replace("<BRAND>", "__BRAND_DOC__"),
+        &brand,
+    );
+    project_root.join(resolved).exists()
 }
 
 pub fn read_agentkit_toml(project_root: &Path) -> Result<String, String> {

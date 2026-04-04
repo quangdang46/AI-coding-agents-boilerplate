@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "github-pr-review",
+  "displayName": "GitHub PR Review",
+  "description": "Adds review-oriented prompts and review skill assets for TypeScript projects.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": ["review-agent.md"],
+    "skill": "review-pr",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["github-pr-review"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "agents.enabled",
+      "value": ["review-agent"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["review-pr"]
+    }
+  ]
+}

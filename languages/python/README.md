@@ -8,4 +8,4 @@ Current contents in this migration slice:
 - `runtime/` — owned Python runtime boundary required by `RULES.md`
 - `template/base/` — generated-project template used by the installer
 
-This pack is the proving slice for manifest-driven `init`, `feature add/remove`, and `doctor` workflows.
+This pack is the proving slice for manifest-driven `init`, `feature add`, and `doctor` workflows.

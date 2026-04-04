@@ -1,9 +1,0 @@
-{
-  "description": "Use for reviewing completed work and checking risks.",
-  "prompt": "@.agent/prompts/system.md",
-  "tools": ["file_read", "web_fetch"],
-  "model": "inherit",
-  "effort": "medium",
-  "skills": ["verify"],
-  "memory": "project"
-}

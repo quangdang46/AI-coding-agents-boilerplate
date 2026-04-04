@@ -1,7 +1,8 @@
 use std::path::{Path, PathBuf};
 
-use crate::fs_ops::{copy_tree_contents, remove_tree_contents};
-use crate::manifest::detect_project_language;
+use crate::brand::{infer_brand_paths, resolve_brand_placeholders, BrandPaths};
+use crate::fs_ops::{copy_tree_contents, copy_tree_contents_with_brand_placeholders};
+use crate::manifest::{detect_project_language, repo_root, LanguageManifest};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -16,8 +17,23 @@ struct FeatureManifest {
     description: String,
     #[serde(rename = "appliesTo")]
     applies_to: Vec<String>,
+    adds: FeatureAdds,
     #[serde(default)]
     patches: Vec<FeaturePatch>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+struct FeatureAdds {
+    #[serde(default)]
+    agents: Vec<String>,
+    #[serde(default)]
+    skill: Option<String>,
+    #[serde(default)]
+    skills: Vec<String>,
+    #[serde(default)]
+    prompts: Vec<String>,
+    #[serde(default)]
+    tools: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -36,6 +52,7 @@ pub struct FeatureArgs {
 
 pub fn add(args: &FeatureArgs) -> Result<String, String> {
     let language = detect_project_language(&args.project)?;
+    let brand = infer_brand_paths(&args.project)?;
     let feature_id = normalize_feature_id(&language.id, &args.feature_id)?;
     if !language.supports.feature_add {
         return Err(format!(
@@ -43,48 +60,23 @@ pub fn add(args: &FeatureArgs) -> Result<String, String> {
             language.id
         ));
     }
-    let feature_files_root = feature_files_root(&args.project, &feature_id);
-    if !feature_manifest_path(&args.project, &feature_id).exists() {
+    let manifest_path = authoring_feature_manifest_path(&language, &feature_id);
+    if !manifest_path.exists() {
         return Err(format!(
             "unknown feature '{}': {}",
             args.feature_id,
-            feature_manifest_path(&args.project, &feature_id).display()
+            manifest_path.display()
         ));
     }
-    let manifest = load_feature_manifest(&args.project, &feature_id)?;
-    copy_tree_contents(&feature_files_root, &args.project)
+    let manifest = load_feature_manifest(&language, &feature_id)?;
+    let feature_files_root = authoring_feature_files_root(&language, &feature_id);
+    copy_tree_contents_with_brand_placeholders(&feature_files_root, &args.project, &brand)
         .map_err(|err| format!("feature add failed: {err}"))?;
+    materialize_feature_agents(&args.project, &brand, &language, &feature_id, &manifest)?;
+    materialize_feature_skill(&args.project, &brand, &language, &feature_id, &manifest)?;
     apply_feature_patches(&args.project, &manifest, true)?;
     Ok(format!(
         "added feature {} to {}",
-        feature_id,
-        args.project.display()
-    ))
-}
-
-pub fn remove(args: &FeatureArgs) -> Result<String, String> {
-    let language = detect_project_language(&args.project)?;
-    let feature_id = normalize_feature_id(&language.id, &args.feature_id)?;
-    if !language.supports.feature_remove {
-        return Err(format!(
-            "unsupported capability feature remove for language: {}",
-            language.id
-        ));
-    }
-    let feature_files_root = feature_files_root(&args.project, &feature_id);
-    if !feature_manifest_path(&args.project, &feature_id).exists() {
-        return Err(format!(
-            "unknown feature '{}': {}",
-            args.feature_id,
-            feature_manifest_path(&args.project, &feature_id).display()
-        ));
-    }
-    let manifest = load_feature_manifest(&args.project, &feature_id)?;
-    remove_tree_contents(&feature_files_root, &args.project)
-        .map_err(|err| format!("feature remove failed: {err}"))?;
-    apply_feature_patches(&args.project, &manifest, false)?;
-    Ok(format!(
-        "removed feature {} from {}",
         feature_id,
         args.project.display()
     ))
@@ -101,8 +93,11 @@ fn normalize_feature_id(language_id: &str, feature_id: &str) -> Result<String, S
     }
 }
 
-fn load_feature_manifest(project_root: &Path, feature_id: &str) -> Result<FeatureManifest, String> {
-    let manifest_path = feature_manifest_path(project_root, feature_id);
+fn load_feature_manifest(
+    language: &LanguageManifest,
+    feature_id: &str,
+) -> Result<FeatureManifest, String> {
+    let manifest_path = authoring_feature_manifest_path(language, feature_id);
     let raw = std::fs::read_to_string(&manifest_path)
         .map_err(|err| format!("failed to read {}: {err}", manifest_path.display()))?;
     let manifest: FeatureManifest = serde_json::from_str(&raw)
@@ -137,7 +132,61 @@ fn load_feature_manifest(project_root: &Path, feature_id: &str) -> Result<Featur
     if manifest.applies_to.is_empty() {
         return Err(format!("missing appliesTo in {}", manifest_path.display()));
     }
+    if !manifest.applies_to.iter().any(|item| item == &language.id) {
+        return Err(format!(
+            "feature {} does not apply to language: {}",
+            feature_id, language.id
+        ));
+    }
     Ok(manifest)
+}
+
+fn materialize_feature_skill(
+    project_root: &Path,
+    brand: &BrandPaths,
+    language: &LanguageManifest,
+    feature_id: &str,
+    manifest: &FeatureManifest,
+) -> Result<(), String> {
+    let Some(skill_name) = manifest.skill_name() else {
+        return Ok(());
+    };
+    let source_path = authoring_feature_skill_path(language, feature_id);
+    if !source_path.exists() {
+        return Err(format!("missing feature skill: {}", source_path.display()));
+    }
+    for target_dir in [
+        project_root.join(brand.hidden_root()).join("skills").join(skill_name),
+        project_root.join(".agents/skills").join(skill_name),
+    ] {
+        std::fs::create_dir_all(&target_dir)
+            .map_err(|err| format!("failed to create {}: {err}", target_dir.display()))?;
+        std::fs::copy(&source_path, target_dir.join("SKILL.md"))
+            .map_err(|err| format!("failed to copy {}: {err}", source_path.display()))?;
+    }
+    Ok(())
+}
+
+fn materialize_feature_agents(
+    project_root: &Path,
+    brand: &BrandPaths,
+    language: &LanguageManifest,
+    feature_id: &str,
+    manifest: &FeatureManifest,
+) -> Result<(), String> {
+    if manifest.adds.agents.is_empty() {
+        return Ok(());
+    }
+    let source_root = authoring_feature_agents_root(language, feature_id);
+    if !source_root.exists() {
+        return Err(format!("missing feature agents root: {}", source_root.display()));
+    }
+    let target_root = project_root.join(brand.hidden_root()).join("agents");
+    std::fs::create_dir_all(&target_root)
+        .map_err(|err| format!("failed to create {}: {err}", target_root.display()))?;
+    copy_tree_contents(&source_root, &target_root)
+        .map_err(|err| format!("feature add failed: {err}"))?;
+    Ok(())
 }
 
 fn apply_feature_patches(
@@ -145,6 +194,7 @@ fn apply_feature_patches(
     manifest: &FeatureManifest,
     enabled: bool,
 ) -> Result<(), String> {
+    let brand = infer_brand_paths(project_root)?;
     for patch in &manifest.patches {
         if patch.strategy != "merge" {
             return Err(format!(
@@ -155,7 +205,7 @@ fn apply_feature_patches(
         match patch.target.as_str() {
             "agentkit.toml" => apply_toml_merge_patch(project_root, patch, enabled)?,
             "boilerplate.config.ts" => apply_typescript_merge_patch(project_root, patch, enabled)?,
-            ".claw.json" => apply_json_merge_patch(project_root, patch, enabled)?,
+            ".claw.json" | ".<brand>.json" => apply_json_merge_patch(project_root, patch, enabled, &brand)?,
             other => return Err(format!("unsupported feature patch target: {other}")),
         }
     }
@@ -232,8 +282,12 @@ fn apply_json_merge_patch(
     project_root: &Path,
     patch: &FeaturePatch,
     enabled: bool,
+    brand: &BrandPaths,
 ) -> Result<(), String> {
-    let path = project_root.join(&patch.target);
+    let path = project_root.join(resolve_brand_placeholders(
+        &patch.target.replace("<brand>", "__BRAND__"),
+        brand,
+    ));
     let text = std::fs::read_to_string(&path)
         .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
     let mut root: serde_json::Value = serde_json::from_str(&text)
@@ -349,14 +403,13 @@ fn parse_array_items(line: &str) -> Vec<String> {
 }
 
 fn merge_items(items: &mut Vec<String>, values: &[String], enabled: bool) {
-    if enabled {
-        for value in values {
-            if !items.iter().any(|item| item == value) {
-                items.push(value.clone());
-            }
+    if !enabled {
+        return;
+    }
+    for value in values {
+        if !items.iter().any(|item| item == value) {
+            items.push(value.clone());
         }
-    } else {
-        items.retain(|item| !values.iter().any(|value| value == item));
     }
 }
 
@@ -376,16 +429,45 @@ fn format_typescript_items(items: &[String]) -> String {
         .join(", ")
 }
 
-fn feature_manifest_path(project_root: &Path, feature_id: &str) -> PathBuf {
-    project_root
-        .join(".agent/features")
+impl FeatureManifest {
+    fn skill_name(&self) -> Option<&str> {
+        self.adds
+            .skill
+            .as_deref()
+            .or_else(|| self.adds.skills.first().map(|item| item.as_str()))
+    }
+}
+
+fn authoring_features_root(language: &LanguageManifest) -> PathBuf {
+    let registry_path = repo_root()
+        .join("languages")
+        .join(&language.id)
+        .join(&language.feature_registry);
+    registry_path
+        .parent()
+        .expect("feature registry should have a parent")
+        .to_path_buf()
+}
+
+fn authoring_feature_manifest_path(language: &LanguageManifest, feature_id: &str) -> PathBuf {
+    authoring_features_root(language)
         .join(feature_id)
         .join("feature.json")
 }
 
-fn feature_files_root(project_root: &Path, feature_id: &str) -> PathBuf {
-    project_root
-        .join(".agent/features")
+fn authoring_feature_files_root(language: &LanguageManifest, feature_id: &str) -> PathBuf {
+    authoring_features_root(language).join(feature_id).join("files")
+}
+
+fn authoring_feature_skill_path(language: &LanguageManifest, feature_id: &str) -> PathBuf {
+    authoring_features_root(language)
         .join(feature_id)
-        .join("files")
+        .join("skill")
+        .join("SKILL.md")
+}
+
+fn authoring_feature_agents_root(language: &LanguageManifest, feature_id: &str) -> PathBuf {
+    authoring_features_root(language)
+        .join(feature_id)
+        .join("agents")
 }

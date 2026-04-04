@@ -44,9 +44,17 @@
     },
     "runtime": {
       "type": "object",
-      "required": ["configFile"],
+      "required": ["configFile", "genericWorkspaceRoot"],
       "properties": {
         "configFile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "genericWorkspaceRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nativeWorkspaceRoot": {
           "type": "string",
           "minLength": 1
         },
@@ -72,11 +80,10 @@
     },
     "supports": {
       "type": "object",
-      "required": ["init", "featureAdd", "featureRemove", "doctor"],
+      "required": ["init", "featureAdd", "doctor"],
       "properties": {
         "init": { "type": "boolean" },
         "featureAdd": { "type": "boolean" },
-        "featureRemove": { "type": "boolean" },
         "doctor": { "type": "boolean" }
       },
       "additionalProperties": false

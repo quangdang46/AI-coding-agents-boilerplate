@@ -3,6 +3,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+const BRAND_ROOT = '__BRAND_ROOT__'
+
 function policyForOperation(
   approvalMode: string,
   deny: string[],
@@ -60,6 +62,10 @@ function readText(path: string): string {
   return readFileSync(path, 'utf8').trim()
 }
 
+function readOptionalText(path: string): string {
+  return existsSync(path) ? readText(path) : ''
+}
+
 function extractString(source: string, pattern: RegExp): string {
   const match = source.match(pattern)
   if (!match) {
@@ -82,12 +88,13 @@ function projectRoot(): string {
 
 function runCoreTools(
   root: string,
+  contextPaths: string[],
   enabledTools: string[],
   approvalMode: string,
   deny: string[],
   bashTimeoutMs: number,
 ): string {
-  const usagePath = join(root, '.agent/usage/runtime-tool-smoke.txt')
+  const usagePath = join(root, BRAND_ROOT, 'sessions', 'runtime-tool-smoke.txt')
   const status = (toolName: string, operation: string) => {
     if (!enabledTools.includes(toolName)) {
       return `${operation}=disabled`
@@ -111,7 +118,8 @@ function runCoreTools(
 
   const fileReadStatus = status('file_read', 'file_read')
   if (fileReadStatus === 'file_read=allowed') {
-    results.push(`file_read_result=${checksum([readText(join(root, '.agent/context/README.md'))])}`)
+    const readable = contextPaths.map((path) => readOptionalText(join(root, path))).filter(Boolean)
+    results.push(`file_read_result=${checksum(readable)}`)
   } else {
     results.push(`file_read_result=${fileReadStatus}`)
   }
@@ -157,12 +165,11 @@ function persistSessionAndUsage(
   toolResults: string,
 ): string {
   const sessionId = 'local-main-session'
-  const sessionPath = join(root, '.agent/sessions/local-main-session.state')
-  const latestPath = join(root, '.agent/sessions/latest.state')
-  const exportPath = '.agent/sessions/local-main-session.export.md'
+  const sessionPath = join(root, BRAND_ROOT, 'sessions', 'local-main-session.state')
+  const latestPath = join(root, BRAND_ROOT, 'sessions', 'latest.state')
+  const exportPath = `${BRAND_ROOT}/sessions/local-main-session.export.md`
   const exportFilePath = join(root, exportPath)
-  const usageLogPath = join(root, '.agent/usage/ledger.log')
-  const usageSummaryPath = join(root, '.agent/usage/summary.state')
+  const usageSummaryPath = join(root, BRAND_ROOT, 'sessions', 'summary.state')
 
   const previousSession = readState(sessionPath)
   const turnCount = Number(previousSession.turn_count ?? '0') + 1
@@ -178,6 +185,8 @@ function persistSessionAndUsage(
     ['model', providerModel],
     ['prompt_digest', promptDigest],
     ['context_digest', contextDigest],
+    ['usage_entries', String(usageEntries)],
+    ['total_cost_micros', String(totalCostMicros)],
   ]
   writeState(sessionPath, stateEntries)
   writeState(latestPath, stateEntries)
@@ -188,12 +197,6 @@ function persistSessionAndUsage(
     'utf8',
   )
 
-  const existingLog = existsSync(usageLogPath) ? `${readText(usageLogPath)}\n` : ''
-  writeFileSync(
-    usageLogPath,
-    `${existingLog}session_id=${sessionId} turn_count=${turnCount} cost_micros=${costMicros}\n`,
-    'utf8',
-  )
   writeState(usageSummaryPath, [
     ['usage_entries', String(usageEntries)],
     ['total_cost_micros', String(totalCostMicros)],
@@ -217,15 +220,18 @@ function buildTemplateLoopSummary(root: string): string {
   const enabledTools = extractStringList(configText, /enabled:\s*\[([\s\S]*?)\]/)
   const bashTimeoutMs = Number(extractString(configText, /bashTimeoutMs:\s*(\d+)/))
 
-  const promptTexts = [readText(join(root, systemPath))]
+  const promptTexts = [readOptionalText(join(root, systemPath))].filter(Boolean)
   for (const path of appendPaths) {
-    promptTexts.push(readText(join(root, path)))
+    const text = readOptionalText(join(root, path))
+    if (text) {
+      promptTexts.push(text)
+    }
   }
 
-  const contextTexts = contextPaths.map((path) => readText(join(root, path)))
+  const contextTexts = contextPaths.map((path) => readOptionalText(join(root, path))).filter(Boolean)
   const promptDigest = checksum(promptTexts)
   const contextDigest = checksum(contextTexts)
-  const toolResults = runCoreTools(root, enabledTools, approvalMode, deny, bashTimeoutMs)
+  const toolResults = runCoreTools(root, contextPaths, enabledTools, approvalMode, deny, bashTimeoutMs)
   const sessionSummary = persistSessionAndUsage(
     root,
     defaultProvider,

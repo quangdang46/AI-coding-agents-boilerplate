@@ -2,6 +2,8 @@ use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 
+use crate::brand::{resolve_brand_placeholders, BrandPaths};
+
 fn should_skip_path(path: &Path) -> bool {
     path.components().any(|component| {
         matches!(
@@ -35,6 +37,7 @@ pub fn copy_dir_with_placeholders(
     project_name: &str,
     package_name: &str,
     binary_name: &str,
+    brand: &BrandPaths,
 ) -> io::Result<()> {
     if output_root.exists() {
         fs::remove_dir_all(output_root)?;
@@ -46,10 +49,11 @@ pub fn copy_dir_with_placeholders(
         let replaced = relative
             .components()
             .map(|component| {
-                component
+                let component = component
                     .as_os_str()
                     .to_string_lossy()
-                    .replace("__PACKAGE_NAME__", package_name)
+                    .replace("__PACKAGE_NAME__", package_name);
+                resolve_brand_placeholders(&component, brand)
             })
             .collect::<Vec<_>>();
         let target = replaced
@@ -69,6 +73,7 @@ pub fn copy_dir_with_placeholders(
         text = text.replace("__PROJECT_NAME__", project_name);
         text = text.replace("__PACKAGE_NAME__", package_name);
         text = text.replace("__BINARY_NAME__", binary_name);
+        text = resolve_brand_placeholders(&text, brand);
         fs::write(&target, text)?;
     }
     Ok(())
@@ -89,6 +94,39 @@ pub fn copy_tree_contents(source_root: &Path, target_root: &Path) -> io::Result<
             fs::create_dir_all(parent)?;
         }
         fs::copy(&entry, &target)?;
+    }
+    Ok(())
+}
+
+pub fn copy_tree_contents_with_brand_placeholders(
+    source_root: &Path,
+    target_root: &Path,
+    brand: &BrandPaths,
+) -> io::Result<()> {
+    if !source_root.exists() {
+        return Ok(());
+    }
+    for entry in walk(source_root)? {
+        let relative = entry.strip_prefix(source_root).unwrap();
+        let replaced = relative
+            .components()
+            .map(|component| resolve_brand_placeholders(&component.as_os_str().to_string_lossy(), brand))
+            .collect::<Vec<_>>();
+        let target = replaced
+            .iter()
+            .fold(target_root.to_path_buf(), |mut acc, part| {
+                acc.push(part);
+                acc
+            });
+        if entry.is_dir() {
+            fs::create_dir_all(&target)?;
+            continue;
+        }
+        if let Some(parent) = target.parent() {
+            fs::create_dir_all(parent)?;
+        }
+        let text = fs::read_to_string(&entry)?;
+        fs::write(&target, resolve_brand_placeholders(&text, brand))?;
     }
     Ok(())
 }

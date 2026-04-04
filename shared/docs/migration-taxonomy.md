@@ -27,7 +27,7 @@ Pack types describe what kind of repository-owned unit is being discussed.
 - `language-pack`
   - a per-language package under `languages/<id>/`
 - `feature-pack`
-  - a reversible capability bundle layered onto a generated project
+  - an add-only capability bundle layered onto a generated project
 - `reference-pack`
   - archived or imported evidence-only material under `references/`
 
@@ -67,7 +67,7 @@ Backlog dispositions describe the intended destination or disposition of a capab
 - `core`
   - required shipped boilerplate functionality
 - `feature-pack`
-  - optional shipped capability that must remain dynamic and reversible
+  - optional shipped capability that must remain dynamic and add-only
 - `reference-only`
   - evidence retained for research, migration, or comparison; not shipped runtime behavior
 - `deferred`

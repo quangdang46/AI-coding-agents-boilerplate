@@ -71,9 +71,11 @@ A shipped feature pack must:
 - have a stable feature id
 - declare dependencies explicitly
 - declare conflicts explicitly when relevant
-- be reversible through CLI add/remove behavior
+- be installable through add-only CLI behavior
 - identify the concrete files/assets it adds
 - identify the concrete config/runtime patches it applies
+- when it ships an MVP skill, author exactly one `SKILL.md` at `features/<feature-id>/skill/SKILL.md`
+- materialize that skill into `.agents/skills/<skill-name>/SKILL.md`
 - avoid storing derived verification or parity state inside the pack manifest
 
 ### 2.2 Initial proving-slice feature catalog
@@ -134,18 +136,19 @@ Deferred capability rows are acknowledged but intentionally postponed, for examp
 
 ---
 
-## 4. Reversibility rule
+## 4. Add-only rule
 
-If a capability is classified as `feature-pack`, its manifest and implementation must be compatible with reversible add/remove flows.
+If a capability is classified as `feature-pack`, its manifest and implementation must be compatible with add-only installation flows.
 
 At minimum, a feature-pack manifest must support:
 
 - dependency declarations
 - conflict declarations when needed
 - added assets under `adds`
-- patch instructions that can be reversed safely
+- patch instructions required for installation
+- one reusable feature-owned `SKILL.md` in the MVP when that feature exposes an AI development workflow
 
-Feature packs that cannot be removed without leaving broken config or orphaned files are not complete.
+Feature packs are expected to add code and agent-facing assets safely. Clean automatic removal is not part of the long-term contract.
 
 ---
 

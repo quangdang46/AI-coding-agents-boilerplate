@@ -6,7 +6,9 @@
   "version": "1.0.0",
   "description": "Rust language support for AICD",
   "runtime": {
-    "configFile": ".claw.json",
+    "configFile": ".<brand>.json",
+    "genericWorkspaceRoot": ".agents",
+    "nativeWorkspaceRoot": ".<brand>",
     "projectMarkers": ["Cargo.toml", "src/main.rs"]
   },
   "templates": {
@@ -15,10 +17,9 @@
   "supports": {
     "init": true,
     "featureAdd": true,
-    "featureRemove": true,
     "doctor": true
   },
-  "featureRegistry": ".agent/features/registry.json",
+  "featureRegistry": "features/registry.json",
   "compatibility": {
     "cli": "^1.0.0"
   }

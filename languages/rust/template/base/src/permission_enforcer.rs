@@ -191,4 +191,3 @@ fn is_read_only_command(command: &str) -> bool {
         && !command.contains(" > ")
         && !command.contains(" >> ")
 }
-#![allow(dead_code)]

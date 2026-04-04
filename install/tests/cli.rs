@@ -58,16 +58,98 @@ fn run_command(command: &mut Command) -> String {
     String::from_utf8_lossy(&output.stdout).trim().to_string()
 }
 
+fn brand_root(project_root: &PathBuf) -> PathBuf {
+    let mut candidates = fs::read_dir(project_root)
+        .expect("read generated project root")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.is_dir()
+                && path
+                    .file_name()
+                    .and_then(|name| name.to_str())
+                    .map(|name| {
+                        (name.starts_with('.') && !name.ends_with("-plugin"))
+                            || name == "__BRAND_ROOT__"
+                    })
+                    .unwrap_or(false)
+                && path.join("settings.json").exists()
+        })
+        .collect::<Vec<_>>();
+    candidates.sort();
+    candidates
+        .into_iter()
+        .next()
+        .expect("generated project should include branded root")
+}
+
+fn brand_root_name(project_root: &PathBuf) -> String {
+    brand_root(project_root)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .expect("brand root name")
+        .to_string()
+}
+
+fn brand_doc_path(project_root: &PathBuf) -> PathBuf {
+    let mut docs = fs::read_dir(project_root)
+        .expect("read generated project root")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.is_file()
+                && path.extension().and_then(|ext| ext.to_str()) == Some("md")
+                && path.file_name().and_then(|name| name.to_str()) != Some("README.md")
+        })
+        .collect::<Vec<_>>();
+    docs.sort();
+    docs.into_iter()
+        .next()
+        .expect("generated project should include branded top-level doc")
+}
+
+fn brand_config_path(project_root: &PathBuf) -> PathBuf {
+    let mut configs = fs::read_dir(project_root)
+        .expect("read generated project root")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.is_file()
+                && path.extension().and_then(|ext| ext.to_str()) == Some("json")
+                && path
+                    .file_name()
+                    .and_then(|name| name.to_str())
+                    .map(|name| name.starts_with('.'))
+                    .unwrap_or(false)
+        })
+        .collect::<Vec<_>>();
+    configs.sort();
+    configs
+        .into_iter()
+        .next()
+        .expect("generated project should include branded compat config")
+}
+
+fn session_path(project_root: &PathBuf, file: &str) -> PathBuf {
+    brand_root(project_root).join("sessions").join(file)
+}
+
+fn runtime_tool_file(project_root: &PathBuf) -> PathBuf {
+    session_path(project_root, "runtime-tool-smoke.txt")
+}
+
+fn expected_export_path(project_root: &PathBuf) -> String {
+    format!(
+        "export_path={}/sessions/local-main-session.export.md",
+        brand_root_name(project_root)
+    )
+}
+
 fn assert_runtime_state_artifacts(project_root: &PathBuf) {
-    assert!(project_root
-        .join(".agent/sessions/local-main-session.state")
-        .exists());
-    assert!(project_root.join(".agent/sessions/latest.state").exists());
-    assert!(project_root
-        .join(".agent/sessions/local-main-session.export.md")
-        .exists());
-    assert!(project_root.join(".agent/usage/ledger.log").exists());
-    assert!(project_root.join(".agent/usage/summary.state").exists());
+    assert!(session_path(project_root, "local-main-session.state").exists());
+    assert!(session_path(project_root, "latest.state").exists());
+    assert!(session_path(project_root, "local-main-session.export.md").exists());
+    assert!(session_path(project_root, "summary.state").exists());
 }
 
 fn assert_contains_all(haystack: &str, needles: &[&str]) {
@@ -81,14 +163,13 @@ fn assert_contains_all(haystack: &str, needles: &[&str]) {
 
 fn clean_runtime_artifacts(project_root: &PathBuf) {
     for relative in [
-        ".agent/sessions/latest.state",
-        ".agent/sessions/local-main-session.state",
-        ".agent/sessions/local-main-session.export.md",
-        ".agent/usage/ledger.log",
-        ".agent/usage/summary.state",
-        ".agent/usage/runtime-tool-smoke.txt",
+        "latest.state",
+        "local-main-session.state",
+        "local-main-session.export.md",
+        "summary.state",
+        "runtime-tool-smoke.txt",
     ] {
-        fs::remove_file(project_root.join(relative)).ok();
+        fs::remove_file(session_path(project_root, relative)).ok();
     }
 }
 
@@ -155,9 +236,11 @@ fn init_renders_python_template() {
     .expect("init works");
     assert!(message.contains("initialized python project"));
     assert!(out.join("agentkit.toml").exists());
-    assert!(out.join(".agent/prompts/system.md").exists());
-    assert!(out.join(".agent/context/README.md").exists());
-    assert!(out.join(".agent/usage/README.md").exists());
+    assert!(brand_doc_path(&out).exists());
+    assert!(brand_root(&out).join("instructions.md").exists());
+    assert!(brand_root(&out).join("settings.json").exists());
+    assert!(brand_root(&out).join("agents/executor.md").exists());
+    assert!(out.join(".agents/skills/plan/SKILL.md").exists());
     assert!(out.join("src/demo_agent/app.py").exists());
     let app_text = fs::read_to_string(out.join("src/demo_agent/app.py")).expect("read python app");
     assert!(app_text.contains("session loop completed"));
@@ -191,7 +274,7 @@ fn doctor_validates_generated_project() {
 }
 
 #[test]
-fn feature_add_and_remove_updates_project() {
+fn feature_add_updates_project() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("feature");
     init::run(&init::InitArgs {
@@ -216,40 +299,18 @@ fn feature_add_and_remove_updates_project() {
     );
     assert!(runtime_after_add.contains("session_id=local-main-session"));
     assert_runtime_state_artifacts(&out);
-    assert!(out.join(".agent/agents/review-agent.agent.json").exists());
-    assert!(out
-        .join(".agent/prompts/sections/github-review.md")
-        .exists());
-    assert!(out.join(".agent/skills/review-pr/SKILL.md").exists());
+    assert!(brand_root(&out).join("agents/review-agent.md").exists());
+    assert!(brand_root(&out).join("skills/review-pr/SKILL.md").exists());
+    assert!(out.join(".agents/skills/review-pr/SKILL.md").exists());
     assert!(read_agentkit_toml(&out)
         .unwrap()
         .contains("enabled = [\"github-pr-review\"]"));
-
-    feature::remove(&feature::FeatureArgs {
-        feature_id: "github-pr-review".to_string(),
-        project: out.clone(),
-    })
-    .expect("feature remove works");
-    let runtime_after_remove = run_command(
-        Command::new("python3")
-            .arg("-c")
-            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
-            .current_dir(&out),
-    );
-    assert!(runtime_after_remove.contains("session_id=local-main-session"));
-    assert_runtime_state_artifacts(&out);
-    assert!(!out.join(".agent/agents/review-agent.agent.json").exists());
-    assert!(!out
-        .join(".agent/prompts/sections/github-review.md")
-        .exists());
-    assert!(!out.join(".agent/skills/review-pr/SKILL.md").exists());
-    assert!(read_agentkit_toml(&out).unwrap().contains("enabled = []"));
 
     fs::remove_dir_all(out).ok();
 }
 
 #[test]
-fn namespaced_feature_add_and_remove_updates_project() {
+fn namespaced_feature_add_updates_project() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("feature-namespaced");
     init::run(&init::InitArgs {
@@ -266,26 +327,18 @@ fn namespaced_feature_add_and_remove_updates_project() {
         project: out.clone(),
     })
     .expect("namespaced feature add works");
-    assert!(out.join(".agent/agents/review-agent.agent.json").exists());
+    assert!(brand_root(&out).join("agents/review-agent.md").exists());
     assert!(read_agentkit_toml(&out)
         .unwrap()
         .contains("enabled = [\"github-pr-review\"]"));
-
-    feature::remove(&feature::FeatureArgs {
-        feature_id: "python:github-pr-review".to_string(),
-        project: out.clone(),
-    })
-    .expect("namespaced feature remove works");
-    assert!(!out.join(".agent/agents/review-agent.agent.json").exists());
-    assert!(read_agentkit_toml(&out).unwrap().contains("enabled = []"));
 
     fs::remove_dir_all(out).ok();
 }
 
 #[test]
-fn feature_add_rejects_invalid_feature_manifest_shape() {
+fn feature_add_writes_project_feature_receipt() {
     let _guard = acquire_cli_test_guard();
-    let out = temp_dir("feature-invalid-manifest");
+    let out = temp_dir("feature-receipt");
     init::run(&init::InitArgs {
         project_name: "demo-agent".to_string(),
         language: "python".to_string(),
@@ -295,17 +348,14 @@ fn feature_add_rejects_invalid_feature_manifest_shape() {
     })
     .expect("init works");
 
-    let manifest_path = out.join(".agent/features/github-pr-review/feature.json");
-    let raw = fs::read_to_string(&manifest_path).expect("read feature manifest");
-    let broken = raw.replace("\"appliesTo\": [\"python\"],\n", "");
-    fs::write(&manifest_path, broken).expect("write broken feature manifest");
-
-    let error = feature::add(&feature::FeatureArgs {
+    feature::add(&feature::FeatureArgs {
         feature_id: "github-pr-review".to_string(),
         project: out.clone(),
     })
-    .expect_err("invalid feature manifest should fail");
-    assert!(error.contains("missing appliesTo") || error.contains("failed to parse"));
+    .expect("feature add works");
+
+    let doctor_message = doctor::run(&out).expect("doctor after feature add");
+    assert!(doctor_message.contains("doctor ok"));
 
     fs::remove_dir_all(out).ok();
 }
@@ -327,43 +377,35 @@ fn manifest_schema_accepts_valid_examples() {
         .expect("python manifest should parse");
     assert_eq!(python.id, "python");
     assert_eq!(python.display_name, "Python");
-    assert_eq!(
-        python.feature_registry.as_deref(),
-        Some(".agent/features/registry.json")
-    );
+    assert_eq!(python.feature_registry, "features/registry.json");
     assert!(python.supports.init);
     assert!(python.supports.feature_add);
-    assert!(python.supports.feature_remove);
     assert!(python.supports.doctor);
     assert_eq!(python.runtime.project_markers.len(), 2);
+    assert_eq!(python.runtime.generic_workspace_root, ".agents");
 
     let rust = read_language_manifest(&fixture_path("rust.language.manifest.json"))
         .expect("rust manifest should parse");
     assert_eq!(rust.id, "rust");
     assert_eq!(rust.display_name, "Rust");
-    assert_eq!(rust.runtime.config_file, ".claw.json");
-    assert_eq!(
-        rust.feature_registry.as_deref(),
-        Some(".agent/features/registry.json")
-    );
+    assert_eq!(rust.runtime.config_file, ".<brand>.json");
+    assert_eq!(rust.feature_registry, "features/registry.json");
     assert!(rust.supports.init);
     assert!(rust.supports.feature_add);
-    assert!(rust.supports.feature_remove);
     assert!(rust.supports.doctor);
+    assert_eq!(rust.runtime.generic_workspace_root, ".agents");
+    assert_eq!(rust.runtime.native_workspace_root.as_deref(), Some(".<brand>"));
 
     let typescript = read_language_manifest(&fixture_path("typescript.language.manifest.json"))
         .expect("typescript manifest should parse");
     assert_eq!(typescript.id, "typescript");
     assert_eq!(typescript.display_name, "TypeScript");
     assert_eq!(typescript.runtime.config_file, "boilerplate.config.ts");
-    assert_eq!(
-        typescript.feature_registry.as_deref(),
-        Some(".agent/features/registry.json")
-    );
+    assert_eq!(typescript.feature_registry, "features/registry.json");
     assert!(typescript.supports.init);
     assert!(typescript.supports.feature_add);
-    assert!(typescript.supports.feature_remove);
     assert!(typescript.supports.doctor);
+    assert_eq!(typescript.runtime.generic_workspace_root, ".agents");
 }
 
 #[test]
@@ -440,16 +482,6 @@ fn python_cli_lifecycle_end_to_end() {
     ]);
     assert_eq!(doctor_status, 0);
 
-    let feature_remove_status = cli::run(vec![
-        "aicd".to_string(),
-        "feature".to_string(),
-        "remove".to_string(),
-        "github-pr-review".to_string(),
-        "--project".to_string(),
-        out.display().to_string(),
-    ]);
-    assert_eq!(feature_remove_status, 0);
-
     fs::remove_dir_all(out).ok();
 }
 
@@ -473,9 +505,10 @@ fn init_renders_typescript_template() {
     assert!(out.join("src/index.ts").exists());
     let entry_text = fs::read_to_string(out.join("src/index.ts")).expect("read typescript entry");
     assert!(entry_text.contains("session loop completed"));
-    assert!(out.join(".agent/usage/README.md").exists());
-    assert!(out.join(".agent/context/README.md").exists());
-    assert!(out.join(".agent/sessions/README.md").exists());
+    assert!(brand_doc_path(&out).exists());
+    assert!(brand_root(&out).join("instructions.md").exists());
+    assert!(brand_root(&out).join("settings.json").exists());
+    assert!(brand_root(&out).join("sessions/README.md").exists());
     fs::remove_dir_all(out).ok();
 }
 
@@ -607,7 +640,7 @@ fn doctor_detects_missing_typescript_tool_defaults() {
 }
 
 #[test]
-fn typescript_feature_add_and_remove_updates_project() {
+fn typescript_feature_add_updates_project() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("typescript-feature");
     init::run(&init::InitArgs {
@@ -625,40 +658,19 @@ fn typescript_feature_add_and_remove_updates_project() {
     })
     .expect("typescript feature add works");
 
-    assert!(out.join(".agent/agents/review-agent.agent.json").exists());
-    assert!(out
-        .join(".agent/prompts/sections/github-review.md")
-        .exists());
-    assert!(out.join(".agent/skills/review-pr/SKILL.md").exists());
+    assert!(brand_root(&out).join("agents/review-agent.md").exists());
+    assert!(brand_root(&out).join("skills/review-pr/SKILL.md").exists());
+    assert!(out.join(".agents/skills/review-pr/SKILL.md").exists());
 
     let config =
         std::fs::read_to_string(out.join("boilerplate.config.ts")).expect("read typescript config");
     assert!(config.contains("features: {\n    enabled: ['github-pr-review']"));
-    assert!(config.contains("'.agent/prompts/sections/github-review.md'"));
     assert!(config.contains("'review-agent'"));
     assert!(config.contains("'review-pr'"));
 
     let doctor_message = doctor::run(&out).expect("typescript doctor after feature add works");
     assert!(doctor_message.contains("doctor ok"));
 
-    feature::remove(&feature::FeatureArgs {
-        feature_id: "typescript:github-pr-review".to_string(),
-        project: out.clone(),
-    })
-    .expect("typescript feature remove works");
-
-    assert!(!out.join(".agent/agents/review-agent.agent.json").exists());
-    assert!(!out
-        .join(".agent/prompts/sections/github-review.md")
-        .exists());
-    assert!(!out.join(".agent/skills/review-pr/SKILL.md").exists());
-
-    let config = std::fs::read_to_string(out.join("boilerplate.config.ts"))
-        .expect("read typescript config after remove");
-    assert!(config.contains("features: {\n    enabled: []"));
-    assert!(!config.contains("'.agent/prompts/sections/github-review.md'"));
-    assert!(!config.contains("'review-agent'"));
-    assert!(!config.contains("'review-pr'"));
     fs::remove_dir_all(out).ok();
 }
 
@@ -681,7 +693,7 @@ fn doctor_detects_missing_typescript_feature_asset() {
     })
     .expect("typescript feature add works");
 
-    fs::remove_file(out.join(".agent/skills/review-pr/SKILL.md"))
+    fs::remove_file(brand_root(&out).join("skills/review-pr/SKILL.md"))
         .expect("remove typescript feature asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing typescript asset");
@@ -702,7 +714,7 @@ fn doctor_detects_missing_typescript_session_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(out.join(".agent/sessions/README.md")).expect("remove typescript session root");
+    fs::remove_file(brand_root(&out).join("sessions/README.md")).expect("remove typescript session root");
 
     let error =
         doctor::run(&out).expect_err("doctor should detect missing typescript session root");
@@ -723,7 +735,7 @@ fn doctor_detects_missing_typescript_context_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(out.join(".agent/context/README.md")).expect("remove typescript context root");
+    fs::remove_file(brand_root(&out).join("instructions.md")).expect("remove typescript context root");
 
     let error =
         doctor::run(&out).expect_err("doctor should detect missing typescript context root");
@@ -744,7 +756,7 @@ fn doctor_detects_missing_typescript_usage_root() {
     })
     .expect("typescript init works");
 
-    fs::remove_file(out.join(".agent/usage/README.md")).expect("remove typescript usage root");
+    fs::remove_file(brand_root(&out).join("settings.json")).expect("remove typescript settings root");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing typescript usage root");
     assert!(error.contains("missing required file:"));
@@ -793,24 +805,19 @@ fn init_renders_rust_template() {
 
     assert!(message.contains("initialized rust project"));
     assert!(out.join("Cargo.toml").exists());
-    assert!(out.join("CLAW.md").exists());
-    assert!(out.join(".claw.json").exists());
+    assert!(brand_doc_path(&out).exists());
+    assert!(brand_config_path(&out).exists());
     assert!(out.join("src/main.rs").exists());
     let entry_text = fs::read_to_string(out.join("src/main.rs")).expect("read rust entry");
     assert!(entry_text.contains("session loop completed"));
-    assert!(out.join(".agent/prompts/system.md").exists());
-    assert!(out.join(".agent/context/README.md").exists());
-    assert!(out.join(".agent/prompts/sections/style.md").exists());
-    assert!(out.join(".agent/prompts/sections/verification.md").exists());
-    assert!(out.join(".agent/agents/planner.agent.json").exists());
-    assert!(out.join(".agent/agents/executor.agent.json").exists());
-    assert!(out.join(".agent/agents/reviewer.agent.json").exists());
-    assert!(out.join(".agent/sessions/README.md").exists());
-    assert!(out.join(".agent/usage/README.md").exists());
-    assert!(out.join(".agent/skills/plan/SKILL.md").exists());
-    assert!(out.join(".agent/skills/add-feature/SKILL.md").exists());
-    assert!(out.join(".agent/skills/verify/SKILL.md").exists());
-    assert!(out.join(".agent/features/registry.json").exists());
+    assert!(brand_root(&out).join("instructions.md").exists());
+    assert!(brand_root(&out).join("agents/planner.md").exists());
+    assert!(brand_root(&out).join("agents/executor.md").exists());
+    assert!(brand_root(&out).join("agents/reviewer.md").exists());
+    assert!(brand_root(&out).join("sessions/README.md").exists());
+    assert!(out.join(".agents/skills/plan/SKILL.md").exists());
+    assert!(out.join(".agents/skills/add-feature/SKILL.md").exists());
+    assert!(out.join(".agents/skills/verify/SKILL.md").exists());
     fs::remove_dir_all(out).ok();
 }
 
@@ -854,7 +861,7 @@ fn doctor_detects_missing_rust_provider_selection() {
     })
     .expect("rust init works");
 
-    let path = out.join(".claw.json");
+    let path = brand_config_path(&out);
     let config = std::fs::read_to_string(&path).expect("read rust config");
     std::fs::write(
         &path,
@@ -881,7 +888,7 @@ fn doctor_detects_missing_rust_web_fetch_config() {
     })
     .expect("rust init works");
 
-    let path = out.join(".claw.json");
+    let path = brand_config_path(&out);
     let config = std::fs::read_to_string(&path).expect("read rust config");
     std::fs::write(
         &path,
@@ -907,7 +914,7 @@ fn doctor_detects_missing_rust_permission_config() {
     })
     .expect("rust init works");
 
-    let path = out.join(".claw.json");
+    let path = brand_config_path(&out);
     let config = std::fs::read_to_string(&path).expect("read rust config");
     std::fs::write(
         &path,
@@ -1018,7 +1025,7 @@ fn generated_rust_runtime_enforces_permission_policy() {
     assert!(initial.contains("approval_mode=dontAsk"));
     assert!(initial.contains("bash_policy=bash=allowed"));
 
-    let config_path = out.join(".claw.json");
+    let config_path = brand_config_path(&out);
     let config = fs::read_to_string(&config_path).expect("read rust config");
     fs::write(
         &config_path,
@@ -1072,7 +1079,7 @@ fn generated_python_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+        fs::read_to_string(runtime_tool_file(&out))
             .expect("read python tool file"),
         "tool-write-ok edited"
     );
@@ -1107,7 +1114,7 @@ fn generated_typescript_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+        fs::read_to_string(runtime_tool_file(&out))
             .expect("read typescript tool file"),
         "tool-write-ok edited"
     );
@@ -1139,7 +1146,7 @@ fn generated_rust_runtime_executes_core_tools() {
     assert!(output.contains("file_edit_result=tool-write-ok edited"));
     assert!(output.contains("web_fetch_result=tool-web-fetch"));
     assert_eq!(
-        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+        fs::read_to_string(runtime_tool_file(&out))
             .expect("read rust tool file"),
         "tool-write-ok edited"
     );
@@ -1166,18 +1173,13 @@ fn generated_python_runtime_persists_session_and_usage() {
     assert!(first.contains("turn_count=1"));
     assert!(second.contains("turn_count=2"));
     assert!(second.contains("usage_entries=2"));
-    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
-    assert!(out
-        .join(".agent/sessions/local-main-session.state")
-        .exists());
-    assert!(out.join(".agent/sessions/latest.state").exists());
-    assert!(out
-        .join(".agent/sessions/local-main-session.export.md")
-        .exists());
-    assert!(out.join(".agent/usage/ledger.log").exists());
-    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(second.contains(&expected_export_path(&out)));
+    assert!(session_path(&out, "local-main-session.state").exists());
+    assert!(session_path(&out, "latest.state").exists());
+    assert!(session_path(&out, "local-main-session.export.md").exists());
+    assert!(session_path(&out, "summary.state").exists());
     assert!(
-        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+        fs::read_to_string(session_path(&out, "local-main-session.state"))
             .expect("read python session state")
             .contains("turn_count=2")
     );
@@ -1204,18 +1206,13 @@ fn generated_typescript_runtime_persists_session_and_usage() {
     assert!(first.contains("turn_count=1"));
     assert!(second.contains("turn_count=2"));
     assert!(second.contains("usage_entries=2"));
-    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
-    assert!(out
-        .join(".agent/sessions/local-main-session.state")
-        .exists());
-    assert!(out.join(".agent/sessions/latest.state").exists());
-    assert!(out
-        .join(".agent/sessions/local-main-session.export.md")
-        .exists());
-    assert!(out.join(".agent/usage/ledger.log").exists());
-    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(second.contains(&expected_export_path(&out)));
+    assert!(session_path(&out, "local-main-session.state").exists());
+    assert!(session_path(&out, "latest.state").exists());
+    assert!(session_path(&out, "local-main-session.export.md").exists());
+    assert!(session_path(&out, "summary.state").exists());
     assert!(
-        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+        fs::read_to_string(session_path(&out, "local-main-session.state"))
             .expect("read typescript session state")
             .contains("turn_count=2")
     );
@@ -1252,18 +1249,13 @@ fn generated_rust_runtime_persists_session_and_usage() {
     assert!(first.contains("turn_count=1"));
     assert!(second.contains("turn_count=2"));
     assert!(second.contains("usage_entries=2"));
-    assert!(second.contains("export_path=.agent/sessions/local-main-session.export.md"));
-    assert!(out
-        .join(".agent/sessions/local-main-session.state")
-        .exists());
-    assert!(out.join(".agent/sessions/latest.state").exists());
-    assert!(out
-        .join(".agent/sessions/local-main-session.export.md")
-        .exists());
-    assert!(out.join(".agent/usage/ledger.log").exists());
-    assert!(out.join(".agent/usage/summary.state").exists());
+    assert!(second.contains(&expected_export_path(&out)));
+    assert!(session_path(&out, "local-main-session.state").exists());
+    assert!(session_path(&out, "latest.state").exists());
+    assert!(session_path(&out, "local-main-session.export.md").exists());
+    assert!(session_path(&out, "summary.state").exists());
     assert!(
-        fs::read_to_string(out.join(".agent/sessions/local-main-session.state"))
+        fs::read_to_string(session_path(&out, "local-main-session.state"))
             .expect("read rust session state")
             .contains("turn_count=2")
     );
@@ -1328,7 +1320,7 @@ fn core_slice_fixture_projects_match_cross_language_parity_profile() {
         binary_name: None,
     })
     .expect("rust init works");
-    let rust_config_path = rust_out.join(".claw.json");
+    let rust_config_path = brand_config_path(&rust_out);
     let rust_config = fs::read_to_string(&rust_config_path).expect("read rust config");
     fs::write(
         &rust_config_path,
@@ -1391,7 +1383,6 @@ fn core_slice_fixture_projects_match_cross_language_parity_profile() {
         "session_id=local-main-session",
         "turn_count=1",
         "usage_entries=1",
-        "export_path=.agent/sessions/local-main-session.export.md",
     ];
     let shared_second = [
         "provider=anthropic",
@@ -1406,7 +1397,6 @@ fn core_slice_fixture_projects_match_cross_language_parity_profile() {
         "session_id=local-main-session",
         "turn_count=2",
         "usage_entries=2",
-        "export_path=.agent/sessions/local-main-session.export.md",
     ];
 
     assert_contains_all(&python_first, &shared_first);
@@ -1415,6 +1405,12 @@ fn core_slice_fixture_projects_match_cross_language_parity_profile() {
     assert_contains_all(&python_second, &shared_second);
     assert_contains_all(&ts_second, &shared_second);
     assert_contains_all(&rust_second, &shared_second);
+    assert!(python_first.contains(&expected_export_path(&python_out)));
+    assert!(ts_first.contains(&expected_export_path(&typescript_out)));
+    assert!(rust_first.contains(&expected_export_path(&rust_out)));
+    assert!(python_second.contains(&expected_export_path(&python_out)));
+    assert!(ts_second.contains(&expected_export_path(&typescript_out)));
+    assert!(rust_second.contains(&expected_export_path(&rust_out)));
 
     assert_runtime_state_artifacts(&python_out);
     assert_runtime_state_artifacts(&typescript_out);
@@ -1471,7 +1467,6 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
         &command_outputs,
         &[
             "session:session_id=local-main-session",
-            "export:export_path=.agent/sessions/local-main-session.export.md export_exists=true",
             "config:provider=anthropic model=claude-sonnet-4-6 approval_mode=default",
             "doctor:doctor=ok",
             "context:context_digest=",
@@ -1481,6 +1476,10 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             "tasks:task_count=1 active_task=session-loop turn_count=3",
         ],
     );
+    assert!(command_outputs.contains(&format!(
+        "export:{} export_exists=true",
+        expected_export_path(&out)
+    )));
 
     fs::remove_dir_all(out).ok();
 }
@@ -1545,7 +1544,6 @@ fn generated_python_registry_modules_cover_runtime_slice() {
         &command_outputs,
         &[
             "session:session_id=local-main-session",
-            "export:export_path=.agent/sessions/local-main-session.export.md export_exists=True",
             "config:provider=openai model=gpt-5.4 approval_mode=default",
             "doctor:doctor=ok",
             "context:context_digest=",
@@ -1555,6 +1553,10 @@ fn generated_python_registry_modules_cover_runtime_slice() {
             "tasks:task_count=1 active_task=session-loop turn_count=1",
         ],
     );
+    assert!(command_outputs.contains(&format!(
+        "export:{} export_exists=True",
+        expected_export_path(&out)
+    )));
 
     fs::remove_dir_all(out).ok();
 }
@@ -1751,7 +1753,7 @@ fn generated_typescript_core_tool_registry_covers_runtime_slice() {
         ],
     );
     assert_eq!(
-        fs::read_to_string(out.join(".agent/usage/runtime-tool-smoke.txt"))
+        fs::read_to_string(runtime_tool_file(&out))
             .expect("read typescript tool file"),
         "tool-write-ok edited"
     );
@@ -1824,7 +1826,7 @@ fn doctor_detects_missing_rust_tool_defaults() {
     })
     .expect("rust init works");
 
-    let path = out.join(".claw.json");
+    let path = brand_config_path(&out);
     let config = std::fs::read_to_string(&path).expect("read rust config");
     std::fs::write(
         &path,
@@ -1838,7 +1840,7 @@ fn doctor_detects_missing_rust_tool_defaults() {
 }
 
 #[test]
-fn rust_feature_add_and_remove_updates_project() {
+fn rust_feature_add_updates_project() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("rust-feature");
     init::run(&init::InitArgs {
@@ -1856,26 +1858,13 @@ fn rust_feature_add_and_remove_updates_project() {
     })
     .expect("rust feature add works");
 
-    assert!(out.join(".claw/plugins/README.md").exists());
-    let config = std::fs::read_to_string(out.join(".claw.json")).expect("read rust config");
+    assert!(out.join(format!("{}-plugin", brand_root_name(&out))).join("plugin.json").exists());
+    let config = std::fs::read_to_string(brand_config_path(&out)).expect("read rust config");
     assert!(config.contains("\"enabled\": [\n      \"local-plugins\"\n    ]"));
 
     let doctor_message = doctor::run(&out).expect("rust doctor after feature add works");
     assert!(doctor_message.contains("doctor ok"));
 
-    feature::remove(&feature::FeatureArgs {
-        feature_id: "rust:local-plugins".to_string(),
-        project: out.clone(),
-    })
-    .expect("rust feature remove works");
-
-    assert!(!out.join(".claw/plugins/README.md").exists());
-    let config =
-        std::fs::read_to_string(out.join(".claw.json")).expect("read rust config after remove");
-    assert!(config.contains("\"enabled\": []"));
-
-    let doctor_message = doctor::run(&out).expect("rust doctor after feature remove works");
-    assert!(doctor_message.contains("doctor ok"));
     fs::remove_dir_all(out).ok();
 }
 
@@ -1907,13 +1896,13 @@ fn generated_python_runtime_uses_provider_prompt_and_context() {
     )
     .expect("write python config");
     fs::write(
-        out.join(".agent/prompts/system.md"),
+        brand_doc_path(&out),
         "You are the project-local coding agent for __PROJECT_NAME__. New prompt layer.\n",
     )
     .expect("write python prompt");
     fs::write(
-        out.join(".agent/context/README.md"),
-        "# Context\n\nUpdated runtime context fragment.\n",
+        brand_root(&out).join("instructions.md"),
+        "# Local Instructions\n\nUpdated runtime context fragment.\n",
     )
     .expect("write python context");
 
@@ -1949,13 +1938,13 @@ fn generated_typescript_runtime_uses_provider_prompt_and_context() {
     )
     .expect("write typescript config");
     fs::write(
-        out.join(".agent/prompts/system.md"),
+        brand_doc_path(&out),
         "You are the default coding agent for this generated project.\nPrompt override applied.\n",
     )
     .expect("write typescript prompt");
     fs::write(
-        out.join(".agent/context/README.md"),
-        "# Context\n\nUpdated TypeScript runtime context fragment.\n",
+        brand_root(&out).join("instructions.md"),
+        "# Local Instructions\n\nUpdated TypeScript runtime context fragment.\n",
     )
     .expect("write typescript context");
 
@@ -2017,7 +2006,7 @@ fn generated_rust_runtime_uses_provider_prompt_and_context() {
     assert!(initial.contains("provider=anthropic"));
     assert!(initial.contains("model=claude-sonnet-4-6"));
 
-    let config_path = out.join(".claw.json");
+    let config_path = brand_config_path(&out);
     let config = fs::read_to_string(&config_path).expect("read rust config");
     fs::write(
         &config_path,
@@ -2028,13 +2017,13 @@ fn generated_rust_runtime_uses_provider_prompt_and_context() {
     )
     .expect("write rust config");
     fs::write(
-        out.join(".agent/prompts/system.md"),
+        brand_doc_path(&out),
         "# Rust project instructions\n\nUpdated runtime prompt surface.\n",
     )
     .expect("write rust prompt");
     fs::write(
-        out.join(".agent/context/README.md"),
-        "# Context\n\nUpdated Rust runtime context fragment.\n",
+        brand_root(&out).join("instructions.md"),
+        "# Local Instructions\n\nUpdated Rust runtime context fragment.\n",
     )
     .expect("write rust context");
 
@@ -2069,7 +2058,7 @@ fn doctor_detects_missing_rust_feature_asset() {
     })
     .expect("rust feature add works");
 
-    fs::remove_file(out.join(".claw/plugins/README.md")).expect("remove rust feature asset");
+    fs::remove_file(out.join(format!("{}-plugin", brand_root_name(&out))).join("plugin.json")).expect("remove rust feature asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust asset");
     assert!(error.contains("missing feature asset:"));
@@ -2089,7 +2078,7 @@ fn doctor_detects_missing_rust_skill_asset() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/skills/plan/SKILL.md")).expect("remove rust skill asset");
+    fs::remove_file(out.join(".agents/skills/plan/SKILL.md")).expect("remove rust skill asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust skill asset");
     assert!(error.contains("missing required file:"));
@@ -2109,7 +2098,7 @@ fn doctor_detects_missing_rust_instruction_asset() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/prompts/system.md")).expect("remove rust instruction asset");
+    fs::remove_file(brand_doc_path(&out)).expect("remove rust instruction asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust instruction asset");
     assert!(error.contains("missing required file:"));
@@ -2129,7 +2118,7 @@ fn doctor_detects_missing_rust_prompt_layer() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/prompts/sections/style.md"))
+    fs::remove_file(brand_root(&out).join("instructions.md"))
         .expect("remove rust prompt layer asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust prompt layer");
@@ -2150,7 +2139,7 @@ fn doctor_detects_missing_rust_agent_asset() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/agents/executor.agent.json"))
+    fs::remove_file(brand_root(&out).join("agents/executor.md"))
         .expect("remove rust agent asset");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust agent asset");
@@ -2171,7 +2160,7 @@ fn doctor_detects_missing_rust_session_root() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/sessions/README.md")).expect("remove rust session root");
+    fs::remove_file(brand_root(&out).join("sessions/README.md")).expect("remove rust session root");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust session root");
     assert!(error.contains("missing required file:"));
@@ -2191,7 +2180,7 @@ fn doctor_detects_missing_rust_context_root() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/context/README.md")).expect("remove rust context root");
+    fs::remove_file(brand_root(&out).join("instructions.md")).expect("remove rust context root");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust context root");
     assert!(error.contains("missing required file:"));
@@ -2211,7 +2200,7 @@ fn doctor_detects_missing_rust_usage_root() {
     })
     .expect("rust init works");
 
-    fs::remove_file(out.join(".agent/usage/README.md")).expect("remove rust usage root");
+    fs::remove_file(brand_root(&out).join("settings.json")).expect("remove rust usage root");
 
     let error = doctor::run(&out).expect_err("doctor should detect missing rust usage root");
     assert!(error.contains("missing required file:"));
@@ -2231,7 +2220,7 @@ fn doctor_detects_missing_rust_agent_config() {
     })
     .expect("rust init works");
 
-    let path = out.join(".claw.json");
+    let path = brand_config_path(&out);
     let config = std::fs::read_to_string(&path).expect("read rust config");
     let mut value: serde_json::Value = serde_json::from_str(&config).expect("parse rust config");
     value
@@ -2284,16 +2273,6 @@ fn python_proving_slice_repo_gate() {
     ]);
     assert_eq!(doctor_status, 0);
 
-    let feature_remove_status = cli::run(vec![
-        "aicd".to_string(),
-        "feature".to_string(),
-        "remove".to_string(),
-        "github-pr-review".to_string(),
-        "--project".to_string(),
-        out.display().to_string(),
-    ]);
-    assert_eq!(feature_remove_status, 0);
-
     fs::remove_dir_all(out).ok();
 }
 
@@ -2323,8 +2302,8 @@ fn python_doctor_detects_broken_feature_registry() {
     ]);
     assert_eq!(feature_add_status, 0);
 
-    let registry_path = out.join(".agent/features/registry.json");
-    fs::write(&registry_path, "{\n  \"features\": []\n}\n").expect("corrupt feature registry");
+    fs::remove_file(brand_root(&out).join("agents/review-agent.md"))
+        .expect("remove feature-provided agent");
 
     let doctor_status = cli::run(vec![
         "aicd".to_string(),

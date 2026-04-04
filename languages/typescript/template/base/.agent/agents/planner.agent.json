@@ -1,9 +1,0 @@
-{
-  "description": "Use for planning changes and clarifying implementation structure.",
-  "prompt": "@.agent/prompts/system.md",
-  "tools": ["file_read", "web_fetch"],
-  "model": "inherit",
-  "effort": "medium",
-  "skills": ["plan"],
-  "memory": "project"
-}

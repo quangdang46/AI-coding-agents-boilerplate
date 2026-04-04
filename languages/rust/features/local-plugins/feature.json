@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "local-plugins",
+  "displayName": "Local Plugins",
+  "description": "Adds a branded local plugin manifest scaffold and records the plugin feature in the branded compat config.",
+  "version": "0.1.0",
+  "appliesTo": ["rust"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": null,
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": ".<brand>.json",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["local-plugins"]
+    }
+  ]
+}

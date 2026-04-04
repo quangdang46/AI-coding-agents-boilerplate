@@ -2,7 +2,9 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+import { loadRuntimeConfig } from './config.ts'
 import { readText } from './files.ts'
+import { inferBrandRoot } from './brand.ts'
 import { checksum } from './text.ts'
 import { policyForOperation } from './policy.ts'
 
@@ -21,7 +23,7 @@ export type CoreToolExecutionName =
   | 'web_fetch'
 
 function usagePath(root: string): string {
-  return join(root, '.agent/usage/runtime-tool-smoke.txt')
+  return join(inferBrandRoot(root), 'sessions/runtime-tool-smoke.txt')
 }
 
 function status(config: ToolExecutionConfig, toolName: string, operation: string): string {
@@ -55,7 +57,10 @@ export function runCoreTool(
     if (fileReadStatus !== 'file_read=allowed') {
       return fileReadStatus
     }
-    return checksum([readText(join(root, '.agent/context/README.md'))])
+    const { contextPaths } = loadRuntimeConfig(root)
+    return checksum(
+      contextPaths.map((path) => join(root, path)).filter(existsSync).map(readText),
+    )
   }
 
   if (toolName === 'file_write') {
@@ -99,8 +104,11 @@ export function runCoreTools(root: string, config: ToolExecutionConfig): string 
 
 export function readCoreToolResults(root: string, approvalMode: string, deny: string[]): string {
   const toolUsagePath = usagePath(root)
+  const { contextPaths } = loadRuntimeConfig(root)
   const bashPolicy = policyForOperation(approvalMode, deny, 'bash', 'bash')
-  const fileReadResult = checksum([readText(join(root, '.agent/context/README.md'))])
+  const fileReadResult = checksum(
+    contextPaths.map((path) => join(root, path)).filter(existsSync).map(readText),
+  )
   const fileWritePolicy = policyForOperation(approvalMode, deny, 'file_write', 'file_write')
   const fileEditPolicy = policyForOperation(approvalMode, deny, 'file_edit', 'file_edit')
   const usageExists = existsSync(toolUsagePath)

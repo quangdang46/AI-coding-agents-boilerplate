@@ -2,6 +2,14 @@
 
 Generated from `shared/docs/capability-matrix.json` and the bead graph. This table is the exhaustive optional-capability control surface for the migration.
 
+It is a family-coverage table, not proof of shipped parity.
+
+Under the current repository contract:
+
+- feature-pack delivery is add-only
+- a feature may ship one MVP skill authored under `features/<feature-id>/skill/SKILL.md`
+- that skill materializes into `.agents/skills/<skill-name>/SKILL.md`
+
 | Feature ID | Capability IDs | User-Facing Scope | Owning Bead | Current State | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `advanced-planning` | `advanced-planning-modes`<br>`planning-and-todo-tools` | Planning modes and deep-plan workflows<br>Planning, todo, and workflow control tools | `Design and ship the advanced planning feature-pack family` | `declared` | Explicit ultraplan/plan-mode behavior should remain optional. |
