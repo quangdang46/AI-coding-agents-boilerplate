@@ -15,6 +15,12 @@ export type CoreCommandName =
   | 'doctor'
   | 'context'
   | 'memory'
+  | 'plan'
+  | 'review'
+  | 'model'
+  | 'effort'
+  | 'fast'
+  | 'passes'
   | 'usage'
   | 'permissions'
   | 'files'
@@ -88,6 +94,36 @@ function memorySummary(root: string): string {
   return `memory_entries=${session.usageEntries} context_digest=${session.contextDigest}`
 }
 
+function planSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `plan_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function reviewSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `review_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function modelSummary(root: string): string {
+  const { defaultProvider, providerModel } = loadRuntimeConfigSummary(root)
+  return `model_provider=${defaultProvider} model_name=${providerModel}`
+}
+
+function effortSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `effort_level=normal turn_count=${session.turnCount} usage_entries=${session.usageEntries}`
+}
+
+function fastSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `fast_mode=available session_id=${session.sessionId} context_digest=${session.contextDigest}`
+}
+
+function passesSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `passes_ready=true usage_entries=${session.usageEntries} total_cost_micros=${session.totalCostMicros}`
+}
+
 function permissionSummary(root: string): string {
   const summary = loadRuntimeSummary(root)
   return `approval_mode=${summary.approvalMode} bash_policy=${summary.bashPolicy} file_write_policy=${summary.fileWritePolicy}`
@@ -157,6 +193,12 @@ export const coreCommands: CoreCommandDefinition[] = [
   { name: 'doctor', run: doctorSummary },
   { name: 'context', run: contextSummary },
   { name: 'memory', run: memorySummary },
+  { name: 'plan', run: planSummary },
+  { name: 'review', run: reviewSummary },
+  { name: 'model', run: modelSummary },
+  { name: 'effort', run: effortSummary },
+  { name: 'fast', run: fastSummary },
+  { name: 'passes', run: passesSummary },
   { name: 'usage', run: usageSummary },
   { name: 'permissions', run: permissionSummary },
   { name: 'files', run: fileSummary },

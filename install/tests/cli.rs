@@ -1651,7 +1651,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     );
     assert_eq!(
         registry_names,
-        "status,session,export,config,doctor,context,memory,usage,permissions,files,resume,compact,diff,cost,clear,tasks"
+        "status,session,export,config,doctor,context,memory,plan,review,model,effort,fast,passes,usage,permissions,files,resume,compact,diff,cost,clear,tasks"
     );
 
     let command_outputs = run_command(
@@ -1659,7 +1659,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             .arg("--input-type=module")
             .arg("-e")
             .arg(
-                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['status','session','export','config','doctor','context','memory','usage','permissions','files','resume','compact','diff','cost','clear','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
+                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['status','session','export','config','doctor','context','memory','plan','review','model','effort','fast','passes','usage','permissions','files','resume','compact','diff','cost','clear','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
             )
             .arg(out.display().to_string())
             .current_dir(&repo),
@@ -1674,6 +1674,12 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             "doctor:doctor=ok",
             "context:prompt_digest=",
             "memory:memory_entries=1 context_digest=",
+            "plan:plan_ready=true session_id=local-main-session turn_count=1",
+            "review:review_ready=true session_id=local-main-session usage_entries=1",
+            "model:model_provider=anthropic model_name=claude-sonnet-4-6",
+            "effort:effort_level=normal turn_count=1 usage_entries=1",
+            "fast:fast_mode=available session_id=local-main-session context_digest=",
+            "passes:passes_ready=true usage_entries=1 total_cost_micros=",
             "usage:usage_entries=1 total_cost_micros=",
             "permissions:approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
             "files:session_state=true export_state=true usage_state=true",
