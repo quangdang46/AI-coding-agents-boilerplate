@@ -46,6 +46,14 @@ def test_complete_map() -> None:
         "services-voice-and-presence",
         "services-product-support",
         "services-analytics-policy",
+        "commands-auth-remote-settings",
+        "commands-auth-reference-only",
+        "commands-mcp-integration",
+        "commands-plugin-marketplace",
+        "commands-app-installs",
+        "commands-remote-and-bridge",
+        "commands-device-integrations",
+        "commands-reference-only-product-ops",
         "state-layer",
         "schema-files",
     }
@@ -196,6 +204,99 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
         "references/typescript/src/services/analytics"
         in subsystems["services-analytics-policy"]["paths"]
     )
+
+
+def test_auth_and_remote_command_families_have_explicit_disposition() -> None:
+    mapping = _load_map()
+    subsystems = {entry["id"]: entry for entry in mapping["subsystems"]}
+
+    assert (
+        subsystems["commands-auth-remote-settings"]["destination"]
+        == "languages/typescript/features/oauth-onboarding"
+    )
+    for path in [
+        "references/typescript/src/commands/login",
+        "references/typescript/src/commands/logout",
+        "references/typescript/src/commands/privacy-settings",
+        "references/typescript/src/commands/remote-env",
+        "references/typescript/src/commands/onboarding",
+    ]:
+        assert path in subsystems["commands-auth-remote-settings"]["paths"]
+
+    assert subsystems["commands-auth-reference-only"]["destination"] == "reference-only"
+    for path in [
+        "references/typescript/src/commands/env",
+        "references/typescript/src/commands/oauth-refresh",
+    ]:
+        assert path in subsystems["commands-auth-reference-only"]["paths"]
+
+
+def test_integration_heavy_command_families_have_explicit_disposition() -> None:
+    mapping = _load_map()
+    subsystems = {entry["id"]: entry for entry in mapping["subsystems"]}
+
+    assert (
+        subsystems["commands-mcp-integration"]["destination"]
+        == "languages/typescript/features/mcp-integration and languages/typescript/features/lsp-tooling"
+    )
+    for path in [
+        "references/typescript/src/commands/mcp",
+        "references/typescript/src/entrypoints/mcp.ts",
+    ]:
+        assert path in subsystems["commands-mcp-integration"]["paths"]
+
+    assert (
+        subsystems["commands-plugin-marketplace"]["destination"]
+        == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/plugin",
+        "references/typescript/src/commands/createMovedToPluginCommand.ts",
+        "references/typescript/src/services/plugins/pluginCliCommands.ts",
+    ]:
+        assert path in subsystems["commands-plugin-marketplace"]["paths"]
+
+    assert subsystems["commands-app-installs"]["destination"] == "future-feature-packs"
+    for path in [
+        "references/typescript/src/commands/install-github-app",
+        "references/typescript/src/commands/install-slack-app",
+    ]:
+        assert path in subsystems["commands-app-installs"]["paths"]
+
+    assert (
+        subsystems["commands-remote-and-bridge"]["destination"]
+        == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/bridge",
+        "references/typescript/src/commands/remote-setup",
+        "references/typescript/src/bridge",
+        "references/typescript/src/remote",
+    ]:
+        assert path in subsystems["commands-remote-and-bridge"]["paths"]
+
+    assert (
+        subsystems["commands-device-integrations"]["destination"]
+        == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/chrome",
+        "references/typescript/src/commands/desktop",
+        "references/typescript/src/commands/mobile",
+        "references/typescript/src/commands/voice",
+    ]:
+        assert path in subsystems["commands-device-integrations"]["paths"]
+
+    assert (
+        subsystems["commands-reference-only-product-ops"]["destination"]
+        == "reference-only"
+    )
+    for path in [
+        "references/typescript/src/commands/mock-limits",
+        "references/typescript/src/commands/heapdump",
+        "references/typescript/src/commands/debug-tool-call",
+    ]:
+        assert path in subsystems["commands-reference-only-product-ops"]["paths"]
 
 
 def test_gate_blocks_early_extraction() -> None:

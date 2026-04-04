@@ -253,6 +253,106 @@
       "reason": "Analytics, rate-limit, and policy support services are still product-coupled and should stay explicitly excluded from current runtime extraction until a narrower owning capability exists."
     },
     {
+      "id": "commands-auth-remote-settings",
+      "paths": [
+        "references/typescript/src/commands/login",
+        "references/typescript/src/commands/logout",
+        "references/typescript/src/commands/privacy-settings",
+        "references/typescript/src/commands/remote-env",
+        "references/typescript/src/commands/onboarding",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "languages/typescript/features/oauth-onboarding",
+      "reason": "Integration-heavy auth and remote-settings command families align with the existing optional OAuth/onboarding feature-pack seam rather than the shipped core command set."
+    },
+    {
+      "id": "commands-auth-reference-only",
+      "paths": [
+        "references/typescript/src/commands/env",
+        "references/typescript/src/commands/oauth-refresh",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "reference-only",
+      "reason": "Legacy env and oauth-refresh command families remain evidence-only product commands and should stay excluded from the shipped TypeScript language-pack command surface."
+    },
+    {
+      "id": "commands-mcp-integration",
+      "paths": [
+        "references/typescript/src/commands/mcp",
+        "references/typescript/src/entrypoints/mcp.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "languages/typescript/features/mcp-integration and languages/typescript/features/lsp-tooling",
+      "reason": "MCP command entrypoints already align with the shipped optional MCP/LSP feature boundaries and should remain explicit feature-pack ownership rather than implicit core command behavior."
+    },
+    {
+      "id": "commands-plugin-marketplace",
+      "paths": [
+        "references/typescript/src/commands/plugin",
+        "references/typescript/src/commands/createMovedToPluginCommand.ts",
+        "references/typescript/src/services/plugins/pluginCliCommands.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Plugin command flows mix marketplace UX and plugin-runtime lifecycle concerns, so they should stay decomposed as explicit optional plugin families instead of being absorbed into the core command slice."
+    },
+    {
+      "id": "commands-app-installs",
+      "paths": [
+        "references/typescript/src/commands/install-github-app",
+        "references/typescript/src/commands/install-slack-app",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "GitHub and Slack app-install command flows are external product integrations and belong to optional integration families instead of the shipped core command runtime."
+    },
+    {
+      "id": "commands-remote-and-bridge",
+      "paths": [
+        "references/typescript/src/commands/bridge",
+        "references/typescript/src/commands/remote-setup",
+        "references/typescript/src/bridge",
+        "references/typescript/src/remote",
+        "references/typescript/src/server/directConnectManager.ts",
+        "references/typescript/src/upstreamproxy/relay.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Bridge, remote transport, direct-connect, and upstream proxy command families are optional integration/runtime surfaces and should remain outside the proving-slice command core."
+    },
+    {
+      "id": "commands-device-integrations",
+      "paths": [
+        "references/typescript/src/commands/chrome",
+        "references/typescript/src/commands/desktop",
+        "references/typescript/src/commands/mobile",
+        "references/typescript/src/commands/voice",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Browser, desktop, mobile, and voice commands are product-facing device integrations and should remain optional capability families rather than inflating the base command runtime."
+    },
+    {
+      "id": "commands-reference-only-product-ops",
+      "paths": [
+        "references/typescript/src/commands/mock-limits",
+        "references/typescript/src/commands/break-cache",
+        "references/typescript/src/commands/ctx_viz",
+        "references/typescript/src/commands/perf-issue",
+        "references/typescript/src/commands/good-claude",
+        "references/typescript/src/commands/autofix-pr",
+        "references/typescript/src/commands/heapdump",
+        "references/typescript/src/commands/backfill-sessions",
+        "references/typescript/src/commands/share",
+        "references/typescript/src/commands/ant-trace",
+        "references/typescript/src/commands/summary",
+        "references/typescript/src/commands/debug-tool-call",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "reference-only",
+      "reason": "These product-ops and debugging command families are explicitly reference-only in the command port table and should remain excluded from shipped command ownership."
+    },
+    {
       "id": "state-layer",
       "paths": ["references/source-typescript/SNAPSHOT.md"],
       "destination": "reference-only",
