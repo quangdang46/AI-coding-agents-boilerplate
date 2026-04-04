@@ -61,6 +61,8 @@ export type CoreCommandName =
   | 'upgrade'
   | 'init_verifiers'
   | 'create_moved_to_plugin_command'
+  | 'add_dir'
+  | 'issue'
 
 export type CoreCommandHandler = (root: string) => string
 
@@ -354,6 +356,18 @@ function createMovedToPluginCommandSummary(root: string): string {
   return `create_moved_to_plugin_command_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId} context_digest=${session.contextDigest}`
 }
 
+function addDirSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
+  return `add_dir_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function issueSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
+  return `issue_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId} context_digest=${session.contextDigest}`
+}
+
 function taskSummary(root: string): string {
   const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   const turnCount = latest.turn_count ?? '0'
@@ -430,6 +444,8 @@ export const coreCommands: CoreCommandDefinition[] = [
   { name: 'upgrade', run: upgradeSummary },
   { name: 'init_verifiers', run: initVerifiersSummary },
   { name: 'create_moved_to_plugin_command', run: createMovedToPluginCommandSummary },
+  { name: 'add_dir', run: addDirSummary },
+  { name: 'issue', run: issueSummary },
 ]
 
 export function getCoreCommandRegistry(): Record<CoreCommandName, CoreCommandHandler> {
