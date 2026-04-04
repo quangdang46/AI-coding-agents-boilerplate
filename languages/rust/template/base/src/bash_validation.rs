@@ -26,3 +26,23 @@ pub fn validate_bash_command(command: &str) -> Result<(), String> {
     let _ = classify_command(command);
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{classify_command, validate_bash_command, CommandIntent};
+
+    #[test]
+    fn classifies_read_only_and_write_commands() {
+        assert_eq!(
+            classify_command("grep needle file.txt"),
+            CommandIntent::ReadOnly
+        );
+        assert_eq!(classify_command("mkdir tmp-dir"), CommandIntent::Write);
+    }
+
+    #[test]
+    fn rejects_empty_and_destructive_root_delete_commands() {
+        assert!(validate_bash_command("   ").is_err());
+        assert!(validate_bash_command("rm -rf /").is_err());
+    }
+}
