@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "team-memory",
+  "displayName": "Team Memory",
+  "description": "Adds an optional team-memory workflow skill for TypeScript projects that need shared-memory concepts.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-team-memory",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["team-memory"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-team-memory"]
+    }
+  ]
+}

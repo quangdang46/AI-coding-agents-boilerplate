@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "prompt-suggestion-services",
+  "displayName": "Prompt Suggestion Services",
+  "description": "Adds an optional prompt-suggestion and Magic Docs workflow skill for TypeScript projects.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-prompt-suggestion-services",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["prompt-suggestion-services"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-prompt-suggestion-services"]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "session-memory",
+  "displayName": "Session Memory",
+  "description": "Adds an optional session-memory workflow skill for TypeScript projects that want relevant-memory retrieval beyond base session persistence.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-session-memory",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["session-memory"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-session-memory"]
+    }
+  ]
+}
