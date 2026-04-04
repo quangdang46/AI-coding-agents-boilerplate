@@ -173,6 +173,19 @@ fn clean_runtime_artifacts(project_root: &PathBuf) {
     }
 }
 
+fn python_runtime_command_output(repo: &PathBuf, out: &PathBuf, runtime_output: &str) -> String {
+    run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import sys, pathlib; sys.path.insert(0, '.'); from languages.python.runtime.registry.execution_registry import execution_registry; root = pathlib.Path(sys.argv[1]); runtime_output = sys.argv[2]; registry = execution_registry(); run = registry['run_command']; print(run('doctor', root, runtime_output))",
+            )
+            .arg(out.display().to_string())
+            .arg(runtime_output.to_string())
+            .current_dir(repo),
+    )
+}
+
 fn acquire_cli_test_guard() -> MutexGuard<'static, ()> {
     let guard = match cli_test_lock().lock() {
         Ok(guard) => guard,
@@ -2566,5 +2579,78 @@ fn python_doctor_detects_broken_feature_registry() {
     ]);
     assert_eq!(doctor_status, 1);
 
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn doctor_detects_broken_python_runtime_artifacts() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("python-runtime-doctor-regression");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let runtime_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert!(runtime_output.contains("session_id=local-main-session"));
+
+    fs::write(
+        session_path(&out, "summary.state"),
+        "usage_entries=not-a-number\ntotal_cost_micros=22\n",
+    )
+    .expect("corrupt python summary state");
+
+    let error =
+        doctor::run(&out).expect_err("doctor should detect broken python runtime artifacts");
+    assert!(error.contains("invalid runtime state") || error.contains("python runtime regression"));
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
+fn owned_python_doctor_detects_runtime_state_mismatch() {
+    let _guard = acquire_cli_test_guard();
+    let repo = repo_root();
+    let out = temp_dir("python-owned-doctor-regression");
+    init::run(&init::InitArgs {
+        project_name: "demo-agent".to_string(),
+        language: "python".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("python init works");
+
+    let runtime_output = run_command(
+        Command::new("python3")
+            .arg("-c")
+            .arg("import sys; sys.path.insert(0, '.'); from src.demo_agent.app import main; print(main())")
+            .current_dir(&out),
+    );
+    assert_eq!(
+        python_runtime_command_output(&repo, &out, &runtime_output),
+        "doctor=ok"
+    );
+
+    fs::write(
+        session_path(&out, "latest.state"),
+        "session_id=local-main-session\nturn_count=99\nprovider=openai\nmodel=gpt-5.4\nprompt_digest=broken\ncontext_digest=broken\nusage_entries=1\ntotal_cost_micros=1\n",
+    )
+    .expect("corrupt python latest state");
+
+    let doctor_output = python_runtime_command_output(&repo, &out, &runtime_output);
+    assert!(
+        doctor_output.contains("invalid:session-state:turn_count")
+            || doctor_output.contains("invalid:runtime-mismatch:turn_count")
+            || doctor_output.contains("invalid:export:turn_count")
+    );
     fs::remove_dir_all(out).ok();
 }

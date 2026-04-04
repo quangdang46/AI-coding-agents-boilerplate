@@ -2,7 +2,8 @@ use std::path::Path;
 
 use crate::brand::{infer_brand_paths, BrandPaths};
 use crate::manifest::{
-    detect_project_language, read_agentkit_toml, repo_root, validate_agentkit_toml, LanguageManifest,
+    detect_project_language, read_agentkit_toml, repo_root, validate_agentkit_toml,
+    LanguageManifest,
 };
 use serde::Deserialize;
 
@@ -38,6 +39,133 @@ fn rust_config_path(project_root: &Path, brand: &BrandPaths) -> std::path::PathB
     project_root.join(brand.config_file())
 }
 
+fn parse_state_file(path: &Path) -> Result<std::collections::HashMap<String, String>, String> {
+    let text = std::fs::read_to_string(path)
+        .map_err(|err| format!("failed to read {}: {err}", path.display()))?;
+    let mut map = std::collections::HashMap::new();
+    for line in text.lines() {
+        if let Some((key, value)) = line.split_once('=') {
+            map.insert(key.to_string(), value.to_string());
+        }
+    }
+    Ok(map)
+}
+
+fn validate_python_runtime_artifacts(
+    project_root: &Path,
+    brand: &BrandPaths,
+) -> Result<(), String> {
+    let sessions_root = project_root.join(brand.hidden_root()).join("sessions");
+    let latest_path = sessions_root.join("latest.state");
+    let summary_path = sessions_root.join("summary.state");
+    let latest = parse_state_file(&latest_path)?;
+    let session_id = latest.get("session_id").cloned().ok_or_else(|| {
+        format!(
+            "invalid runtime state in {}: session_id",
+            latest_path.display()
+        )
+    })?;
+    let session_path = sessions_root.join(format!("{session_id}.state"));
+    let export_path = sessions_root.join(format!("{session_id}.export.md"));
+    let session = parse_state_file(&session_path)?;
+    let summary = parse_state_file(&summary_path)?;
+    let export_text = std::fs::read_to_string(&export_path)
+        .map_err(|err| format!("failed to read {}: {err}", export_path.display()))?;
+
+    for key in [
+        "session_id",
+        "turn_count",
+        "provider",
+        "model",
+        "prompt_digest",
+        "context_digest",
+        "usage_entries",
+        "total_cost_micros",
+    ] {
+        let latest_value = latest.get(key).ok_or_else(|| {
+            format!(
+                "invalid runtime state in {}: {}",
+                latest_path.display(),
+                key
+            )
+        })?;
+        let session_value = session.get(key).ok_or_else(|| {
+            format!(
+                "invalid runtime state in {}: {}",
+                session_path.display(),
+                key
+            )
+        })?;
+        if latest_value != session_value {
+            return Err(format!(
+                "python runtime regression: {} mismatch between {} and {}",
+                key,
+                latest_path.display(),
+                session_path.display()
+            ));
+        }
+    }
+
+    for key in ["usage_entries", "total_cost_micros"] {
+        let latest_value = latest.get(key).ok_or_else(|| {
+            format!(
+                "invalid runtime state in {}: {}",
+                latest_path.display(),
+                key
+            )
+        })?;
+        let summary_value = summary.get(key).ok_or_else(|| {
+            format!(
+                "invalid runtime state in {}: {}",
+                summary_path.display(),
+                key
+            )
+        })?;
+        if latest_value != summary_value {
+            return Err(format!(
+                "python runtime regression: {} mismatch between {} and {}",
+                key,
+                latest_path.display(),
+                summary_path.display()
+            ));
+        }
+        summary_value.parse::<i64>().map_err(|_| {
+            format!(
+                "invalid runtime state in {}: {} must be an integer",
+                summary_path.display(),
+                key
+            )
+        })?;
+    }
+
+    for key in [
+        "session_id",
+        "turn_count",
+        "provider",
+        "model",
+        "prompt_digest",
+        "context_digest",
+    ] {
+        let expected = latest.get(key).ok_or_else(|| {
+            format!(
+                "invalid runtime state in {}: {}",
+                latest_path.display(),
+                key
+            )
+        })?;
+        let needle = format!("- {}: {}", key, expected);
+        if !export_text.contains(&needle) {
+            return Err(format!(
+                "python runtime regression: export missing '{}' in {}",
+                needle,
+                export_path.display()
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 pub fn run(project_root: &Path) -> Result<String, String> {
     let language = match detect_project_language(project_root) {
         Ok(language) => language,
@@ -64,6 +192,7 @@ pub fn run(project_root: &Path) -> Result<String, String> {
     }
     if language.id == "python" {
         validate_agentkit_toml(project_root)?;
+        validate_python_runtime_artifacts(project_root, &brand)?;
     }
     validate_provider_selection(project_root, &language.id, &brand)?;
     validate_web_fetch_support(project_root, &language.id, &brand)?;
@@ -461,8 +590,7 @@ fn validate_agent_discovery_config(
             {
                 return Err(format!(
                     "missing agent config in {}: {}/agents",
-                    path.display()
-                    ,
+                    path.display(),
                     brand.hidden_root()
                 ));
             }
@@ -515,7 +643,10 @@ fn validate_feature_assets(
         .map_err(|err| format!("failed to parse {}: {err}", manifest_path.display()))?;
 
     for agent in &manifest.adds.agents {
-        let path = project_root.join(brand.hidden_root()).join("agents").join(agent);
+        let path = project_root
+            .join(brand.hidden_root())
+            .join("agents")
+            .join(agent);
         if !path.exists() {
             return Err(format!("missing feature asset: {}", path.display()));
         }
@@ -538,7 +669,9 @@ fn validate_feature_assets(
     }
 
     if feature_id == "local-plugins" {
-        let path = project_root.join(format!("{}-plugin", brand.hidden_root())).join("plugin.json");
+        let path = project_root
+            .join(format!("{}-plugin", brand.hidden_root()))
+            .join("plugin.json");
         if !path.exists() {
             return Err(format!("missing feature asset: {}", path.display()));
         }
@@ -548,7 +681,11 @@ fn validate_feature_assets(
 }
 
 fn required_paths(language: &LanguageManifest, brand: &BrandPaths) -> Vec<String> {
-    let mut paths = vec!["README.md".to_string(), brand.doc_file(), brand.config_file()];
+    let mut paths = vec![
+        "README.md".to_string(),
+        brand.doc_file(),
+        brand.config_file(),
+    ];
     paths.push(format!("{}/settings.json", brand.hidden_root()));
     paths.push(format!("{}/settings.local.json", brand.hidden_root()));
     paths.push(format!("{}/instructions.md", brand.hidden_root()));
@@ -557,7 +694,10 @@ fn required_paths(language: &LanguageManifest, brand: &BrandPaths) -> Vec<String
     paths.push(format!("{}/agents/executor.md", brand.hidden_root()));
     paths.push(format!("{}/agents/reviewer.md", brand.hidden_root()));
     paths.push(format!("{}/skills/plan/SKILL.md", brand.hidden_root()));
-    paths.push(format!("{}/skills/add-feature/SKILL.md", brand.hidden_root()));
+    paths.push(format!(
+        "{}/skills/add-feature/SKILL.md",
+        brand.hidden_root()
+    ));
     paths.push(format!("{}/skills/verify/SKILL.md", brand.hidden_root()));
     paths.push(".agents/skills/plan/SKILL.md".to_string());
     paths.push(".agents/skills/add-feature/SKILL.md".to_string());

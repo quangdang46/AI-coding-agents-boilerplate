@@ -34,6 +34,107 @@ def _extract_value(source: str, marker: str) -> str:
     return source[start:end]
 
 
+def _extract_value_optional(source: str, marker: str) -> str | None:
+    if marker not in source:
+        return None
+    return _extract_value(source, marker)
+
+
+def _validate_runtime_artifacts(
+    project_root: Path, brand_root: Path, runtime_output: str
+) -> list[str]:
+    issues: list[str] = []
+    sessions_root = brand_root / "sessions"
+    latest_path = sessions_root / "latest.state"
+    summary_path = sessions_root / "summary.state"
+    session_id = "local-main-session"
+    if latest_path.exists():
+        latest_preview = _read_state(latest_path)
+        session_id = latest_preview.get("session_id", session_id)
+    session_path = sessions_root / f"{session_id}.state"
+    export_path = sessions_root / f"{session_id}.export.md"
+
+    required = [
+        sessions_root / "README.md",
+        latest_path,
+        summary_path,
+        session_path,
+        export_path,
+    ]
+    for path in required:
+        if not path.exists():
+            issues.append(f"missing:{path.relative_to(project_root)}")
+    if not brand_doc_candidates(project_root, brand_root):
+        issues.append("missing:instruction-surface")
+    if issues:
+        return issues
+
+    latest = _read_state(latest_path)
+    session = _read_state(session_path)
+    summary = _read_state(summary_path)
+    export_text = export_path.read_text(encoding="utf-8")
+
+    for key in [
+        "session_id",
+        "turn_count",
+        "provider",
+        "model",
+        "prompt_digest",
+        "context_digest",
+        "usage_entries",
+        "total_cost_micros",
+    ]:
+        latest_value = latest.get(key)
+        session_value = session.get(key)
+        if not latest_value:
+            issues.append(f"invalid:latest-state:{key}")
+            continue
+        if session_value != latest_value:
+            issues.append(f"invalid:session-state:{key}")
+
+    for key in ["usage_entries", "total_cost_micros"]:
+        summary_value = summary.get(key)
+        latest_value = latest.get(key)
+        if not summary_value:
+            issues.append(f"invalid:summary-state:{key}")
+            continue
+        if latest_value != summary_value:
+            issues.append(f"invalid:summary-mismatch:{key}")
+        try:
+            int(summary_value)
+        except ValueError:
+            issues.append(f"invalid:summary-state:{key}:not-int")
+
+    for key in [
+        "session_id",
+        "turn_count",
+        "provider",
+        "model",
+        "prompt_digest",
+        "context_digest",
+    ]:
+        expected = latest.get(key)
+        if not expected or f"- {key}: {expected}" not in export_text:
+            issues.append(f"invalid:export:{key}")
+
+    runtime_expectations = {
+        "provider": _extract_value_optional(runtime_output, "provider="),
+        "model": _extract_value_optional(runtime_output, "model="),
+        "prompt_digest": _extract_value_optional(runtime_output, "prompt_digest="),
+        "context_digest": _extract_value_optional(runtime_output, "context_digest="),
+        "turn_count": _extract_value_optional(runtime_output, "turn_count="),
+        "usage_entries": _extract_value_optional(runtime_output, "usage_entries="),
+        "total_cost_micros": _extract_value_optional(
+            runtime_output, "total_cost_micros="
+        ),
+    }
+    for key, expected in runtime_expectations.items():
+        if expected and latest.get(key) != expected:
+            issues.append(f"invalid:runtime-mismatch:{key}")
+
+    return issues
+
+
 DEFAULT_COMMANDS: tuple[CommandDefinition, ...] = (
     CommandDefinition(
         "status",
@@ -119,19 +220,8 @@ def run_command(command_name: str, project_root: Path, runtime_output: str) -> s
             f"approval_mode={_extract_value(runtime_output, 'approval_mode=')}"
         )
     if command_name == "doctor":
-        required = [
-            brand_root / "sessions" / "README.md",
-            brand_root / "sessions" / "latest.state",
-            brand_root / "sessions" / "summary.state",
-        ]
-        missing = [
-            str(path.relative_to(project_root))
-            for path in required
-            if not path.exists()
-        ]
-        if not brand_doc_candidates(project_root, brand_root):
-            missing.append("instruction-surface")
-        return "doctor=ok" if not missing else f"doctor=missing:{','.join(missing)}"
+        issues = _validate_runtime_artifacts(project_root, brand_root, runtime_output)
+        return "doctor=ok" if not issues else f"doctor={';'.join(issues)}"
     if command_name == "context":
         return f"context_digest={_extract_value(runtime_output, 'context_digest=')}"
     if command_name == "usage":
