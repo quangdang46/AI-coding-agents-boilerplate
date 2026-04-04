@@ -4,7 +4,9 @@ use std::path::Path;
 use crate::config::{checksum, read_optional_text, read_text};
 
 pub fn run_file_read(root: &Path) -> String {
-    checksum(&[read_optional_text(&root.join("__BRAND_ROOT__/instructions.md")).unwrap_or_default()])
+    checksum(&[
+        read_optional_text(&root.join("__BRAND_ROOT__/instructions.md")).unwrap_or_default(),
+    ])
 }
 
 pub fn run_file_write(root: &Path) -> String {
