@@ -1039,19 +1039,19 @@
 - [ ] references/typescript/src/buddy/companion.ts
 - [x] references/typescript/src/outputStyles/loadOutputStylesDir.ts
 - [x] references/typescript/src/coordinator/coordinatorMode.ts
-- [ ] references/typescript/src/commands/mock-limits/index.js
-- [ ] references/typescript/src/commands/chrome/index.ts
-- [ ] references/typescript/src/commands/chrome/chrome.tsx
+- [x] references/typescript/src/commands/mock-limits/index.js
+- [x] references/typescript/src/commands/chrome/index.ts
+- [x] references/typescript/src/commands/chrome/chrome.tsx
 - [ ] references/typescript/src/commands/add-dir/validation.ts
 - [ ] references/typescript/src/commands/add-dir/add-dir.tsx
 - [ ] references/typescript/src/commands/add-dir/index.ts
-- [ ] references/typescript/src/commands/login/index.ts
-- [ ] references/typescript/src/commands/login/login.tsx
+- [x] references/typescript/src/commands/login/index.ts
+- [x] references/typescript/src/commands/login/login.tsx
 - [ ] references/typescript/src/commands/issue/index.js
 - [x] references/typescript/src/commands/resume/resume.tsx
 - [x] references/typescript/src/commands/resume/index.ts
-- [ ] references/typescript/src/commands/privacy-settings/privacy-settings.tsx
-- [ ] references/typescript/src/commands/privacy-settings/index.ts
+- [x] references/typescript/src/commands/privacy-settings/privacy-settings.tsx
+- [x] references/typescript/src/commands/privacy-settings/index.ts
 - [ ] references/typescript/src/commands/help/index.ts
 - [ ] references/typescript/src/commands/help/help.tsx
 - [ ] references/typescript/src/commands/version.ts
@@ -1059,33 +1059,33 @@
 - [x] references/typescript/src/commands/memory/memory.tsx
 - [ ] references/typescript/src/commands/agents/agents.tsx
 - [ ] references/typescript/src/commands/agents/index.ts
-- [ ] references/typescript/src/commands/remote-env/index.ts
-- [ ] references/typescript/src/commands/remote-env/remote-env.tsx
+- [x] references/typescript/src/commands/remote-env/index.ts
+- [x] references/typescript/src/commands/remote-env/remote-env.tsx
 - [ ] references/typescript/src/commands/theme/theme.tsx
 - [ ] references/typescript/src/commands/theme/index.ts
 - [ ] references/typescript/src/commands/output-style/output-style.tsx
 - [ ] references/typescript/src/commands/output-style/index.ts
-- [ ] references/typescript/src/commands/env/index.js
-- [ ] references/typescript/src/commands/advisor.ts
+- [x] references/typescript/src/commands/env/index.js
+- [x] references/typescript/src/commands/advisor.ts
 - [ ] references/typescript/src/commands/sandbox-toggle/sandbox-toggle.tsx
 - [ ] references/typescript/src/commands/sandbox-toggle/index.ts
 - [x] references/typescript/src/commands/files/files.ts
 - [x] references/typescript/src/commands/files/index.ts
-- [ ] references/typescript/src/commands/voice/index.ts
-- [ ] references/typescript/src/commands/voice/voice.ts
+- [x] references/typescript/src/commands/voice/index.ts
+- [x] references/typescript/src/commands/voice/voice.ts
 - [ ] references/typescript/src/commands/stats/stats.tsx
 - [ ] references/typescript/src/commands/stats/index.ts
 - [ ] references/typescript/src/commands/feedback/feedback.tsx
 - [ ] references/typescript/src/commands/feedback/index.ts
-- [ ] references/typescript/src/commands/passes/passes.tsx
-- [ ] references/typescript/src/commands/passes/index.ts
-- [ ] references/typescript/src/commands/reset-limits/index.js
+- [x] references/typescript/src/commands/passes/passes.tsx
+- [x] references/typescript/src/commands/passes/index.ts
+- [x] references/typescript/src/commands/reset-limits/index.js
 - [x] references/typescript/src/commands/status/index.ts
 - [x] references/typescript/src/commands/status/status.tsx
-- [ ] references/typescript/src/commands/break-cache/index.js
+- [x] references/typescript/src/commands/break-cache/index.js
 - [ ] references/typescript/src/commands/init.ts
-- [ ] references/typescript/src/commands/desktop/desktop.tsx
-- [ ] references/typescript/src/commands/desktop/index.ts
+- [x] references/typescript/src/commands/desktop/desktop.tsx
+- [x] references/typescript/src/commands/desktop/index.ts
 - [ ] references/typescript/src/commands/tag/tag.tsx
 - [ ] references/typescript/src/commands/tag/index.ts
 - [x] references/typescript/src/commands/context/context.tsx
@@ -1094,7 +1094,7 @@
 - [ ] references/typescript/src/commands/ultraplan.tsx
 - [x] references/typescript/src/commands/doctor/index.ts
 - [x] references/typescript/src/commands/doctor/doctor.tsx
-- [ ] references/typescript/src/commands/bridge-kick.ts
+- [x] references/typescript/src/commands/bridge-kick.ts
 - [ ] references/typescript/src/commands/extra-usage/extra-usage.tsx
 - [ ] references/typescript/src/commands/extra-usage/extra-usage-noninteractive.ts
 - [ ] references/typescript/src/commands/extra-usage/index.ts
@@ -1103,35 +1103,35 @@
 - [ ] references/typescript/src/commands/reload-plugins/index.ts
 - [x] references/typescript/src/commands/compact/compact.ts
 - [x] references/typescript/src/commands/compact/index.ts
-- [ ] references/typescript/src/commands/bridge/bridge.tsx
-- [ ] references/typescript/src/commands/bridge/index.ts
-- [ ] references/typescript/src/commands/mcp/xaaIdpCommand.ts
-- [ ] references/typescript/src/commands/mcp/mcp.tsx
-- [ ] references/typescript/src/commands/mcp/index.ts
-- [ ] references/typescript/src/commands/mcp/addCommand.ts
-- [ ] references/typescript/src/commands/ctx_viz/index.js
-- [ ] references/typescript/src/commands/review.ts
-- [ ] references/typescript/src/commands/oauth-refresh/index.js
+- [x] references/typescript/src/commands/bridge/bridge.tsx
+- [x] references/typescript/src/commands/bridge/index.ts
+- [x] references/typescript/src/commands/mcp/xaaIdpCommand.ts
+- [x] references/typescript/src/commands/mcp/mcp.tsx
+- [x] references/typescript/src/commands/mcp/index.ts
+- [x] references/typescript/src/commands/mcp/addCommand.ts
+- [x] references/typescript/src/commands/ctx_viz/index.js
+- [x] references/typescript/src/commands/review.ts
+- [x] references/typescript/src/commands/oauth-refresh/index.js
 - [ ] references/typescript/src/commands/btw/btw.tsx
 - [ ] references/typescript/src/commands/btw/index.ts
 - [ ] references/typescript/src/commands/vim/vim.ts
 - [ ] references/typescript/src/commands/vim/index.ts
-- [ ] references/typescript/src/commands/perf-issue/index.js
+- [x] references/typescript/src/commands/perf-issue/index.js
 - [ ] references/typescript/src/commands/security-review.ts
 - [ ] references/typescript/src/commands/rewind/index.ts
 - [ ] references/typescript/src/commands/rewind/rewind.ts
-- [ ] references/typescript/src/commands/good-claude/index.js
-- [ ] references/typescript/src/commands/autofix-pr/index.js
-- [ ] references/typescript/src/commands/heapdump/heapdump.ts
-- [ ] references/typescript/src/commands/heapdump/index.ts
-- [ ] references/typescript/src/commands/fast/fast.tsx
-- [ ] references/typescript/src/commands/fast/index.ts
-- [ ] references/typescript/src/commands/tasks/index.ts
-- [ ] references/typescript/src/commands/tasks/tasks.tsx
-- [ ] references/typescript/src/commands/backfill-sessions/index.js
-- [ ] references/typescript/src/commands/effort/effort.tsx
-- [ ] references/typescript/src/commands/effort/index.ts
-- [ ] references/typescript/src/commands/share/index.js
+- [x] references/typescript/src/commands/good-claude/index.js
+- [x] references/typescript/src/commands/autofix-pr/index.js
+- [x] references/typescript/src/commands/heapdump/heapdump.ts
+- [x] references/typescript/src/commands/heapdump/index.ts
+- [x] references/typescript/src/commands/fast/fast.tsx
+- [x] references/typescript/src/commands/fast/index.ts
+- [x] references/typescript/src/commands/tasks/index.ts
+- [x] references/typescript/src/commands/tasks/tasks.tsx
+- [x] references/typescript/src/commands/backfill-sessions/index.js
+- [x] references/typescript/src/commands/effort/effort.tsx
+- [x] references/typescript/src/commands/effort/index.ts
+- [x] references/typescript/src/commands/share/index.js
 - [ ] references/typescript/src/commands/bughunter/index.js
 - [ ] references/typescript/src/commands/stickers/index.ts
 - [ ] references/typescript/src/commands/stickers/stickers.ts
@@ -1141,9 +1141,9 @@
 - [ ] references/typescript/src/commands/keybindings/index.ts
 - [ ] references/typescript/src/commands/copy/index.ts
 - [ ] references/typescript/src/commands/copy/copy.tsx
-- [ ] references/typescript/src/commands/model/model.tsx
-- [ ] references/typescript/src/commands/model/index.ts
-- [ ] references/typescript/src/commands/onboarding/index.js
+- [x] references/typescript/src/commands/model/model.tsx
+- [x] references/typescript/src/commands/model/index.ts
+- [x] references/typescript/src/commands/onboarding/index.js
 - [ ] references/typescript/src/commands/commit.ts
 - [ ] references/typescript/src/commands/release-notes/release-notes.ts
 - [ ] references/typescript/src/commands/release-notes/index.ts
@@ -1157,30 +1157,30 @@
 - [x] references/typescript/src/commands/clear/index.ts
 - [ ] references/typescript/src/commands/statusline.tsx
 - [ ] references/typescript/src/commands/brief.ts
-- [ ] references/typescript/src/commands/plan/plan.tsx
-- [ ] references/typescript/src/commands/plan/index.ts
-- [ ] references/typescript/src/commands/logout/logout.tsx
-- [ ] references/typescript/src/commands/logout/index.ts
-- [ ] references/typescript/src/commands/install-github-app/ErrorStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/SuccessStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/CreatingStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/WarningsStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/OAuthFlowStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/InstallAppStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/ExistingWorkflowStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/install-github-app.tsx
-- [ ] references/typescript/src/commands/install-github-app/setupGitHubActions.ts
-- [ ] references/typescript/src/commands/install-github-app/index.ts
-- [ ] references/typescript/src/commands/install-github-app/ApiKeyStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/CheckGitHubStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/ChooseRepoStep.tsx
-- [ ] references/typescript/src/commands/install-github-app/CheckExistingSecretStep.tsx
+- [x] references/typescript/src/commands/plan/plan.tsx
+- [x] references/typescript/src/commands/plan/index.ts
+- [x] references/typescript/src/commands/logout/logout.tsx
+- [x] references/typescript/src/commands/logout/index.ts
+- [x] references/typescript/src/commands/install-github-app/ErrorStep.tsx
+- [x] references/typescript/src/commands/install-github-app/SuccessStep.tsx
+- [x] references/typescript/src/commands/install-github-app/CreatingStep.tsx
+- [x] references/typescript/src/commands/install-github-app/WarningsStep.tsx
+- [x] references/typescript/src/commands/install-github-app/OAuthFlowStep.tsx
+- [x] references/typescript/src/commands/install-github-app/InstallAppStep.tsx
+- [x] references/typescript/src/commands/install-github-app/ExistingWorkflowStep.tsx
+- [x] references/typescript/src/commands/install-github-app/install-github-app.tsx
+- [x] references/typescript/src/commands/install-github-app/setupGitHubActions.ts
+- [x] references/typescript/src/commands/install-github-app/index.ts
+- [x] references/typescript/src/commands/install-github-app/ApiKeyStep.tsx
+- [x] references/typescript/src/commands/install-github-app/CheckGitHubStep.tsx
+- [x] references/typescript/src/commands/install-github-app/ChooseRepoStep.tsx
+- [x] references/typescript/src/commands/install-github-app/CheckExistingSecretStep.tsx
 - [ ] references/typescript/src/commands/commit-push-pr.ts
 - [ ] references/typescript/src/commands/exit/exit.tsx
 - [ ] references/typescript/src/commands/exit/index.ts
 - [ ] references/typescript/src/commands/hooks/hooks.tsx
 - [ ] references/typescript/src/commands/hooks/index.ts
-- [ ] references/typescript/src/commands/ant-trace/index.js
+- [x] references/typescript/src/commands/ant-trace/index.js
 - [x] references/typescript/src/commands/export/index.ts
 - [x] references/typescript/src/commands/export/export.tsx
 - [ ] references/typescript/src/commands/install.tsx
@@ -1190,59 +1190,59 @@
 - [x] references/typescript/src/commands/cost/index.ts
 - [ ] references/typescript/src/commands/thinkback/thinkback.tsx
 - [ ] references/typescript/src/commands/thinkback/index.ts
-- [ ] references/typescript/src/commands/plugin/PluginOptionsFlow.tsx
-- [ ] references/typescript/src/commands/plugin/PluginErrors.tsx
-- [ ] references/typescript/src/commands/plugin/BrowseMarketplace.tsx
-- [ ] references/typescript/src/commands/plugin/PluginTrustWarning.tsx
-- [ ] references/typescript/src/commands/plugin/pluginDetailsHelpers.tsx
-- [ ] references/typescript/src/commands/plugin/ManagePlugins.tsx
-- [ ] references/typescript/src/commands/plugin/AddMarketplace.tsx
-- [ ] references/typescript/src/commands/plugin/UnifiedInstalledCell.tsx
-- [ ] references/typescript/src/commands/plugin/PluginOptionsDialog.tsx
-- [ ] references/typescript/src/commands/plugin/usePagination.ts
-- [ ] references/typescript/src/commands/plugin/ManageMarketplaces.tsx
-- [ ] references/typescript/src/commands/plugin/PluginSettings.tsx
-- [ ] references/typescript/src/commands/plugin/index.tsx
-- [ ] references/typescript/src/commands/plugin/parseArgs.ts
-- [ ] references/typescript/src/commands/plugin/DiscoverPlugins.tsx
-- [ ] references/typescript/src/commands/plugin/plugin.tsx
-- [ ] references/typescript/src/commands/plugin/ValidatePlugin.tsx
+- [x] references/typescript/src/commands/plugin/PluginOptionsFlow.tsx
+- [x] references/typescript/src/commands/plugin/PluginErrors.tsx
+- [x] references/typescript/src/commands/plugin/BrowseMarketplace.tsx
+- [x] references/typescript/src/commands/plugin/PluginTrustWarning.tsx
+- [x] references/typescript/src/commands/plugin/pluginDetailsHelpers.tsx
+- [x] references/typescript/src/commands/plugin/ManagePlugins.tsx
+- [x] references/typescript/src/commands/plugin/AddMarketplace.tsx
+- [x] references/typescript/src/commands/plugin/UnifiedInstalledCell.tsx
+- [x] references/typescript/src/commands/plugin/PluginOptionsDialog.tsx
+- [x] references/typescript/src/commands/plugin/usePagination.ts
+- [x] references/typescript/src/commands/plugin/ManageMarketplaces.tsx
+- [x] references/typescript/src/commands/plugin/PluginSettings.tsx
+- [x] references/typescript/src/commands/plugin/index.tsx
+- [x] references/typescript/src/commands/plugin/parseArgs.ts
+- [x] references/typescript/src/commands/plugin/DiscoverPlugins.tsx
+- [x] references/typescript/src/commands/plugin/plugin.tsx
+- [x] references/typescript/src/commands/plugin/ValidatePlugin.tsx
 - [ ] references/typescript/src/commands/thinkback-play/thinkback-play.ts
 - [ ] references/typescript/src/commands/thinkback-play/index.ts
 - [ ] references/typescript/src/commands/assistant/assistant.tsx
 - [ ] references/typescript/src/commands/rename/rename.ts
 - [ ] references/typescript/src/commands/rename/generateSessionName.ts
 - [ ] references/typescript/src/commands/rename/index.ts
-- [ ] references/typescript/src/commands/usage/usage.tsx
-- [ ] references/typescript/src/commands/usage/index.ts
+- [x] references/typescript/src/commands/usage/usage.tsx
+- [x] references/typescript/src/commands/usage/index.ts
 - [ ] references/typescript/src/commands/pr_comments/index.ts
 - [ ] references/typescript/src/commands/insights.ts
 - [ ] references/typescript/src/commands/branch/branch.ts
 - [ ] references/typescript/src/commands/branch/index.ts
-- [ ] references/typescript/src/commands/review/ultrareviewEnabled.ts
-- [ ] references/typescript/src/commands/review/ultrareviewCommand.tsx
-- [ ] references/typescript/src/commands/review/UltrareviewOverageDialog.tsx
-- [ ] references/typescript/src/commands/review/reviewRemote.ts
+- [x] references/typescript/src/commands/review/ultrareviewEnabled.ts
+- [x] references/typescript/src/commands/review/ultrareviewCommand.tsx
+- [x] references/typescript/src/commands/review/UltrareviewOverageDialog.tsx
+- [x] references/typescript/src/commands/review/reviewRemote.ts
 - [ ] references/typescript/src/commands/ide/ide.tsx
 - [ ] references/typescript/src/commands/ide/index.ts
-- [ ] references/typescript/src/commands/teleport/index.js
+- [x] references/typescript/src/commands/teleport/index.js
 - [ ] references/typescript/src/commands/skills/skills.tsx
 - [ ] references/typescript/src/commands/skills/index.ts
-- [ ] references/typescript/src/commands/summary/index.js
-- [ ] references/typescript/src/commands/debug-tool-call/index.js
-- [ ] references/typescript/src/commands/remote-setup/remote-setup.tsx
-- [ ] references/typescript/src/commands/remote-setup/index.ts
-- [ ] references/typescript/src/commands/remote-setup/api.ts
+- [x] references/typescript/src/commands/summary/index.js
+- [x] references/typescript/src/commands/debug-tool-call/index.js
+- [x] references/typescript/src/commands/remote-setup/remote-setup.tsx
+- [x] references/typescript/src/commands/remote-setup/index.ts
+- [x] references/typescript/src/commands/remote-setup/api.ts
 - [ ] references/typescript/src/commands/rate-limit-options/rate-limit-options.tsx
 - [ ] references/typescript/src/commands/rate-limit-options/index.ts
-- [ ] references/typescript/src/commands/install-slack-app/install-slack-app.ts
-- [ ] references/typescript/src/commands/install-slack-app/index.ts
+- [x] references/typescript/src/commands/install-slack-app/install-slack-app.ts
+- [x] references/typescript/src/commands/install-slack-app/index.ts
 - [ ] references/typescript/src/commands/init-verifiers.ts
 - [ ] references/typescript/src/commands/createMovedToPluginCommand.ts
 - [ ] references/typescript/src/commands/upgrade/upgrade.tsx
 - [ ] references/typescript/src/commands/upgrade/index.ts
-- [ ] references/typescript/src/commands/mobile/mobile.tsx
-- [ ] references/typescript/src/commands/mobile/index.ts
+- [x] references/typescript/src/commands/mobile/mobile.tsx
+- [x] references/typescript/src/commands/mobile/index.ts
 - [x] references/typescript/src/commands/session/session.tsx
 - [x] references/typescript/src/commands/session/index.ts
 - [ ] references/typescript/src/commands/permissions/index.ts
@@ -1965,110 +1965,110 @@
 - [ ] references/python/.claude/sessions/session-1774998936453.json
 - [ ] references/python/.claude/sessions/session-1775009126105.json
 - [ ] references/python/PARITY.md
-- [ ] references/python/tests/test_porting_workspace.py
-- [ ] references/python/CLAUDE.md
-- [ ] references/python/ROADMAP.md
-- [ ] references/python/.claude.json
-- [ ] references/python/.gitignore
+- [x] references/python/tests/test_porting_workspace.py
+- [x] references/python/CLAUDE.md
+- [x] references/python/ROADMAP.md
+- [x] references/python/.claude.json
+- [x] references/python/.gitignore
 - [x] references/python/src/system_init.py
 - [x] references/python/src/setup.py
-- [ ] references/python/src/constants/__init__.py
+- [x] references/python/src/constants/__init__.py
 - [x] references/python/src/command_graph.py
-- [ ] references/python/src/utils/__init__.py
+- [x] references/python/src/utils/__init__.py
 - [x] references/python/src/projectOnboardingState.py
-- [ ] references/python/src/voice/__init__.py
+- [x] references/python/src/voice/__init__.py
 - [x] references/python/src/query_engine.py
-- [ ] references/python/src/native_ts/__init__.py
+- [x] references/python/src/native_ts/__init__.py
 - [x] references/python/src/session_store.py
-- [ ] references/python/src/entrypoints/__init__.py
-- [ ] references/python/src/schemas/__init__.py
+- [x] references/python/src/entrypoints/__init__.py
+- [x] references/python/src/schemas/__init__.py
 - [x] references/python/src/bootstrap_graph.py
 - [x] references/python/src/QueryEngine.py
-- [ ] references/python/src/cost_tracker.py
-- [ ] references/python/src/_archive_helper.py
-- [ ] references/python/src/bridge/__init__.py
+- [x] references/python/src/cost_tracker.py
+- [x] references/python/src/_archive_helper.py
+- [x] references/python/src/bridge/__init__.py
 - [x] references/python/src/tasks.py
-- [ ] references/python/src/vim/__init__.py
+- [x] references/python/src/vim/__init__.py
 - [x] references/python/src/models.py
-- [ ] references/python/src/services/__init__.py
-- [ ] references/python/src/state/__init__.py
-- [ ] references/python/src/plugins/__init__.py
+- [x] references/python/src/services/__init__.py
+- [x] references/python/src/state/__init__.py
+- [x] references/python/src/plugins/__init__.py
 - [x] references/python/src/tool_pool.py
-- [ ] references/python/src/deferred_init.py
-- [ ] references/python/src/memdir/__init__.py
+- [x] references/python/src/deferred_init.py
+- [x] references/python/src/memdir/__init__.py
 - [x] references/python/src/port_manifest.py
-- [ ] references/python/src/buddy/__init__.py
+- [x] references/python/src/buddy/__init__.py
 - [x] references/python/src/transcript.py
 - [x] references/python/src/Tool.py
-- [ ] references/python/src/outputStyles/__init__.py
-- [ ] references/python/src/coordinator/__init__.py
-- [ ] references/python/src/keybindings/__init__.py
-- [ ] references/python/src/reference_data/archive_surface_snapshot.json
-- [ ] references/python/src/reference_data/commands_snapshot.json
-- [ ] references/python/src/reference_data/tools_snapshot.json
-- [ ] references/python/src/reference_data/subsystems/skills.json
-- [ ] references/python/src/reference_data/subsystems/voice.json
-- [ ] references/python/src/reference_data/subsystems/vim.json
-- [ ] references/python/src/reference_data/subsystems/state.json
-- [ ] references/python/src/reference_data/subsystems/types.json
-- [ ] references/python/src/reference_data/subsystems/server.json
-- [ ] references/python/src/reference_data/subsystems/constants.json
-- [ ] references/python/src/reference_data/subsystems/entrypoints.json
-- [ ] references/python/src/reference_data/subsystems/keybindings.json
-- [ ] references/python/src/reference_data/subsystems/bootstrap.json
-- [ ] references/python/src/reference_data/subsystems/assistant.json
-- [ ] references/python/src/reference_data/subsystems/outputStyles.json
-- [ ] references/python/src/reference_data/subsystems/plugins.json
-- [ ] references/python/src/reference_data/subsystems/hooks.json
-- [ ] references/python/src/reference_data/subsystems/memdir.json
-- [ ] references/python/src/reference_data/subsystems/utils.json
-- [ ] references/python/src/reference_data/subsystems/remote.json
-- [ ] references/python/src/reference_data/subsystems/upstreamproxy.json
-- [ ] references/python/src/reference_data/subsystems/schemas.json
-- [ ] references/python/src/reference_data/subsystems/coordinator.json
-- [ ] references/python/src/reference_data/subsystems/migrations.json
-- [ ] references/python/src/reference_data/subsystems/components.json
-- [ ] references/python/src/reference_data/subsystems/screens.json
-- [ ] references/python/src/reference_data/subsystems/native_ts.json
-- [ ] references/python/src/reference_data/subsystems/moreright.json
-- [ ] references/python/src/reference_data/subsystems/services.json
-- [ ] references/python/src/reference_data/subsystems/buddy.json
-- [ ] references/python/src/reference_data/subsystems/bridge.json
-- [ ] references/python/src/reference_data/subsystems/cli.json
-- [ ] references/python/src/reference_data/__init__.py
-- [ ] references/python/src/upstreamproxy/__init__.py
-- [ ] references/python/src/remote/__init__.py
+- [x] references/python/src/outputStyles/__init__.py
+- [x] references/python/src/coordinator/__init__.py
+- [x] references/python/src/keybindings/__init__.py
+- [x] references/python/src/reference_data/archive_surface_snapshot.json
+- [x] references/python/src/reference_data/commands_snapshot.json
+- [x] references/python/src/reference_data/tools_snapshot.json
+- [x] references/python/src/reference_data/subsystems/skills.json
+- [x] references/python/src/reference_data/subsystems/voice.json
+- [x] references/python/src/reference_data/subsystems/vim.json
+- [x] references/python/src/reference_data/subsystems/state.json
+- [x] references/python/src/reference_data/subsystems/types.json
+- [x] references/python/src/reference_data/subsystems/server.json
+- [x] references/python/src/reference_data/subsystems/constants.json
+- [x] references/python/src/reference_data/subsystems/entrypoints.json
+- [x] references/python/src/reference_data/subsystems/keybindings.json
+- [x] references/python/src/reference_data/subsystems/bootstrap.json
+- [x] references/python/src/reference_data/subsystems/assistant.json
+- [x] references/python/src/reference_data/subsystems/outputStyles.json
+- [x] references/python/src/reference_data/subsystems/plugins.json
+- [x] references/python/src/reference_data/subsystems/hooks.json
+- [x] references/python/src/reference_data/subsystems/memdir.json
+- [x] references/python/src/reference_data/subsystems/utils.json
+- [x] references/python/src/reference_data/subsystems/remote.json
+- [x] references/python/src/reference_data/subsystems/upstreamproxy.json
+- [x] references/python/src/reference_data/subsystems/schemas.json
+- [x] references/python/src/reference_data/subsystems/coordinator.json
+- [x] references/python/src/reference_data/subsystems/migrations.json
+- [x] references/python/src/reference_data/subsystems/components.json
+- [x] references/python/src/reference_data/subsystems/screens.json
+- [x] references/python/src/reference_data/subsystems/native_ts.json
+- [x] references/python/src/reference_data/subsystems/moreright.json
+- [x] references/python/src/reference_data/subsystems/services.json
+- [x] references/python/src/reference_data/subsystems/buddy.json
+- [x] references/python/src/reference_data/subsystems/bridge.json
+- [x] references/python/src/reference_data/subsystems/cli.json
+- [x] references/python/src/reference_data/__init__.py
+- [x] references/python/src/upstreamproxy/__init__.py
+- [x] references/python/src/remote/__init__.py
 - [x] references/python/src/interactiveHelpers.py
-- [ ] references/python/src/parity_audit.py
+- [x] references/python/src/parity_audit.py
 - [x] references/python/src/dialogLaunchers.py
 - [x] references/python/src/runtime.py
 - [x] references/python/src/execution_registry.py
 - [x] references/python/src/history.py
-- [ ] references/python/src/ink.py
-- [ ] references/python/src/types/__init__.py
-- [ ] references/python/src/hooks/__init__.py
+- [x] references/python/src/ink.py
+- [x] references/python/src/types/__init__.py
+- [x] references/python/src/hooks/__init__.py
 - [x] references/python/src/task.py
-- [ ] references/python/src/migrations/__init__.py
+- [x] references/python/src/migrations/__init__.py
 - [x] references/python/src/permissions.py
 - [x] references/python/src/replLauncher.py
-- [ ] references/python/src/cli/__init__.py
-- [ ] references/python/src/assistant/__init__.py
+- [x] references/python/src/cli/__init__.py
+- [x] references/python/src/assistant/__init__.py
 - [x] references/python/src/tools.py
-- [ ] references/python/src/bootstrap/__init__.py
-- [ ] references/python/src/server/__init__.py
+- [x] references/python/src/bootstrap/__init__.py
+- [x] references/python/src/server/__init__.py
 - [x] references/python/src/context.py
 - [x] references/python/src/query.py
-- [ ] references/python/src/skills/__init__.py
-- [ ] references/python/src/components/__init__.py
+- [x] references/python/src/skills/__init__.py
+- [x] references/python/src/components/__init__.py
 - [x] references/python/src/commands.py
 - [x] references/python/src/direct_modes.py
 - [x] references/python/src/remote_runtime.py
-- [ ] references/python/src/screens/__init__.py
+- [x] references/python/src/screens/__init__.py
 - [x] references/python/src/main.py
-- [ ] references/python/src/costHook.py
+- [x] references/python/src/costHook.py
 - [x] references/python/src/prefetch.py
-- [ ] references/python/src/moreright/__init__.py
-- [ ] references/python/src/__init__.py
+- [x] references/python/src/moreright/__init__.py
+- [x] references/python/src/__init__.py
 - [ ] references/rust/TUI-ENHANCEMENT-PLAN.md
 - [ ] references/rust/crates/runtime/Cargo.toml
 - [x] references/rust/crates/runtime/src/file_ops.rs
