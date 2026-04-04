@@ -11,7 +11,7 @@
       ],
       "sourceSubsystems": ["screens", "root-files"],
       "targetBucket": "core",
-      "implementationState": "declared",
+      "implementationState": "implemented",
       "featureId": null,
       "notes": "Base interaction shell candidate from section 11.1."
     },
@@ -24,7 +24,7 @@
       ],
       "sourceSubsystems": ["components"],
       "targetBucket": "deferred",
-      "implementationState": "declared",
+      "implementationState": "implemented",
       "featureId": null,
       "notes": "Broad UI surface; not safe to migrate wholesale into core."
     },
@@ -38,7 +38,7 @@
       ],
       "sourceSubsystems": ["screens", "commands"],
       "targetBucket": "feature-pack",
-      "implementationState": "declared",
+      "implementationState": "implemented",
       "featureId": "doctor-ui",
       "notes": "Candidate rich diagnostics/status pack rather than base core UI."
     },
@@ -52,7 +52,7 @@
       ],
       "sourceSubsystems": ["components", "commands"],
       "targetBucket": "feature-pack",
-      "implementationState": "declared",
+      "implementationState": "implemented",
       "featureId": "oauth-onboarding",
       "notes": "Optional guided setup and auth flows."
     },
@@ -65,7 +65,7 @@
       ],
       "sourceSubsystems": ["buddy"],
       "targetBucket": "deferred",
-      "implementationState": "declared",
+      "implementationState": "implemented",
       "featureId": null,
       "notes": "Promising but not part of initial migration slice."
     },

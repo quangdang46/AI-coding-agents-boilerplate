@@ -83,7 +83,6 @@ These reopenings are not reversions of the useful work already done. They are co
 
 The following feature-pack families remain planned but unevidenced as shipped implementation:
 
-- `advanced-planning`
 - `assistant-session-history`
 - `bridge-remote-control`
 - `bundled-skills`
@@ -92,9 +91,6 @@ The following feature-pack families remain planned but unevidenced as shipped im
 - `external-app-integrations`
 - `git-workflows`
 - `hooks-runtime`
-- `interactive-clarification-tools`
-- `lsp-tooling`
-- `mcp-integration`
 - `multi-agent-workflows`
 - `oauth-onboarding`
 - `plugin-marketplace-ui`
