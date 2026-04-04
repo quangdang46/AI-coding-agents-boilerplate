@@ -85,10 +85,10 @@
 - [ ] references/typescript/src/utils/messages/systemInit.ts
 - [ ] references/typescript/src/utils/doctorContextWarnings.ts
 - [ ] references/typescript/src/utils/cliHighlight.ts
-- [ ] references/typescript/src/utils/processUserInput/processUserInput.ts
-- [ ] references/typescript/src/utils/processUserInput/processTextPrompt.ts
-- [ ] references/typescript/src/utils/processUserInput/processBashCommand.tsx
-- [ ] references/typescript/src/utils/processUserInput/processSlashCommand.tsx
+- [x] references/typescript/src/utils/processUserInput/processUserInput.ts
+- [x] references/typescript/src/utils/processUserInput/processTextPrompt.ts
+- [x] references/typescript/src/utils/processUserInput/processBashCommand.tsx
+- [x] references/typescript/src/utils/processUserInput/processSlashCommand.tsx
 - [ ] references/typescript/src/utils/task/outputFormatting.ts
 - [ ] references/typescript/src/utils/task/TaskOutput.ts
 - [ ] references/typescript/src/utils/task/sdkProgress.ts
@@ -159,11 +159,11 @@
 - [ ] references/typescript/src/utils/collapseHookSummaries.ts
 - [ ] references/typescript/src/utils/toolSchemaCache.ts
 - [ ] references/typescript/src/utils/teamMemoryOps.ts
-- [ ] references/typescript/src/utils/suggestions/slackChannelSuggestions.ts
-- [ ] references/typescript/src/utils/suggestions/skillUsageTracking.ts
-- [ ] references/typescript/src/utils/suggestions/commandSuggestions.ts
-- [ ] references/typescript/src/utils/suggestions/shellHistoryCompletion.ts
-- [ ] references/typescript/src/utils/suggestions/directoryCompletion.ts
+- [x] references/typescript/src/utils/suggestions/slackChannelSuggestions.ts
+- [x] references/typescript/src/utils/suggestions/skillUsageTracking.ts
+- [x] references/typescript/src/utils/suggestions/commandSuggestions.ts
+- [x] references/typescript/src/utils/suggestions/shellHistoryCompletion.ts
+- [x] references/typescript/src/utils/suggestions/directoryCompletion.ts
 - [ ] references/typescript/src/utils/getWorktreePaths.ts
 - [ ] references/typescript/src/utils/peerAddress.ts
 - [ ] references/typescript/src/utils/lockfile.ts
@@ -462,11 +462,11 @@
 - [ ] references/typescript/src/utils/combinedAbortSignal.ts
 - [ ] references/typescript/src/utils/modifiers.ts
 - [ ] references/typescript/src/utils/auth.ts
-- [ ] references/typescript/src/utils/nativeInstaller/pidLock.ts
-- [ ] references/typescript/src/utils/nativeInstaller/installer.ts
-- [ ] references/typescript/src/utils/nativeInstaller/packageManagers.ts
-- [ ] references/typescript/src/utils/nativeInstaller/download.ts
-- [ ] references/typescript/src/utils/nativeInstaller/index.ts
+- [x] references/typescript/src/utils/nativeInstaller/pidLock.ts
+- [x] references/typescript/src/utils/nativeInstaller/installer.ts
+- [x] references/typescript/src/utils/nativeInstaller/packageManagers.ts
+- [x] references/typescript/src/utils/nativeInstaller/download.ts
+- [x] references/typescript/src/utils/nativeInstaller/index.ts
 - [ ] references/typescript/src/utils/earlyInput.ts
 - [ ] references/typescript/src/utils/withResolvers.ts
 - [ ] references/typescript/src/utils/envUtils.ts
@@ -1144,9 +1144,9 @@
 - [x] references/typescript/src/commands/model/model.tsx
 - [x] references/typescript/src/commands/model/index.ts
 - [x] references/typescript/src/commands/onboarding/index.js
-- [ ] references/typescript/src/commands/commit.ts
-- [ ] references/typescript/src/commands/release-notes/release-notes.ts
-- [ ] references/typescript/src/commands/release-notes/index.ts
+- [x] references/typescript/src/commands/commit.ts
+- [x] references/typescript/src/commands/release-notes/release-notes.ts
+- [x] references/typescript/src/commands/release-notes/index.ts
 - [x] references/typescript/src/commands/diff/diff.tsx
 - [x] references/typescript/src/commands/diff/index.ts
 - [x] references/typescript/src/commands/terminalSetup/index.ts
@@ -1155,8 +1155,8 @@
 - [x] references/typescript/src/commands/clear/caches.ts
 - [x] references/typescript/src/commands/clear/clear.ts
 - [x] references/typescript/src/commands/clear/index.ts
-- [ ] references/typescript/src/commands/statusline.tsx
-- [ ] references/typescript/src/commands/brief.ts
+- [x] references/typescript/src/commands/statusline.tsx
+- [x] references/typescript/src/commands/brief.ts
 - [x] references/typescript/src/commands/plan/plan.tsx
 - [x] references/typescript/src/commands/plan/index.ts
 - [x] references/typescript/src/commands/logout/logout.tsx
@@ -1175,7 +1175,7 @@
 - [x] references/typescript/src/commands/install-github-app/CheckGitHubStep.tsx
 - [x] references/typescript/src/commands/install-github-app/ChooseRepoStep.tsx
 - [x] references/typescript/src/commands/install-github-app/CheckExistingSecretStep.tsx
-- [ ] references/typescript/src/commands/commit-push-pr.ts
+- [x] references/typescript/src/commands/commit-push-pr.ts
 - [x] references/typescript/src/commands/exit/exit.tsx
 - [x] references/typescript/src/commands/exit/index.ts
 - [x] references/typescript/src/commands/hooks/hooks.tsx
@@ -1188,8 +1188,8 @@
 - [x] references/typescript/src/commands/config/index.ts
 - [x] references/typescript/src/commands/cost/cost.ts
 - [x] references/typescript/src/commands/cost/index.ts
-- [ ] references/typescript/src/commands/thinkback/thinkback.tsx
-- [ ] references/typescript/src/commands/thinkback/index.ts
+- [x] references/typescript/src/commands/thinkback/thinkback.tsx
+- [x] references/typescript/src/commands/thinkback/index.ts
 - [x] references/typescript/src/commands/plugin/PluginOptionsFlow.tsx
 - [x] references/typescript/src/commands/plugin/PluginErrors.tsx
 - [x] references/typescript/src/commands/plugin/BrowseMarketplace.tsx
@@ -1207,24 +1207,24 @@
 - [x] references/typescript/src/commands/plugin/DiscoverPlugins.tsx
 - [x] references/typescript/src/commands/plugin/plugin.tsx
 - [x] references/typescript/src/commands/plugin/ValidatePlugin.tsx
-- [ ] references/typescript/src/commands/thinkback-play/thinkback-play.ts
-- [ ] references/typescript/src/commands/thinkback-play/index.ts
-- [ ] references/typescript/src/commands/assistant/assistant.tsx
-- [ ] references/typescript/src/commands/rename/rename.ts
-- [ ] references/typescript/src/commands/rename/generateSessionName.ts
-- [ ] references/typescript/src/commands/rename/index.ts
+- [x] references/typescript/src/commands/thinkback-play/thinkback-play.ts
+- [x] references/typescript/src/commands/thinkback-play/index.ts
+- [x] references/typescript/src/commands/assistant/assistant.tsx
+- [x] references/typescript/src/commands/rename/rename.ts
+- [x] references/typescript/src/commands/rename/generateSessionName.ts
+- [x] references/typescript/src/commands/rename/index.ts
 - [x] references/typescript/src/commands/usage/usage.tsx
 - [x] references/typescript/src/commands/usage/index.ts
-- [ ] references/typescript/src/commands/pr_comments/index.ts
-- [ ] references/typescript/src/commands/insights.ts
+- [x] references/typescript/src/commands/pr_comments/index.ts
+- [x] references/typescript/src/commands/insights.ts
 - [x] references/typescript/src/commands/branch/branch.ts
 - [x] references/typescript/src/commands/branch/index.ts
 - [x] references/typescript/src/commands/review/ultrareviewEnabled.ts
 - [x] references/typescript/src/commands/review/ultrareviewCommand.tsx
 - [x] references/typescript/src/commands/review/UltrareviewOverageDialog.tsx
 - [x] references/typescript/src/commands/review/reviewRemote.ts
-- [ ] references/typescript/src/commands/ide/ide.tsx
-- [ ] references/typescript/src/commands/ide/index.ts
+- [x] references/typescript/src/commands/ide/ide.tsx
+- [x] references/typescript/src/commands/ide/index.ts
 - [x] references/typescript/src/commands/teleport/index.js
 - [x] references/typescript/src/commands/skills/skills.tsx
 - [x] references/typescript/src/commands/skills/index.ts
@@ -1233,14 +1233,14 @@
 - [x] references/typescript/src/commands/remote-setup/remote-setup.tsx
 - [x] references/typescript/src/commands/remote-setup/index.ts
 - [x] references/typescript/src/commands/remote-setup/api.ts
-- [ ] references/typescript/src/commands/rate-limit-options/rate-limit-options.tsx
-- [ ] references/typescript/src/commands/rate-limit-options/index.ts
+- [x] references/typescript/src/commands/rate-limit-options/rate-limit-options.tsx
+- [x] references/typescript/src/commands/rate-limit-options/index.ts
 - [x] references/typescript/src/commands/install-slack-app/install-slack-app.ts
 - [x] references/typescript/src/commands/install-slack-app/index.ts
-- [ ] references/typescript/src/commands/init-verifiers.ts
-- [ ] references/typescript/src/commands/createMovedToPluginCommand.ts
-- [ ] references/typescript/src/commands/upgrade/upgrade.tsx
-- [ ] references/typescript/src/commands/upgrade/index.ts
+- [x] references/typescript/src/commands/init-verifiers.ts
+- [x] references/typescript/src/commands/createMovedToPluginCommand.ts
+- [x] references/typescript/src/commands/upgrade/upgrade.tsx
+- [x] references/typescript/src/commands/upgrade/index.ts
 - [x] references/typescript/src/commands/mobile/mobile.tsx
 - [x] references/typescript/src/commands/mobile/index.ts
 - [x] references/typescript/src/commands/session/session.tsx
@@ -1390,25 +1390,25 @@
 - [ ] references/typescript/src/hooks/useTasksV2.ts
 - [ ] references/typescript/src/hooks/useMergedCommands.ts
 - [x] references/typescript/src/tasks.ts
-- [ ] references/typescript/src/migrations/migrateBypassPermissionsAcceptedToSettings.ts
-- [ ] references/typescript/src/migrations/migrateOpusToOpus1m.ts
-- [ ] references/typescript/src/migrations/migrateEnableAllProjectMcpServersToSettings.ts
-- [ ] references/typescript/src/migrations/resetAutoModeOptInForDefaultOffer.ts
-- [ ] references/typescript/src/migrations/migrateReplBridgeEnabledToRemoteControlAtStartup.ts
-- [ ] references/typescript/src/migrations/migrateSonnet45ToSonnet46.ts
-- [ ] references/typescript/src/migrations/migrateLegacyOpusToCurrent.ts
-- [ ] references/typescript/src/migrations/resetProToOpusDefault.ts
-- [ ] references/typescript/src/migrations/migrateFennecToOpus.ts
-- [ ] references/typescript/src/migrations/migrateSonnet1mToSonnet45.ts
-- [ ] references/typescript/src/migrations/migrateAutoUpdatesToSettings.ts
+- [x] references/typescript/src/migrations/migrateBypassPermissionsAcceptedToSettings.ts
+- [x] references/typescript/src/migrations/migrateOpusToOpus1m.ts
+- [x] references/typescript/src/migrations/migrateEnableAllProjectMcpServersToSettings.ts
+- [x] references/typescript/src/migrations/resetAutoModeOptInForDefaultOffer.ts
+- [x] references/typescript/src/migrations/migrateReplBridgeEnabledToRemoteControlAtStartup.ts
+- [x] references/typescript/src/migrations/migrateSonnet45ToSonnet46.ts
+- [x] references/typescript/src/migrations/migrateLegacyOpusToCurrent.ts
+- [x] references/typescript/src/migrations/resetProToOpusDefault.ts
+- [x] references/typescript/src/migrations/migrateFennecToOpus.ts
+- [x] references/typescript/src/migrations/migrateSonnet1mToSonnet45.ts
+- [x] references/typescript/src/migrations/migrateAutoUpdatesToSettings.ts
 - [x] references/typescript/src/costHook.ts
 - [x] references/typescript/src/vendor/ripgrep/x64-linux/rg
 - [x] references/typescript/src/tools.ts
 - [x] references/typescript/src/dialogLaunchers.tsx
-- [ ] references/typescript/src/query/config.ts
-- [ ] references/typescript/src/query/tokenBudget.ts
-- [ ] references/typescript/src/query/stopHooks.ts
-- [ ] references/typescript/src/query/deps.ts
+- [x] references/typescript/src/query/config.ts
+- [x] references/typescript/src/query/tokenBudget.ts
+- [x] references/typescript/src/query/stopHooks.ts
+- [x] references/typescript/src/query/deps.ts
 - [ ] references/typescript/src/cli/ndjsonSafeStringify.ts
 - [ ] references/typescript/src/cli/transports/transportUtils.ts
 - [ ] references/typescript/src/cli/transports/WebSocketTransport.ts
