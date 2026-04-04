@@ -34,9 +34,16 @@ def test_complete_map() -> None:
         "bridge-system",
         "voice-system",
         "task-system",
+        "services-core-config-context",
+        "services-core-session-state",
+        "services-core-tool-execution",
         "services-api-auth-bootstrap",
         "services-mcp-lsp",
         "services-memory-suggestions",
+        "services-plugin-management",
+        "services-remote-settings-sync",
+        "services-voice-and-presence",
+        "services-product-support",
         "services-analytics-policy",
         "state-layer",
         "schema-files",
@@ -52,6 +59,9 @@ def test_complete_map() -> None:
             "languages/typescript/template/base",
             "future-feature-packs",
             "reference-only",
+            "languages/typescript/features/oauth-onboarding",
+            "languages/typescript/features/mcp-integration and languages/typescript/features/lsp-tooling",
+            "languages/typescript/features/prompt-suggestion-services plus languages/typescript/features/session-memory and languages/typescript/features/team-memory",
         }
         assert entry["reason"]
 
@@ -63,8 +73,35 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
     assert "services-ecosystem" not in subsystems
 
     assert (
+        subsystems["services-core-config-context"]["destination"]
+        == "languages/typescript/runtime"
+    )
+    assert (
+        "languages/typescript/runtime/context/loadContextState.ts"
+        in subsystems["services-core-config-context"]["paths"]
+    )
+
+    assert (
+        subsystems["services-core-session-state"]["destination"]
+        == "languages/typescript/runtime"
+    )
+    assert (
+        "languages/typescript/runtime/state/sessionState.ts"
+        in subsystems["services-core-session-state"]["paths"]
+    )
+
+    assert (
+        subsystems["services-core-tool-execution"]["destination"]
+        == "languages/typescript/runtime"
+    )
+    assert (
+        "languages/typescript/runtime/utils/toolExecution.ts"
+        in subsystems["services-core-tool-execution"]["paths"]
+    )
+
+    assert (
         subsystems["services-api-auth-bootstrap"]["destination"]
-        == "future-feature-packs"
+        == "languages/typescript/features/oauth-onboarding"
     )
     assert (
         "references/typescript/src/services/api"
@@ -75,7 +112,10 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
         in subsystems["services-api-auth-bootstrap"]["paths"]
     )
 
-    assert subsystems["services-mcp-lsp"]["destination"] == "future-feature-packs"
+    assert (
+        subsystems["services-mcp-lsp"]["destination"]
+        == "languages/typescript/features/mcp-integration and languages/typescript/features/lsp-tooling"
+    )
     assert (
         "references/typescript/src/services/mcp"
         in subsystems["services-mcp-lsp"]["paths"]
@@ -87,7 +127,7 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
 
     assert (
         subsystems["services-memory-suggestions"]["destination"]
-        == "future-feature-packs"
+        == "languages/typescript/features/prompt-suggestion-services plus languages/typescript/features/session-memory and languages/typescript/features/team-memory"
     )
     assert (
         "references/typescript/src/services/compact"
@@ -96,6 +136,38 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
     assert (
         "references/typescript/src/services/PromptSuggestion"
         in subsystems["services-memory-suggestions"]["paths"]
+    )
+
+    assert (
+        subsystems["services-plugin-management"]["destination"]
+        == "future-feature-packs"
+    )
+    assert (
+        "references/typescript/src/services/plugins"
+        in subsystems["services-plugin-management"]["paths"]
+    )
+
+    assert (
+        subsystems["services-remote-settings-sync"]["destination"] == "reference-only"
+    )
+    assert (
+        "references/typescript/src/services/remoteManagedSettings"
+        in subsystems["services-remote-settings-sync"]["paths"]
+    )
+
+    assert (
+        subsystems["services-voice-and-presence"]["destination"]
+        == "future-feature-packs"
+    )
+    assert (
+        "references/typescript/src/services/voice.ts"
+        in subsystems["services-voice-and-presence"]["paths"]
+    )
+
+    assert subsystems["services-product-support"]["destination"] == "reference-only"
+    assert (
+        "references/typescript/src/services/autoDream"
+        in subsystems["services-product-support"]["paths"]
     )
 
     assert subsystems["services-analytics-policy"]["destination"] == "reference-only"

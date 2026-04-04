@@ -177,6 +177,54 @@
       "reason": "Memory, compaction, summarization, and prompt-suggestion helpers are now decomposed through explicit optional TypeScript feature-pack seams instead of remaining an undifferentiated future bucket."
     },
     {
+      "id": "services-plugin-management",
+      "paths": [
+        "references/typescript/src/services/plugins",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Plugin installation and lifecycle helpers belong with the broader optional plugin runtime and marketplace families rather than the shipped core runtime."
+    },
+    {
+      "id": "services-remote-settings-sync",
+      "paths": [
+        "references/typescript/src/services/remoteManagedSettings",
+        "references/typescript/src/services/settingsSync",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "reference-only",
+      "reason": "Remote-managed settings and sync helpers remain product-coupled support services with no current language-pack ownership target, so they should stay explicitly excluded for now."
+    },
+    {
+      "id": "services-voice-and-presence",
+      "paths": [
+        "references/typescript/src/services/voice.ts",
+        "references/typescript/src/services/voiceKeyterms.ts",
+        "references/typescript/src/services/voiceStreamSTT.ts",
+        "references/typescript/src/services/preventSleep.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Voice and presence helpers align with the optional voice-system family and should be kept out of the base TypeScript runtime proving slice."
+    },
+    {
+      "id": "services-product-support",
+      "paths": [
+        "references/typescript/src/services/autoDream",
+        "references/typescript/src/services/contextCollapse",
+        "references/typescript/src/services/AgentSummary",
+        "references/typescript/src/services/awaySummary.ts",
+        "references/typescript/src/services/diagnosticTracking.ts",
+        "references/typescript/src/services/mcpServerApproval.tsx",
+        "references/typescript/src/services/claudeAiLimits.ts",
+        "references/typescript/src/services/claudeAiLimitsHook.ts",
+        "references/typescript/src/services/vcr.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "reference-only",
+      "reason": "These summary, diagnostic, and product-support helpers are still tightly coupled to the original product shell and should remain explicit non-core exclusions until a narrower owning capability exists."
+    },
+    {
       "id": "services-analytics-policy",
       "paths": [
         "references/typescript/src/services/analytics",
