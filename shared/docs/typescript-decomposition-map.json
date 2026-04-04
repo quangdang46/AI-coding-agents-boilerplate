@@ -110,6 +110,18 @@
       "reason": "Task/team orchestration is an optional workflow family."
     },
     {
+      "id": "root-support-miscellany",
+      "paths": [
+        "references/typescript/src/ink.ts",
+        "references/typescript/src/outputStyles/loadOutputStylesDir.ts",
+        "references/typescript/src/coordinator/coordinatorMode.ts",
+        "references/typescript/src/vendor/ripgrep/x64-linux/rg",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "These top-level support surfaces belong to optional UI/output-style/orchestration families, while the vendored ripgrep binary remains tooling evidence rather than base runtime ownership."
+    },
+    {
       "id": "services-core-config-context",
       "paths": [
         "languages/typescript/runtime/utils/config.ts",

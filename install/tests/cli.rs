@@ -221,7 +221,11 @@ fn list_features_reports_shipped_feature_packs() {
             "typescript:github-pr-review",
             "typescript:interactive-clarification-tools",
             "typescript:lsp-tooling",
-            "typescript:mcp-integration"
+            "typescript:mcp-integration",
+            "typescript:oauth-onboarding",
+            "typescript:prompt-suggestion-services",
+            "typescript:session-memory",
+            "typescript:team-memory"
         ]
     );
 }
