@@ -763,7 +763,7 @@
 - [ ] references/typescript/src/tools/FileEditTool/utils.ts
 - [ ] references/typescript/src/tools/FileEditTool/FileEditTool.ts
 - [ ] references/typescript/src/tools/FileEditTool/constants.ts
-- [ ] references/typescript/src/tools/utils.ts
+- [x] references/typescript/src/tools/utils.ts
 - [ ] references/typescript/src/tools/TodoWriteTool/prompt.ts
 - [ ] references/typescript/src/tools/TodoWriteTool/TodoWriteTool.ts
 - [ ] references/typescript/src/tools/TodoWriteTool/constants.ts
@@ -817,7 +817,7 @@
 - [ ] references/typescript/src/tools/BriefTool/UI.tsx
 - [ ] references/typescript/src/tools/BriefTool/attachments.ts
 - [ ] references/typescript/src/tools/BriefTool/upload.ts
-- [ ] references/typescript/src/tools/testing/TestingPermissionTool.tsx
+- [x] references/typescript/src/tools/testing/TestingPermissionTool.tsx
 - [ ] references/typescript/src/tools/GrepTool/GrepTool.ts
 - [ ] references/typescript/src/tools/GrepTool/prompt.ts
 - [ ] references/typescript/src/tools/GrepTool/UI.tsx
@@ -1030,15 +1030,15 @@
 - [ ] references/typescript/src/memdir/memoryTypes.ts
 - [ ] references/typescript/src/memdir/memdir.ts
 - [ ] references/typescript/src/memdir/findRelevantMemories.ts
-- [ ] references/typescript/src/ink.ts
+- [x] references/typescript/src/ink.ts
 - [ ] references/typescript/src/buddy/CompanionSprite.tsx
 - [ ] references/typescript/src/buddy/prompt.ts
 - [ ] references/typescript/src/buddy/types.ts
 - [ ] references/typescript/src/buddy/useBuddyNotification.tsx
 - [ ] references/typescript/src/buddy/sprites.ts
 - [ ] references/typescript/src/buddy/companion.ts
-- [ ] references/typescript/src/outputStyles/loadOutputStylesDir.ts
-- [ ] references/typescript/src/coordinator/coordinatorMode.ts
+- [x] references/typescript/src/outputStyles/loadOutputStylesDir.ts
+- [x] references/typescript/src/coordinator/coordinatorMode.ts
 - [ ] references/typescript/src/commands/mock-limits/index.js
 - [ ] references/typescript/src/commands/chrome/index.ts
 - [ ] references/typescript/src/commands/chrome/chrome.tsx
@@ -1402,7 +1402,7 @@
 - [ ] references/typescript/src/migrations/migrateSonnet1mToSonnet45.ts
 - [ ] references/typescript/src/migrations/migrateAutoUpdatesToSettings.ts
 - [x] references/typescript/src/costHook.ts
-- [ ] references/typescript/src/vendor/ripgrep/x64-linux/rg
+- [x] references/typescript/src/vendor/ripgrep/x64-linux/rg
 - [x] references/typescript/src/tools.ts
 - [x] references/typescript/src/dialogLaunchers.tsx
 - [ ] references/typescript/src/query/config.ts
