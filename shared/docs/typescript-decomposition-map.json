@@ -110,6 +110,36 @@
       "reason": "Task/team orchestration is an optional workflow family."
     },
     {
+      "id": "services-core-config-context",
+      "paths": [
+        "languages/typescript/runtime/utils/config.ts",
+        "languages/typescript/runtime/context/loadContextState.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "languages/typescript/runtime",
+      "reason": "Core config parsing and context assembly are already owned by the shipped TypeScript runtime and should be tracked as explicit service decomposition rather than left implied by the broader services cluster."
+    },
+    {
+      "id": "services-core-session-state",
+      "paths": [
+        "languages/typescript/runtime/state/sessionState.ts",
+        "languages/typescript/runtime/config/loadRuntimeSummary.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "languages/typescript/runtime",
+      "reason": "Session persistence, usage summaries, and runtime summary composition are core-needed service responsibilities already shipped under the language-pack runtime boundary."
+    },
+    {
+      "id": "services-core-tool-execution",
+      "paths": [
+        "languages/typescript/runtime/utils/toolExecution.ts",
+        "languages/typescript/runtime/registry/coreTools.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "languages/typescript/runtime",
+      "reason": "Core tool execution and registry wiring are part of the shipped TypeScript proving slice and should be called out as explicit runtime-owned services rather than hidden behind the archived services monolith."
+    },
+    {
       "id": "services-api-auth-bootstrap",
       "paths": [
         "references/typescript/src/services/api",
@@ -117,8 +147,8 @@
         "references/typescript/src/services/tools",
         "references/source-typescript/SNAPSHOT.md"
       ],
-      "destination": "future-feature-packs",
-      "reason": "API, auth, and bootstrap-facing services already have dedicated subcoverage and should be extracted as explicit optional families instead of staying hidden inside one monolith bucket."
+      "destination": "languages/typescript/features/oauth-onboarding",
+      "reason": "API, auth, and bootstrap-facing services are now represented by an explicit optional OAuth/onboarding feature-pack seam instead of staying hidden inside one monolith bucket."
     },
     {
       "id": "services-mcp-lsp",
@@ -127,8 +157,8 @@
         "references/typescript/src/services/lsp",
         "references/source-typescript/SNAPSHOT.md"
       ],
-      "destination": "future-feature-packs",
-      "reason": "MCP and LSP services align with declared optional capability families and should remain decomposed as feature-pack candidates rather than implicit core runtime ownership."
+      "destination": "languages/typescript/features/mcp-integration and languages/typescript/features/lsp-tooling",
+      "reason": "MCP and LSP services already align with shipped optional capability families and remain decomposed as feature-pack ownership rather than implicit core runtime behavior."
     },
     {
       "id": "services-memory-suggestions",
@@ -143,8 +173,8 @@
         "references/typescript/src/services/compact",
         "references/source-typescript/SNAPSHOT.md"
       ],
-      "destination": "future-feature-packs",
-      "reason": "Memory, compaction, summarization, and prompt-suggestion helpers are already treated as separate optional families in the port tables and capability matrix, so they should be decomposed explicitly here as well."
+      "destination": "languages/typescript/features/prompt-suggestion-services plus languages/typescript/features/session-memory and languages/typescript/features/team-memory",
+      "reason": "Memory, compaction, summarization, and prompt-suggestion helpers are now decomposed through explicit optional TypeScript feature-pack seams instead of remaining an undifferentiated future bucket."
     },
     {
       "id": "services-analytics-policy",
