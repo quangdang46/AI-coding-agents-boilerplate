@@ -1977,13 +1977,13 @@
 - [ ] references/python/src/utils/__init__.py
 - [ ] references/python/src/projectOnboardingState.py
 - [ ] references/python/src/voice/__init__.py
-- [ ] references/python/src/query_engine.py
+- [x] references/python/src/query_engine.py
 - [ ] references/python/src/native_ts/__init__.py
-- [ ] references/python/src/session_store.py
+- [x] references/python/src/session_store.py
 - [ ] references/python/src/entrypoints/__init__.py
 - [ ] references/python/src/schemas/__init__.py
 - [ ] references/python/src/bootstrap_graph.py
-- [ ] references/python/src/QueryEngine.py
+- [x] references/python/src/QueryEngine.py
 - [ ] references/python/src/cost_tracker.py
 - [ ] references/python/src/_archive_helper.py
 - [ ] references/python/src/bridge/__init__.py
@@ -1998,7 +1998,7 @@
 - [ ] references/python/src/memdir/__init__.py
 - [ ] references/python/src/port_manifest.py
 - [ ] references/python/src/buddy/__init__.py
-- [ ] references/python/src/transcript.py
+- [x] references/python/src/transcript.py
 - [ ] references/python/src/Tool.py
 - [ ] references/python/src/outputStyles/__init__.py
 - [ ] references/python/src/coordinator/__init__.py
@@ -2041,9 +2041,9 @@
 - [x] references/python/src/interactiveHelpers.py
 - [ ] references/python/src/parity_audit.py
 - [x] references/python/src/dialogLaunchers.py
-- [ ] references/python/src/runtime.py
+- [x] references/python/src/runtime.py
 - [ ] references/python/src/execution_registry.py
-- [ ] references/python/src/history.py
+- [x] references/python/src/history.py
 - [ ] references/python/src/ink.py
 - [ ] references/python/src/types/__init__.py
 - [ ] references/python/src/hooks/__init__.py
@@ -2057,7 +2057,7 @@
 - [ ] references/python/src/bootstrap/__init__.py
 - [ ] references/python/src/server/__init__.py
 - [ ] references/python/src/context.py
-- [ ] references/python/src/query.py
+- [x] references/python/src/query.py
 - [ ] references/python/src/skills/__init__.py
 - [ ] references/python/src/components/__init__.py
 - [ ] references/python/src/commands.py
