@@ -1,8 +1,8 @@
-use std::fs;
 use std::path::Path;
-use std::process::Command;
 
-use crate::config::{checksum, read_text, RuntimeConfig};
+use crate::bash::run_bash;
+use crate::config::RuntimeConfig;
+use crate::file_ops::{run_file_edit, run_file_read, run_file_write};
 
 pub fn policy_for_operation(
     approval_mode: &str,
@@ -23,7 +23,6 @@ pub fn policy_for_operation(
 }
 
 pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
-    let usage_path = root.join(".agent/usage/runtime-tool-smoke.txt");
     let mut results = Vec::new();
 
     let bash_status = if config.enabled_tools.iter().any(|tool| tool == "bash") {
@@ -32,13 +31,9 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("bash=disabled")
     };
     if bash_status == "bash=allowed" {
-        let output = Command::new("bash")
-            .args(["-lc", "printf tool-bash-ok"])
-            .output()
-            .unwrap_or_else(|err| panic!("failed to run bash tool: {err}"));
         results.push(format!(
             "bash_result={}",
-            String::from_utf8_lossy(&output.stdout).trim()
+            run_bash(root, "printf tool-bash-ok")
         ));
     } else {
         results.push(format!("bash_result={bash_status}"));
@@ -55,10 +50,7 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("file_read=disabled")
     };
     if file_read_status == "file_read=allowed" {
-        results.push(format!(
-            "file_read_result={}",
-            checksum(&[read_text(&root.join(".agent/context/README.md"))])
-        ));
+        results.push(format!("file_read_result={}", run_file_read(root)));
     } else {
         results.push(format!("file_read_result={file_read_status}"));
     }
@@ -74,9 +66,7 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("file_write=disabled")
     };
     if file_write_status == "file_write=allowed" {
-        fs::write(&usage_path, "tool-write-ok")
-            .unwrap_or_else(|err| panic!("failed to write tool file: {err}"));
-        results.push(String::from("file_write_result=tool-write-ok"));
+        results.push(format!("file_write_result={}", run_file_write(root)));
     } else {
         results.push(format!("file_write_result={file_write_status}"));
     }
@@ -92,14 +82,7 @@ pub fn run_core_tools(root: &Path, config: &RuntimeConfig) -> String {
         String::from("file_edit=disabled")
     };
     if file_edit_status == "file_edit=allowed" {
-        if !usage_path.exists() {
-            fs::write(&usage_path, "tool-write-ok")
-                .unwrap_or_else(|err| panic!("failed to seed tool file: {err}"));
-        }
-        let edited = format!("{} edited", read_text(&usage_path));
-        fs::write(&usage_path, &edited)
-            .unwrap_or_else(|err| panic!("failed to edit tool file: {err}"));
-        results.push(format!("file_edit_result={edited}"));
+        results.push(format!("file_edit_result={}", run_file_edit(root)));
     } else {
         results.push(format!("file_edit_result={file_edit_status}"));
     }

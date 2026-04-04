@@ -1,6 +1,9 @@
+mod bash;
+mod bash_validation;
 mod bootstrap;
 mod config;
 mod conversation;
+mod file_ops;
 mod prompt;
 mod providers;
 mod runtime_summary;

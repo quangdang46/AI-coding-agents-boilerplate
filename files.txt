@@ -2071,7 +2071,7 @@
 - [ ] references/python/src/__init__.py
 - [ ] references/rust/TUI-ENHANCEMENT-PLAN.md
 - [ ] references/rust/crates/runtime/Cargo.toml
-- [ ] references/rust/crates/runtime/src/file_ops.rs
+- [x] references/rust/crates/runtime/src/file_ops.rs
 - [x] references/rust/crates/runtime/src/session.rs
 - [ ] references/rust/crates/runtime/src/green_contract.rs
 - [x] references/rust/crates/runtime/src/json.rs
@@ -2082,11 +2082,11 @@
 - [ ] references/rust/crates/runtime/src/sse.rs
 - [ ] references/rust/crates/runtime/src/trust_resolver.rs
 - [x] references/rust/crates/runtime/src/compact.rs
-- [ ] references/rust/crates/runtime/src/bash_validation.rs
+- [x] references/rust/crates/runtime/src/bash_validation.rs
 - [ ] references/rust/crates/runtime/src/summary_compression.rs
 - [ ] references/rust/crates/runtime/src/plugin_lifecycle.rs
 - [ ] references/rust/crates/runtime/src/oauth.rs
-- [ ] references/rust/crates/runtime/src/bash.rs
+- [x] references/rust/crates/runtime/src/bash.rs
 - [ ] references/rust/crates/runtime/src/mcp.rs
 - [ ] references/rust/crates/runtime/src/permissions.rs
 - [ ] references/rust/crates/runtime/src/recovery_recipes.rs
