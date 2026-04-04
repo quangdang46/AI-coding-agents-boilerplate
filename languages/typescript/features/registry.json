@@ -4,6 +4,10 @@
     {"id": "github-pr-review", "path": "github-pr-review"},
     {"id": "interactive-clarification-tools", "path": "interactive-clarification-tools"},
     {"id": "lsp-tooling", "path": "lsp-tooling"},
-    {"id": "mcp-integration", "path": "mcp-integration"}
+    {"id": "mcp-integration", "path": "mcp-integration"},
+    {"id": "oauth-onboarding", "path": "oauth-onboarding"},
+    {"id": "prompt-suggestion-services", "path": "prompt-suggestion-services"},
+    {"id": "session-memory", "path": "session-memory"},
+    {"id": "team-memory", "path": "team-memory"}
   ]
 }

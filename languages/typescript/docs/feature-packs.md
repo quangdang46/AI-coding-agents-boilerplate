@@ -7,6 +7,10 @@ The TypeScript pack currently ships these add-only feature packs:
 - `interactive-clarification-tools`
 - `lsp-tooling`
 - `mcp-integration`
+- `oauth-onboarding`
+- `prompt-suggestion-services`
+- `session-memory`
+- `team-memory`
 
 Canonical TypeScript feature authoring lives under:
 

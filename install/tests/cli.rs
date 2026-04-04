@@ -789,6 +789,67 @@ fn typescript_optional_feature_packs_add_tools_and_skills() {
 }
 
 #[test]
+fn typescript_service_feature_packs_add_optional_skills() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-service-feature-packs");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    for feature_id in [
+        "typescript:oauth-onboarding",
+        "typescript:prompt-suggestion-services",
+        "typescript:session-memory",
+        "typescript:team-memory",
+    ] {
+        feature::add(&feature::FeatureArgs {
+            feature_id: feature_id.to_string(),
+            project: out.clone(),
+        })
+        .expect("typescript service feature add works");
+    }
+
+    for skill in [
+        "use-oauth-onboarding",
+        "use-prompt-suggestion-services",
+        "use-session-memory",
+        "use-team-memory",
+    ] {
+        assert!(brand_root(&out)
+            .join(format!("skills/{skill}/SKILL.md"))
+            .exists());
+        assert!(out
+            .join(format!(".agents/skills/{skill}/SKILL.md"))
+            .exists());
+    }
+
+    let config =
+        std::fs::read_to_string(out.join("boilerplate.config.ts")).expect("read typescript config");
+    for expected in [
+        "oauth-onboarding",
+        "prompt-suggestion-services",
+        "session-memory",
+        "team-memory",
+        "use-oauth-onboarding",
+        "use-prompt-suggestion-services",
+        "use-session-memory",
+        "use-team-memory",
+    ] {
+        assert!(config.contains(expected), "missing {expected} in config");
+    }
+
+    let doctor_message = doctor::run(&out).expect("doctor after service feature adds works");
+    assert!(doctor_message.contains("doctor ok"));
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_typescript_session_root() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("typescript-session-root-missing");
