@@ -854,6 +854,56 @@ fn typescript_service_feature_packs_add_optional_skills() {
 }
 
 #[test]
+fn typescript_plugin_feature_packs_add_optional_skills() {
+    let _guard = acquire_cli_test_guard();
+    let out = temp_dir("typescript-plugin-feature-packs");
+    init::run(&init::InitArgs {
+        project_name: "demo-ts".to_string(),
+        language: "typescript".to_string(),
+        output: out.clone(),
+        package_name: None,
+        binary_name: None,
+    })
+    .expect("typescript init works");
+
+    for feature_id in [
+        "typescript:plugin-runtime",
+        "typescript:plugin-marketplace-ui",
+    ] {
+        feature::add(&feature::FeatureArgs {
+            feature_id: feature_id.to_string(),
+            project: out.clone(),
+        })
+        .expect("typescript plugin feature add works");
+    }
+
+    for skill in ["use-plugin-runtime", "use-plugin-marketplace-ui"] {
+        assert!(brand_root(&out)
+            .join(format!("skills/{skill}/SKILL.md"))
+            .exists());
+        assert!(out
+            .join(format!(".agents/skills/{skill}/SKILL.md"))
+            .exists());
+    }
+
+    let config =
+        std::fs::read_to_string(out.join("boilerplate.config.ts")).expect("read typescript config");
+    for expected in [
+        "plugin-runtime",
+        "plugin-marketplace-ui",
+        "use-plugin-runtime",
+        "use-plugin-marketplace-ui",
+    ] {
+        assert!(config.contains(expected), "missing {expected} in config");
+    }
+
+    let doctor_message = doctor::run(&out).expect("doctor after plugin feature adds works");
+    assert!(doctor_message.contains("doctor ok"));
+
+    fs::remove_dir_all(out).ok();
+}
+
+#[test]
 fn doctor_detects_missing_typescript_session_root() {
     let _guard = acquire_cli_test_guard();
     let out = temp_dir("typescript-session-root-missing");
@@ -1601,7 +1651,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     );
     assert_eq!(
         registry_names,
-        "status,session,export,config,doctor,context,usage,permissions,files,tasks"
+        "status,session,export,config,doctor,context,memory,usage,permissions,files,resume,compact,diff,cost,clear,tasks"
     );
 
     let command_outputs = run_command(
@@ -1609,7 +1659,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             .arg("--input-type=module")
             .arg("-e")
             .arg(
-                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['session','export','config','doctor','context','usage','permissions','files','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
+                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['status','session','export','config','doctor','context','memory','usage','permissions','files','resume','compact','diff','cost','clear','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
             )
             .arg(out.display().to_string())
             .current_dir(&repo),
@@ -1618,14 +1668,21 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     assert_contains_all(
         &command_outputs,
         &[
+            "status:status=ready session_id=local-main-session turn_count=1 usage_entries=1",
             "session:session_id=local-main-session",
             "config:provider=anthropic model=claude-sonnet-4-6 approval_mode=default",
             "doctor:doctor=ok",
-            "context:context_digest=",
-            "usage:usage_entries=2 total_cost_micros=",
+            "context:prompt_digest=",
+            "memory:memory_entries=1 context_digest=",
+            "usage:usage_entries=1 total_cost_micros=",
             "permissions:approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
             "files:session_state=true export_state=true usage_state=true",
-            "tasks:task_count=1 active_task=session-loop turn_count=3",
+            "resume:resume_session_id=local-main-session resume_turn_count=2",
+            "compact:compact_ready=true usage_entries=2",
+            "diff:diff_ready=true context_digest=",
+            "cost:cost_entries=2 total_cost_micros=",
+            "clear:clearable=true retained_session_id=local-main-session",
+            "tasks:task_count=1 active_task=session-loop turn_count=2",
         ],
     );
     assert!(command_outputs.contains(&format!(

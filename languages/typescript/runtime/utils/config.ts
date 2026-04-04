@@ -16,6 +16,11 @@ export type RuntimeConfig = {
   deny: string[]
 }
 
+export type RuntimeConfigSummary = Pick<
+  RuntimeConfig,
+  'defaultProvider' | 'providerModel' | 'approvalMode'
+>
+
 export function loadRuntimeConfig(root: string): RuntimeConfig {
   const configText = readText(join(root, 'boilerplate.config.ts'))
   const defaultProvider = extractString(configText, /defaultProvider:\s*'([^']+)'/)
@@ -35,4 +40,9 @@ export function loadRuntimeConfig(root: string): RuntimeConfig {
     approvalMode: extractString(configText, /approvalMode:\s*'([^']+)'/),
     deny: extractStringList(configText, /deny:\s*\[([\s\S]*?)\]/),
   }
+}
+
+export function loadRuntimeConfigSummary(root: string): RuntimeConfigSummary {
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfig(root)
+  return { defaultProvider, providerModel, approvalMode }
 }

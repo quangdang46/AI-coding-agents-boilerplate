@@ -2,8 +2,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { loadRuntimeSummary } from '../config/loadRuntimeSummary.ts'
-import { runSessionLoop } from '../engine/sessionLoop.ts'
+import { loadContextSummary } from '../context/loadContextState.ts'
+import { loadSessionSnapshot } from '../state/sessionState.ts'
 import { inferBrandRoot, instructionCandidates } from '../utils/brand.ts'
+import { loadRuntimeConfigSummary } from '../utils/config.ts'
 
 export type CoreCommandName =
   | 'status'
@@ -12,9 +14,15 @@ export type CoreCommandName =
   | 'config'
   | 'doctor'
   | 'context'
+  | 'memory'
   | 'usage'
   | 'permissions'
   | 'files'
+  | 'resume'
+  | 'compact'
+  | 'diff'
+  | 'cost'
+  | 'clear'
   | 'tasks'
 
 export type CoreCommandHandler = (root: string) => string
@@ -43,22 +51,8 @@ function readState(path: string): Record<string, string> {
   )
 }
 
-function extractString(source: string, pattern: RegExp): string {
-  const match = source.match(pattern)
-  if (!match) {
-    throw new Error(`missing config pattern: ${pattern.source}`)
-  }
-  return match[1]
-}
-
 function configSummary(root: string): string {
-  const configText = readText(join(root, 'boilerplate.config.ts'))
-  const defaultProvider = extractString(configText, /defaultProvider:\s*'([^']+)'/)
-  const providerModel = extractString(
-    configText,
-    new RegExp(`${defaultProvider}:\\s*{[\\s\\S]*?model:\\s*'([^']+)'`),
-  )
-  const approvalMode = extractString(configText, /approvalMode:\s*'([^']+)'/)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
   return `provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode}`
 }
 
@@ -67,21 +61,31 @@ function sessionSummary(root: string): string {
   return `session_id=${latest.session_id ?? 'missing'} turn_count=${latest.turn_count ?? '0'}`
 }
 
+function statusSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `status=ready session_id=${session.sessionId} turn_count=${session.turnCount} usage_entries=${session.usageEntries}`
+}
+
 function exportSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
   const brandRoot = inferBrandRoot(root)
-  const exportPath = join(brandRoot, 'sessions/local-main-session.export.md')
-  const exists = existsSync(exportPath)
-  return `export_path=${brandRoot.split('/').at(-1) ?? '.claude'}/sessions/local-main-session.export.md export_exists=${exists}`
+  const exists = existsSync(join(root, session.exportPath))
+  return `export_path=${session.exportPath} export_exists=${exists && brandRoot.length > 0}`
 }
 
 function contextSummary(root: string): string {
-  const summary = loadRuntimeSummary(root)
-  return `context_digest=${summary.contextDigest}`
+  const summary = loadContextSummary(root)
+  return `prompt_digest=${summary.promptDigest} context_digest=${summary.contextDigest}`
 }
 
 function usageSummary(root: string): string {
-  const usage = readState(join(inferBrandRoot(root), 'sessions/summary.state'))
-  return `usage_entries=${usage.usage_entries ?? '0'} total_cost_micros=${usage.total_cost_micros ?? '0'}`
+  const session = loadSessionSnapshot(root)
+  return `usage_entries=${session.usageEntries} total_cost_micros=${session.totalCostMicros}`
+}
+
+function memorySummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `memory_entries=${session.usageEntries} context_digest=${session.contextDigest}`
 }
 
 function permissionSummary(root: string): string {
@@ -95,6 +99,32 @@ function fileSummary(root: string): string {
   const exportState = existsSync(join(brandRoot, 'sessions/local-main-session.export.md'))
   const usageState = existsSync(join(brandRoot, 'sessions/summary.state'))
   return `session_state=${sessionState} export_state=${exportState} usage_state=${usageState}`
+}
+
+function resumeSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `resume_session_id=${session.sessionId} resume_turn_count=${session.turnCount}`
+}
+
+function compactSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `compact_ready=true usage_entries=${session.usageEntries} export_path=${session.exportPath}`
+}
+
+function diffSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `diff_ready=true context_digest=${session.contextDigest} turn_count=${session.turnCount}`
+}
+
+function costSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `cost_entries=${session.usageEntries} total_cost_micros=${session.totalCostMicros}`
+}
+
+function clearSummary(root: string): string {
+  const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
+  const hasSession = (latest.session_id ?? '').length > 0
+  return `clearable=${hasSession} retained_session_id=${latest.session_id ?? 'missing'}`
 }
 
 function taskSummary(root: string): string {
@@ -120,15 +150,21 @@ function doctorSummary(root: string): string {
 }
 
 export const coreCommands: CoreCommandDefinition[] = [
-  { name: 'status', run: (root) => runSessionLoop(root) },
+  { name: 'status', run: statusSummary },
   { name: 'session', run: sessionSummary },
   { name: 'export', run: exportSummary },
   { name: 'config', run: configSummary },
   { name: 'doctor', run: doctorSummary },
   { name: 'context', run: contextSummary },
+  { name: 'memory', run: memorySummary },
   { name: 'usage', run: usageSummary },
   { name: 'permissions', run: permissionSummary },
   { name: 'files', run: fileSummary },
+  { name: 'resume', run: resumeSummary },
+  { name: 'compact', run: compactSummary },
+  { name: 'diff', run: diffSummary },
+  { name: 'cost', run: costSummary },
+  { name: 'clear', run: clearSummary },
   { name: 'tasks', run: taskSummary },
 ]
 

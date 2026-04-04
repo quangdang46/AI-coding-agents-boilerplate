@@ -12,6 +12,8 @@ export type ContextState = {
   contextDigest: string
 }
 
+export type ContextSummary = Pick<ContextState, 'promptDigest' | 'contextDigest'>
+
 export function loadContextState(root: string): ContextState {
   const { systemPath, appendPaths, contextPaths } = loadRuntimeConfig(root)
 
@@ -37,4 +39,9 @@ export function loadContextState(root: string): ContextState {
     promptDigest: checksum(promptTexts),
     contextDigest: checksum(contextTexts),
   }
+}
+
+export function loadContextSummary(root: string): ContextSummary {
+  const { promptDigest, contextDigest } = loadContextState(root)
+  return { promptDigest, contextDigest }
 }
