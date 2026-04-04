@@ -1,14 +1,19 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use crate::permissions::{permission_mode_from_config, PermissionMode};
+use crate::sandbox::{FilesystemIsolationMode, SandboxConfig};
+
 #[derive(Debug, Clone)]
 pub struct RuntimeConfig {
     pub default_provider: String,
     pub provider_model: String,
     pub approval_mode: String,
+    pub permission_mode: PermissionMode,
     pub deny: Vec<String>,
     pub context_paths: Vec<String>,
     pub enabled_tools: Vec<String>,
+    pub sandbox: SandboxConfig,
 }
 
 pub fn project_root() -> PathBuf {
@@ -136,13 +141,22 @@ pub fn extract_tools_enabled(source: &str) -> Vec<String> {
 pub fn load_runtime_config(root: &Path) -> RuntimeConfig {
     let config_text = read_text(&root.join(".claw.json"));
     let default_provider = extract_json_string(&config_text, "defaultProvider");
+    let approval_mode = extract_json_string(&config_text, "defaultMode");
 
     RuntimeConfig {
         provider_model: extract_provider_model(&config_text, &default_provider),
-        approval_mode: extract_json_string(&config_text, "defaultMode"),
+        approval_mode: approval_mode.clone(),
+        permission_mode: permission_mode_from_config(&approval_mode),
         deny: extract_json_list(&config_text, "deny"),
         context_paths: extract_context_paths(&config_text),
         enabled_tools: extract_tools_enabled(&config_text),
+        sandbox: SandboxConfig {
+            enabled: None,
+            namespace_restrictions: None,
+            network_isolation: None,
+            filesystem_mode: Some(FilesystemIsolationMode::WorkspaceOnly),
+            allowed_mounts: Vec::new(),
+        },
         default_provider,
     }
 }

@@ -39,5 +39,4 @@ references/source-typescript/*
 # bv (beads viewer) local config and caches
 .bv/
 
-# bv (beads viewer) local config and caches
-.bv/
+.scope/
