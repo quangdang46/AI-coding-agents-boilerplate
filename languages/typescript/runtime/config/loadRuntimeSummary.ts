@@ -1,6 +1,7 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 
+import { persistSessionState } from '../state/sessionState.ts'
 import { loadRuntimeConfig } from '../utils/config.ts'
 import { inferBrandRoot } from '../utils/brand.ts'
 import { readText } from '../utils/files.ts'
@@ -24,31 +25,6 @@ export type RuntimeSummary = {
   totalCostMicros: number
 }
 
-function readState(path: string): Record<string, string> {
-  try {
-    return Object.fromEntries(
-      readText(path)
-        .split('\n')
-        .filter((line) => line.includes('='))
-        .map((line) => {
-          const [key, ...rest] = line.split('=')
-          return [key, rest.join('=')]
-        }),
-    )
-  } catch {
-    return {}
-  }
-}
-
-function writeState(path: string, entries: Array<[string, string]>): void {
-  writeFileSync(
-    path,
-    `${entries.map(([key, value]) => `${key}=${value}`).join('\n')}\n`,
-    'utf8',
-  )
-}
-
-
 function persistSessionAndUsage(
   root: string,
   defaultProvider: string,
@@ -59,45 +35,27 @@ function persistSessionAndUsage(
   contextTexts: string[],
   toolResults: string,
 ): Pick<RuntimeSummary, 'sessionId' | 'turnCount' | 'exportPath' | 'usageEntries' | 'totalCostMicros'> {
-  const brandRoot = inferBrandRoot(root)
-  const brandRootName = brandRoot.split('/').at(-1) ?? '.claude'
-  const sessionId = 'local-main-session'
-  const sessionPath = join(brandRoot, 'sessions/local-main-session.state')
-  const latestPath = join(brandRoot, 'sessions/latest.state')
-  const exportPath = `${brandRootName}/sessions/local-main-session.export.md`
-  const exportFilePath = join(root, exportPath)
-  const usageSummaryPath = join(brandRoot, 'sessions/summary.state')
-
-  const previousSession = readState(sessionPath)
-  const turnCount = Number(previousSession.turn_count ?? '0') + 1
-  const previousSummary = readState(usageSummaryPath)
-  const usageEntries = Number(previousSummary.usage_entries ?? '0') + 1
   const costMicros = (promptTexts.concat(contextTexts).join('').length * 2) + toolResults.length * 3
-  const totalCostMicros = Number(previousSummary.total_cost_micros ?? '0') + costMicros
-
-  const stateEntries: Array<[string, string]> = [
-    ['session_id', sessionId],
-    ['turn_count', String(turnCount)],
-    ['provider', defaultProvider],
-    ['model', providerModel],
-    ['prompt_digest', promptDigest],
-    ['context_digest', contextDigest],
-  ]
-  writeState(sessionPath, stateEntries)
-  writeState(latestPath, stateEntries)
-
-  writeFileSync(
-    exportFilePath,
-    `# Session Export\n\n- session_id: ${sessionId}\n- turn_count: ${turnCount}\n- provider: ${defaultProvider}\n- model: ${providerModel}\n- prompt_digest: ${promptDigest}\n- context_digest: ${contextDigest}\n`,
-    'utf8',
+  const nextState = persistSessionState(
+    root,
+    {
+      sessionId: 'local-main-session',
+      turnCount: 0,
+      provider: defaultProvider,
+      model: providerModel,
+      promptDigest,
+      contextDigest,
+    },
+    costMicros,
   )
 
-  writeState(usageSummaryPath, [
-    ['usage_entries', String(usageEntries)],
-    ['total_cost_micros', String(totalCostMicros)],
-  ])
-
-  return { sessionId, turnCount, exportPath, usageEntries, totalCostMicros }
+  return {
+    sessionId: nextState.sessionId,
+    turnCount: nextState.turnCount,
+    exportPath: nextState.exportPath,
+    usageEntries: nextState.usageEntries,
+    totalCostMicros: nextState.totalCostMicros,
+  }
 }
 
 export function loadRuntimeSummary(root: string): RuntimeSummary {

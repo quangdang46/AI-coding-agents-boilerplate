@@ -16,6 +16,11 @@ export type UsageState = {
   totalCostMicros: number
 }
 
+export type SessionSnapshot = SessionState &
+  UsageState & {
+    exportPath: string
+  }
+
 function readState(path: string): Record<string, string> {
   try {
     return Object.fromEntries(
@@ -41,6 +46,12 @@ function writeState(path: string, entries: Array<[string, string]>): void {
   )
 }
 
+function exportPathForRoot(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  const brandRootName = brandRoot.split('/').at(-1) ?? '.claude'
+  return `${brandRootName}/sessions/local-main-session.export.md`
+}
+
 export function loadLatestSessionState(root: string): SessionState {
   const state = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   return {
@@ -61,31 +72,47 @@ export function loadUsageState(root: string): UsageState {
   }
 }
 
+export function loadSessionSnapshot(root: string): SessionSnapshot {
+  const latest = loadLatestSessionState(root)
+  const usage = loadUsageState(root)
+  return {
+    ...latest,
+    ...usage,
+    exportPath: exportPathForRoot(root),
+  }
+}
+
 export function persistSessionState(
   root: string,
   nextState: SessionState,
   costMicros: number,
-): UsageState {
+): SessionSnapshot {
   const brandRoot = inferBrandRoot(root)
   const sessionPath = join(brandRoot, 'sessions/local-main-session.state')
   const latestPath = join(brandRoot, 'sessions/latest.state')
-  const exportFilePath = join(brandRoot, 'sessions/local-main-session.export.md')
+  const exportPath = exportPathForRoot(root)
+  const exportFilePath = join(root, exportPath)
   const usageSummaryPath = join(brandRoot, 'sessions/summary.state')
+  const previousSession = readState(sessionPath)
+  const resolvedState: SessionState = {
+    ...nextState,
+    turnCount: Number(previousSession.turn_count ?? '0') + 1,
+  }
 
   const stateEntries: Array<[string, string]> = [
-    ['session_id', nextState.sessionId],
-    ['turn_count', String(nextState.turnCount)],
-    ['provider', nextState.provider],
-    ['model', nextState.model],
-    ['prompt_digest', nextState.promptDigest],
-    ['context_digest', nextState.contextDigest],
+    ['session_id', resolvedState.sessionId],
+    ['turn_count', String(resolvedState.turnCount)],
+    ['provider', resolvedState.provider],
+    ['model', resolvedState.model],
+    ['prompt_digest', resolvedState.promptDigest],
+    ['context_digest', resolvedState.contextDigest],
   ]
   writeState(sessionPath, stateEntries)
   writeState(latestPath, stateEntries)
 
   writeFileSync(
     exportFilePath,
-    `# Session Export\n\n- session_id: ${nextState.sessionId}\n- turn_count: ${nextState.turnCount}\n- provider: ${nextState.provider}\n- model: ${nextState.model}\n- prompt_digest: ${nextState.promptDigest}\n- context_digest: ${nextState.contextDigest}\n`,
+    `# Session Export\n\n- session_id: ${resolvedState.sessionId}\n- turn_count: ${resolvedState.turnCount}\n- provider: ${resolvedState.provider}\n- model: ${resolvedState.model}\n- prompt_digest: ${resolvedState.promptDigest}\n- context_digest: ${resolvedState.contextDigest}\n`,
     'utf8',
   )
 
@@ -100,5 +127,9 @@ export function persistSessionState(
     ['total_cost_micros', String(nextUsage.totalCostMicros)],
   ])
 
-  return nextUsage
+  return {
+    ...resolvedState,
+    ...nextUsage,
+    exportPath,
+  }
 }
