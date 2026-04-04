@@ -2121,9 +2121,9 @@
 - [x] references/rust/crates/api/src/providers/anthropic.rs
 - [x] references/rust/crates/api/src/providers/openai_compat.rs
 - [ ] references/rust/crates/api/src/prompt_cache.rs
-- [ ] references/rust/crates/tools/Cargo.toml
-- [ ] references/rust/crates/tools/.gitignore
-- [ ] references/rust/crates/tools/src/lib.rs
+- [x] references/rust/crates/tools/Cargo.toml
+- [x] references/rust/crates/tools/.gitignore
+- [x] references/rust/crates/tools/src/lib.rs
 - [ ] references/rust/crates/mock-anthropic-service/Cargo.toml
 - [ ] references/rust/crates/mock-anthropic-service/src/main.rs
 - [ ] references/rust/crates/mock-anthropic-service/src/lib.rs
@@ -2138,19 +2138,19 @@
 - [ ] references/rust/crates/plugins/Cargo.toml
 - [ ] references/rust/crates/plugins/src/lib.rs
 - [ ] references/rust/crates/plugins/src/hooks.rs
-- [ ] references/rust/crates/commands/Cargo.toml
-- [ ] references/rust/crates/commands/src/lib.rs
-- [ ] references/rust/crates/rusty-claude-cli/Cargo.toml
-- [ ] references/rust/crates/rusty-claude-cli/tests/resume_slash_commands.rs
-- [ ] references/rust/crates/rusty-claude-cli/tests/cli_flags_and_config_defaults.rs
-- [ ] references/rust/crates/rusty-claude-cli/tests/mock_parity_harness.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/app.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/init.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/main.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/args.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/input.rs
-- [ ] references/rust/crates/rusty-claude-cli/src/render.rs
-- [ ] references/rust/crates/rusty-claude-cli/.claw/sessions/session-newer.jsonl
+- [x] references/rust/crates/commands/Cargo.toml
+- [x] references/rust/crates/commands/src/lib.rs
+- [x] references/rust/crates/rusty-claude-cli/Cargo.toml
+- [x] references/rust/crates/rusty-claude-cli/tests/resume_slash_commands.rs
+- [x] references/rust/crates/rusty-claude-cli/tests/cli_flags_and_config_defaults.rs
+- [x] references/rust/crates/rusty-claude-cli/tests/mock_parity_harness.rs
+- [x] references/rust/crates/rusty-claude-cli/src/app.rs
+- [x] references/rust/crates/rusty-claude-cli/src/init.rs
+- [x] references/rust/crates/rusty-claude-cli/src/main.rs
+- [x] references/rust/crates/rusty-claude-cli/src/args.rs
+- [x] references/rust/crates/rusty-claude-cli/src/input.rs
+- [x] references/rust/crates/rusty-claude-cli/src/render.rs
+- [x] references/rust/crates/rusty-claude-cli/.claw/sessions/session-newer.jsonl
 - [ ] references/rust/crates/telemetry/Cargo.toml
 - [ ] references/rust/crates/telemetry/src/lib.rs
 - [ ] references/rust/.omc/plans/tui-enhancement-plan.md
