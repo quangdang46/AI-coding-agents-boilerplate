@@ -1970,8 +1970,8 @@
 - [ ] references/python/ROADMAP.md
 - [ ] references/python/.claude.json
 - [ ] references/python/.gitignore
-- [ ] references/python/src/system_init.py
-- [ ] references/python/src/setup.py
+- [x] references/python/src/system_init.py
+- [x] references/python/src/setup.py
 - [ ] references/python/src/constants/__init__.py
 - [ ] references/python/src/command_graph.py
 - [ ] references/python/src/utils/__init__.py
@@ -2038,9 +2038,9 @@
 - [ ] references/python/src/reference_data/__init__.py
 - [ ] references/python/src/upstreamproxy/__init__.py
 - [ ] references/python/src/remote/__init__.py
-- [ ] references/python/src/interactiveHelpers.py
+- [x] references/python/src/interactiveHelpers.py
 - [ ] references/python/src/parity_audit.py
-- [ ] references/python/src/dialogLaunchers.py
+- [x] references/python/src/dialogLaunchers.py
 - [ ] references/python/src/runtime.py
 - [ ] references/python/src/execution_registry.py
 - [ ] references/python/src/history.py
@@ -2050,7 +2050,7 @@
 - [x] references/python/src/task.py
 - [ ] references/python/src/migrations/__init__.py
 - [x] references/python/src/permissions.py
-- [ ] references/python/src/replLauncher.py
+- [x] references/python/src/replLauncher.py
 - [ ] references/python/src/cli/__init__.py
 - [ ] references/python/src/assistant/__init__.py
 - [ ] references/python/src/tools.py
@@ -2064,7 +2064,7 @@
 - [x] references/python/src/direct_modes.py
 - [x] references/python/src/remote_runtime.py
 - [ ] references/python/src/screens/__init__.py
-- [ ] references/python/src/main.py
+- [x] references/python/src/main.py
 - [ ] references/python/src/costHook.py
 - [ ] references/python/src/prefetch.py
 - [ ] references/python/src/moreright/__init__.py
