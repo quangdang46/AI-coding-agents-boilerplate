@@ -1,6 +1,7 @@
 mod bash;
 mod bash_validation;
 mod bootstrap;
+mod commands;
 mod config;
 mod conversation;
 mod file_ops;
@@ -13,6 +14,7 @@ mod runtime_summary;
 mod sandbox;
 mod session;
 mod stale_branch;
+mod tools;
 mod trust_resolver;
 mod usage;
 mod worker_boot;
