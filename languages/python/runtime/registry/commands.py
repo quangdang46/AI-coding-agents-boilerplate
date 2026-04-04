@@ -1,10 +1,18 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 
 from ..brand import brand_doc_candidates, infer_brand_root
 from ..permissions import summarize_permission_state
 from ..tasks import summarize_task_state
+
+
+@dataclass(frozen=True)
+class CommandDefinition:
+    name: str
+    purpose: str
+    source_file: str
 
 
 def _read_state(path: Path) -> dict[str, str]:
@@ -26,19 +34,66 @@ def _extract_value(source: str, marker: str) -> str:
     return source[start:end]
 
 
+DEFAULT_COMMANDS: tuple[CommandDefinition, ...] = (
+    CommandDefinition(
+        "status",
+        "Render the runtime status summary",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "session",
+        "Summarize the latest persisted session state",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "export",
+        "Report the exported session artifact path",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "config",
+        "Summarize active provider, model, and approval configuration",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "doctor",
+        "Validate the shipped Python instruction and session surfaces",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "context",
+        "Report the current context digest for the active runtime turn",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "usage",
+        "Summarize usage and accumulated runtime cost",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "permissions",
+        "Summarize the effective runtime permission posture",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "files",
+        "Report persisted session, export, and usage file presence",
+        "references/python/src/commands.py",
+    ),
+    CommandDefinition(
+        "tasks",
+        "Summarize the active runtime task surface",
+        "references/python/src/commands.py",
+    ),
+)
+
+
+def command_definitions() -> tuple[CommandDefinition, ...]:
+    return DEFAULT_COMMANDS
+
+
 def command_registry() -> dict[str, str]:
-    return {
-        "status": "status",
-        "session": "session",
-        "export": "export",
-        "config": "config",
-        "doctor": "doctor",
-        "context": "context",
-        "usage": "usage",
-        "permissions": "permissions",
-        "files": "files",
-        "tasks": "tasks",
-    }
+    return {definition.name: definition.purpose for definition in command_definitions()}
 
 
 def run_command(command_name: str, project_root: Path, runtime_output: str) -> str:
@@ -89,7 +144,9 @@ def run_command(command_name: str, project_root: Path, runtime_output: str) -> s
         return summarize_permission_state(runtime_output)
     if command_name == "files":
         session_state = (brand_root / "sessions" / "local-main-session.state").exists()
-        export_state = (brand_root / "sessions" / "local-main-session.export.md").exists()
+        export_state = (
+            brand_root / "sessions" / "local-main-session.export.md"
+        ).exists()
         usage_state = (brand_root / "sessions" / "summary.state").exists()
         return (
             f"session_state={session_state} export_state={export_state} "
