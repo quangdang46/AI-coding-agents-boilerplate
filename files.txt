@@ -41,18 +41,18 @@
 - [ ] references/typescript/src/utils/words.ts
 - [ ] references/typescript/src/utils/readFileInRange.ts
 - [ ] references/typescript/src/utils/authFileDescriptor.ts
-- [ ] references/typescript/src/utils/stringUtils.ts
+- [x] references/typescript/src/utils/stringUtils.ts
 - [ ] references/typescript/src/utils/hyperlink.ts
 - [ ] references/typescript/src/utils/lazySchema.ts
-- [ ] references/typescript/src/utils/fingerprint.ts
+- [x] references/typescript/src/utils/fingerprint.ts
 - [ ] references/typescript/src/utils/backgroundHousekeeping.ts
 - [ ] references/typescript/src/utils/mailbox.ts
 - [ ] references/typescript/src/utils/systemDirectories.ts
 - [ ] references/typescript/src/utils/envValidation.ts
 - [ ] references/typescript/src/utils/fileHistory.ts
 - [ ] references/typescript/src/utils/memoryFileDetection.ts
-- [ ] references/typescript/src/utils/toolResultStorage.ts
-- [ ] references/typescript/src/utils/shellConfig.ts
+- [x] references/typescript/src/utils/toolResultStorage.ts
+- [x] references/typescript/src/utils/shellConfig.ts
 - [ ] references/typescript/src/utils/Cursor.ts
 - [ ] references/typescript/src/utils/activityManager.ts
 - [ ] references/typescript/src/utils/screenshotClipboard.ts
@@ -149,9 +149,9 @@
 - [ ] references/typescript/src/utils/iTermBackup.ts
 - [ ] references/typescript/src/utils/subprocessEnv.ts
 - [ ] references/typescript/src/utils/stream.ts
-- [ ] references/typescript/src/utils/sessionState.ts
+- [x] references/typescript/src/utils/sessionState.ts
 - [ ] references/typescript/src/utils/theme.ts
-- [ ] references/typescript/src/utils/config.ts
+- [x] references/typescript/src/utils/config.ts
 - [ ] references/typescript/src/utils/systemTheme.ts
 - [ ] references/typescript/src/utils/systemPrompt.ts
 - [ ] references/typescript/src/utils/dxt/zip.ts
@@ -176,7 +176,7 @@
 - [ ] references/typescript/src/utils/keyboardShortcuts.ts
 - [ ] references/typescript/src/utils/argumentSubstitution.ts
 - [ ] references/typescript/src/utils/forkedAgent.ts
-- [ ] references/typescript/src/utils/file.ts
+- [x] references/typescript/src/utils/file.ts
 - [ ] references/typescript/src/utils/classifierApprovals.ts
 - [ ] references/typescript/src/utils/analyzeContext.ts
 - [ ] references/typescript/src/utils/textHighlighting.ts
@@ -190,7 +190,7 @@
 - [ ] references/typescript/src/utils/process.ts
 - [ ] references/typescript/src/utils/glob.ts
 - [ ] references/typescript/src/utils/preflightChecks.tsx
-- [ ] references/typescript/src/utils/context.ts
+- [x] references/typescript/src/utils/context.ts
 - [ ] references/typescript/src/utils/sessionIngressAuth.ts
 - [ ] references/typescript/src/utils/git/gitFilesystem.ts
 - [ ] references/typescript/src/utils/git/gitignore.ts
