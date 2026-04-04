@@ -1,7 +1,7 @@
 # Session Export
 
 - session_id: local-main-session
-- turn_count: 1
+- turn_count: 3
 - provider: anthropic
 - model: claude-sonnet-4-6
 - prompt_digest: 2e3c195a

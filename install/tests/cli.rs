@@ -1651,7 +1651,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     );
     assert_eq!(
         registry_names,
-        "help,status,session,export,agents,config,doctor,context,theme,output_style,memory,plan,review,model,effort,fast,passes,usage,sandbox,permissions,files,resume,compact,diff,cost,clear,stats,tasks,tag,vim,color,keybindings,copy,terminal,exit,hooks,branch,skills"
+        "help,status,session,export,agents,config,doctor,context,theme,output_style,memory,plan,review,model,effort,fast,passes,usage,sandbox,permissions,files,resume,compact,diff,cost,clear,stats,tasks,tag,vim,color,keybindings,copy,terminal,exit,hooks,branch,skills,commit,release_notes,commit_push_pr,statusline,thinkback,thinkback_play,assistant,rename,pr_comments,insights,ide,rate_limit_options,upgrade,init_verifiers,create_moved_to_plugin_command"
     );
 
     let command_outputs = run_command(
@@ -1659,7 +1659,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             .arg("--input-type=module")
             .arg("-e")
             .arg(
-                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['help','status','session','export','agents','config','doctor','context','theme','output_style','memory','plan','review','model','effort','fast','passes','usage','sandbox','permissions','files','resume','compact','diff','cost','clear','stats','tasks','tag','vim','color','keybindings','copy','terminal','exit','hooks','branch','skills']) { console.log(`${name}:${registry[name](root)}`); }",
+                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['help','status','session','export','agents','config','doctor','context','theme','output_style','memory','plan','review','model','effort','fast','passes','usage','sandbox','permissions','files','resume','compact','diff','cost','clear','stats','tasks','tag','vim','color','keybindings','copy','terminal','exit','hooks','branch','skills','commit','release_notes','commit_push_pr','statusline','thinkback','thinkback_play','assistant','rename','pr_comments','insights','ide','rate_limit_options','upgrade','init_verifiers','create_moved_to_plugin_command']) { console.log(`${name}:${registry[name](root)}`); }",
             )
             .arg(out.display().to_string())
             .current_dir(&repo),
@@ -1705,6 +1705,21 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             "hooks:hooks_ready=true instructions_present=true",
             "branch:branch_ready=true session_id=local-main-session turn_count=3",
             "skills:skills_ready=true",
+            "commit:commit_ready=true session_id=local-main-session usage_entries=3",
+            "release_notes:release_notes_ready=true session_id=local-main-session turn_count=3",
+            "commit_push_pr:commit_push_pr_ready=true session_id=local-main-session usage_entries=3",
+            "statusline:statusline_ready=true session_id=local-main-session turn_count=3",
+            "thinkback:thinkback_ready=true session_id=local-main-session context_digest=",
+            "thinkback_play:thinkback_play_ready=true session_id=local-main-session turn_count=3",
+            "assistant:assistant_ready=true session_id=local-main-session usage_entries=3",
+            "rename:rename_ready=true session_id=local-main-session turn_count=3",
+            "pr_comments:pr_comments_ready=true session_id=local-main-session usage_entries=3",
+            "insights:insights_ready=true context_digest=",
+            "ide:ide_ready=true provider=anthropic model=claude-sonnet-4-6 session_id=local-main-session",
+            "rate_limit_options:rate_limit_options_ready=true approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
+            "upgrade:upgrade_ready=true provider=anthropic model=claude-sonnet-4-6 approval_mode=default session_id=local-main-session",
+            "init_verifiers:init_verifiers_ready=true provider=anthropic model=claude-sonnet-4-6 approval_mode=default session_id=local-main-session turn_count=4",
+            "create_moved_to_plugin_command:create_moved_to_plugin_command_ready=true provider=anthropic model=claude-sonnet-4-6 approval_mode=default session_id=local-main-session context_digest=",
         ],
     );
     assert!(command_outputs.contains(&format!(

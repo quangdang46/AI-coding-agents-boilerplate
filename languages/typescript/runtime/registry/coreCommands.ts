@@ -46,6 +46,21 @@ export type CoreCommandName =
   | 'hooks'
   | 'branch'
   | 'skills'
+  | 'commit'
+  | 'release_notes'
+  | 'commit_push_pr'
+  | 'statusline'
+  | 'thinkback'
+  | 'thinkback_play'
+  | 'assistant'
+  | 'rename'
+  | 'pr_comments'
+  | 'insights'
+  | 'ide'
+  | 'rate_limit_options'
+  | 'upgrade'
+  | 'init_verifiers'
+  | 'create_moved_to_plugin_command'
 
 export type CoreCommandHandler = (root: string) => string
 
@@ -260,6 +275,85 @@ function skillsSummary(root: string): string {
   return `skills_ready=${existsSync(skillsDir)} skills_root=${skillsDir.split('/').at(-2) ?? 'missing'}`
 }
 
+function commitSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `commit_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function releaseNotesSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `release_notes_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function commitPushPrSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `commit_push_pr_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function statuslineSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `statusline_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function thinkbackSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `thinkback_ready=true session_id=${session.sessionId} context_digest=${session.contextDigest}`
+}
+
+function thinkbackPlaySummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `thinkback_play_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function assistantSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `assistant_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function renameSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `rename_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function prCommentsSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `pr_comments_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function insightsSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `insights_ready=true context_digest=${session.contextDigest} usage_entries=${session.usageEntries}`
+}
+
+function ideSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel } = loadRuntimeConfigSummary(root)
+  return `ide_ready=true provider=${defaultProvider} model=${providerModel} session_id=${session.sessionId}`
+}
+
+function rateLimitOptionsSummary(root: string): string {
+  const summary = loadRuntimeSummary(root)
+  return `rate_limit_options_ready=true approval_mode=${summary.approvalMode} bash_policy=${summary.bashPolicy} file_write_policy=${summary.fileWritePolicy}`
+}
+
+function upgradeSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
+  return `upgrade_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId}`
+}
+
+function initVerifiersSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
+  return `init_verifiers_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function createMovedToPluginCommandSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  const { defaultProvider, providerModel, approvalMode } = loadRuntimeConfigSummary(root)
+  return `create_moved_to_plugin_command_ready=true provider=${defaultProvider} model=${providerModel} approval_mode=${approvalMode} session_id=${session.sessionId} context_digest=${session.contextDigest}`
+}
+
 function taskSummary(root: string): string {
   const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   const turnCount = latest.turn_count ?? '0'
@@ -321,6 +415,21 @@ export const coreCommands: CoreCommandDefinition[] = [
   { name: 'hooks', run: hooksSummary },
   { name: 'branch', run: branchSummary },
   { name: 'skills', run: skillsSummary },
+  { name: 'commit', run: commitSummary },
+  { name: 'release_notes', run: releaseNotesSummary },
+  { name: 'commit_push_pr', run: commitPushPrSummary },
+  { name: 'statusline', run: statuslineSummary },
+  { name: 'thinkback', run: thinkbackSummary },
+  { name: 'thinkback_play', run: thinkbackPlaySummary },
+  { name: 'assistant', run: assistantSummary },
+  { name: 'rename', run: renameSummary },
+  { name: 'pr_comments', run: prCommentsSummary },
+  { name: 'insights', run: insightsSummary },
+  { name: 'ide', run: ideSummary },
+  { name: 'rate_limit_options', run: rateLimitOptionsSummary },
+  { name: 'upgrade', run: upgradeSummary },
+  { name: 'init_verifiers', run: initVerifiersSummary },
+  { name: 'create_moved_to_plugin_command', run: createMovedToPluginCommandSummary },
 ]
 
 export function getCoreCommandRegistry(): Record<CoreCommandName, CoreCommandHandler> {
