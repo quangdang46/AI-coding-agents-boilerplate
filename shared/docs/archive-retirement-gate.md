@@ -38,6 +38,8 @@ The required evidence set is:
 
 These artifacts preserve migration truth after archive removal. They are the minimum documentation-and-test set that must remain intact.
 
+`shared/docs/completeness-controls.md` defines the bead-close protocol for claiming and ticking `files.txt` rows. Archive retirement is blocked if `files.txt` exists but bead closeout does not follow that protocol.
+
 ---
 
 ## 3. Runtime isolation restatement

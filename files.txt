@@ -1,7 +1,7 @@
 # Port Checklist
 
-# Rule: when a bead is completed, mark every covered archived source file below as `[x]`.
-# Keep paths stable; add implementation notes in bead comments or port tables, not inline here.
+# Rule: when a bead is completed, mark every owned archived source file below as `[x]` only after that bead reaches the file's final disposition.
+# Claim owned rows before implementation begins; keep paths stable; add implementation notes in bead comments or port tables, not inline here.
 # Normalization rule: each row below is the current archived evidence path under `references/<language>/...`.
 # Migration docs may also refer to normalized source identities such as `references/source-python/`, `references/source-typescript/`, `references/source-rust/`, and `references/parity/`.
 # Those normalized identities preserve original-source naming for planning, while the checklist rows remain the auditable current-layout paths used for closeout.
