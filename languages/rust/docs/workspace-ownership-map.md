@@ -14,9 +14,9 @@ It is the canonical ownership map for Task `aicd-3ix.5.1`.
 | Archived crate | Archived evidence | Shipped ownership / disposition |
 | --- | --- | --- |
 | `runtime` | `references/rust/crates/runtime/Cargo.toml` and `references/rust/crates/runtime/src/lib.rs` | owned by `languages/rust/runtime/` and its sub-boundaries (`config/`, `entrypoints/`, `prompts/`, `registry/`) |
-| `commands` | `references/rust/crates/commands/Cargo.toml` and `references/rust/crates/commands/src/lib.rs` | deferred crate extraction; current command-facing behavior remains represented through the shipped core runtime contract and installer tests |
-| `tools` | `references/rust/crates/tools/Cargo.toml` and `references/rust/crates/tools/src/lib.rs` | deferred crate extraction; current tool-facing behavior remains represented through the shipped core runtime contract and installer tests |
-| `rusty-claude-cli` | `references/rust/crates/rusty-claude-cli/Cargo.toml` | deferred crate extraction; generated-project executable ownership currently lives under `languages/rust/template/base/Cargo.toml` and `languages/rust/template/base/src/main.rs` |
+| `commands` | `references/rust/crates/commands/Cargo.toml` and `references/rust/crates/commands/src/lib.rs` | owned by `languages/rust/template/base/src/commands.rs` plus runtime-facing summary wiring in `languages/rust/template/base/src/bootstrap.rs` |
+| `tools` | `references/rust/crates/tools/Cargo.toml` and `references/rust/crates/tools/src/lib.rs` | owned by `languages/rust/template/base/src/tools.rs` plus runtime-facing summary wiring in `languages/rust/template/base/src/runtime_summary.rs` |
+| `rusty-claude-cli` | `references/rust/crates/rusty-claude-cli/Cargo.toml` | owned by `languages/rust/template/base/Cargo.toml`, `languages/rust/template/base/src/main.rs`, and the generated-project registry/session shell modules under `languages/rust/template/base/src/` |
 
 ## Adjacent archived crates
 
@@ -43,6 +43,8 @@ The following files already define the shipped Rust ownership boundary:
 - `languages/rust/runtime/registry/README.md`
 - `languages/rust/template/base/Cargo.toml`
 - `languages/rust/template/base/src/main.rs`
+- `languages/rust/template/base/src/commands.rs`
+- `languages/rust/template/base/src/tools.rs`
 
 ## Decision rule
 
