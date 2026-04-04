@@ -34,6 +34,7 @@ def test_complete_map() -> None:
         "bridge-system",
         "voice-system",
         "task-system",
+        "root-support-miscellany",
         "services-core-config-context",
         "services-core-session-state",
         "services-core-tool-execution",
@@ -168,6 +169,26 @@ def test_services_cluster_is_explicitly_decomposed() -> None:
     assert (
         "references/typescript/src/services/autoDream"
         in subsystems["services-product-support"]["paths"]
+    )
+
+    assert (
+        subsystems["root-support-miscellany"]["destination"] == "future-feature-packs"
+    )
+    assert (
+        "references/typescript/src/ink.ts"
+        in subsystems["root-support-miscellany"]["paths"]
+    )
+    assert (
+        "references/typescript/src/outputStyles/loadOutputStylesDir.ts"
+        in subsystems["root-support-miscellany"]["paths"]
+    )
+    assert (
+        "references/typescript/src/coordinator/coordinatorMode.ts"
+        in subsystems["root-support-miscellany"]["paths"]
+    )
+    assert (
+        "references/typescript/src/vendor/ripgrep/x64-linux/rg"
+        in subsystems["root-support-miscellany"]["paths"]
     )
 
     assert subsystems["services-analytics-policy"]["destination"] == "reference-only"
