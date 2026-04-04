@@ -8,12 +8,16 @@ import { inferBrandRoot, instructionCandidates } from '../utils/brand.ts'
 import { loadRuntimeConfigSummary } from '../utils/config.ts'
 
 export type CoreCommandName =
+  | 'help'
   | 'status'
   | 'session'
   | 'export'
+  | 'agents'
   | 'config'
   | 'doctor'
   | 'context'
+  | 'theme'
+  | 'output_style'
   | 'memory'
   | 'plan'
   | 'review'
@@ -22,6 +26,7 @@ export type CoreCommandName =
   | 'fast'
   | 'passes'
   | 'usage'
+  | 'sandbox'
   | 'permissions'
   | 'files'
   | 'resume'
@@ -29,7 +34,18 @@ export type CoreCommandName =
   | 'diff'
   | 'cost'
   | 'clear'
+  | 'stats'
   | 'tasks'
+  | 'tag'
+  | 'vim'
+  | 'color'
+  | 'keybindings'
+  | 'copy'
+  | 'terminal'
+  | 'exit'
+  | 'hooks'
+  | 'branch'
+  | 'skills'
 
 export type CoreCommandHandler = (root: string) => string
 
@@ -67,6 +83,12 @@ function sessionSummary(root: string): string {
   return `session_id=${latest.session_id ?? 'missing'} turn_count=${latest.turn_count ?? '0'}`
 }
 
+function helpSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  const commandCount = coreCommands.length
+  return `help_ready=true brand_root=${brandRoot.split('/').at(-1) ?? '.claude'} command_count=${commandCount}`
+}
+
 function statusSummary(root: string): string {
   const session = loadSessionSnapshot(root)
   return `status=ready session_id=${session.sessionId} turn_count=${session.turnCount} usage_entries=${session.usageEntries}`
@@ -79,9 +101,25 @@ function exportSummary(root: string): string {
   return `export_path=${session.exportPath} export_exists=${exists && brandRoot.length > 0}`
 }
 
+function agentsSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  const agentDir = join(brandRoot, 'agents')
+  return `agents_ready=${existsSync(agentDir)} agent_root=${agentDir.split('/').at(-2) ?? 'missing'}`
+}
+
 function contextSummary(root: string): string {
   const summary = loadContextSummary(root)
   return `prompt_digest=${summary.promptDigest} context_digest=${summary.contextDigest}`
+}
+
+function themeSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `theme_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function outputStyleSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `output_style=default usage_entries=${session.usageEntries} context_digest=${session.contextDigest}`
 }
 
 function usageSummary(root: string): string {
@@ -124,6 +162,11 @@ function passesSummary(root: string): string {
   return `passes_ready=true usage_entries=${session.usageEntries} total_cost_micros=${session.totalCostMicros}`
 }
 
+function sandboxSummary(root: string): string {
+  const summary = loadRuntimeSummary(root)
+  return `sandbox_ready=true approval_mode=${summary.approvalMode} bash_policy=${summary.bashPolicy}`
+}
+
 function permissionSummary(root: string): string {
   const summary = loadRuntimeSummary(root)
   return `approval_mode=${summary.approvalMode} bash_policy=${summary.bashPolicy} file_write_policy=${summary.fileWritePolicy}`
@@ -135,6 +178,11 @@ function fileSummary(root: string): string {
   const exportState = existsSync(join(brandRoot, 'sessions/local-main-session.export.md'))
   const usageState = existsSync(join(brandRoot, 'sessions/summary.state'))
   return `session_state=${sessionState} export_state=${exportState} usage_state=${usageState}`
+}
+
+function statsSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `stats_ready=true usage_entries=${session.usageEntries} total_cost_micros=${session.totalCostMicros}`
 }
 
 function resumeSummary(root: string): string {
@@ -163,6 +211,55 @@ function clearSummary(root: string): string {
   return `clearable=${hasSession} retained_session_id=${latest.session_id ?? 'missing'}`
 }
 
+function tagSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `tag_ready=true session_id=${session.sessionId} context_digest=${session.contextDigest}`
+}
+
+function vimSummary(root: string): string {
+  return 'vim_mode=available'
+}
+
+function colorSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `color_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function keybindingsSummary(root: string): string {
+  return 'keybindings_ready=true profile=default'
+}
+
+function copySummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `copy_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function terminalSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  return `terminal_ready=true brand_root=${brandRoot.split('/').at(-1) ?? '.claude'}`
+}
+
+function exitSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `exit_ready=true session_id=${session.sessionId} usage_entries=${session.usageEntries}`
+}
+
+function hooksSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  return `hooks_ready=true instructions_present=${instructionCandidates(root, brandRoot).length > 0}`
+}
+
+function branchSummary(root: string): string {
+  const session = loadSessionSnapshot(root)
+  return `branch_ready=true session_id=${session.sessionId} turn_count=${session.turnCount}`
+}
+
+function skillsSummary(root: string): string {
+  const brandRoot = inferBrandRoot(root)
+  const skillsDir = join(brandRoot, 'skills')
+  return `skills_ready=${existsSync(skillsDir)} skills_root=${skillsDir.split('/').at(-2) ?? 'missing'}`
+}
+
 function taskSummary(root: string): string {
   const latest = readState(join(inferBrandRoot(root), 'sessions/latest.state'))
   const turnCount = latest.turn_count ?? '0'
@@ -186,12 +283,16 @@ function doctorSummary(root: string): string {
 }
 
 export const coreCommands: CoreCommandDefinition[] = [
+  { name: 'help', run: helpSummary },
   { name: 'status', run: statusSummary },
   { name: 'session', run: sessionSummary },
   { name: 'export', run: exportSummary },
+  { name: 'agents', run: agentsSummary },
   { name: 'config', run: configSummary },
   { name: 'doctor', run: doctorSummary },
   { name: 'context', run: contextSummary },
+  { name: 'theme', run: themeSummary },
+  { name: 'output_style', run: outputStyleSummary },
   { name: 'memory', run: memorySummary },
   { name: 'plan', run: planSummary },
   { name: 'review', run: reviewSummary },
@@ -200,6 +301,7 @@ export const coreCommands: CoreCommandDefinition[] = [
   { name: 'fast', run: fastSummary },
   { name: 'passes', run: passesSummary },
   { name: 'usage', run: usageSummary },
+  { name: 'sandbox', run: sandboxSummary },
   { name: 'permissions', run: permissionSummary },
   { name: 'files', run: fileSummary },
   { name: 'resume', run: resumeSummary },
@@ -207,7 +309,18 @@ export const coreCommands: CoreCommandDefinition[] = [
   { name: 'diff', run: diffSummary },
   { name: 'cost', run: costSummary },
   { name: 'clear', run: clearSummary },
+  { name: 'stats', run: statsSummary },
   { name: 'tasks', run: taskSummary },
+  { name: 'tag', run: tagSummary },
+  { name: 'vim', run: vimSummary },
+  { name: 'color', run: colorSummary },
+  { name: 'keybindings', run: keybindingsSummary },
+  { name: 'copy', run: copySummary },
+  { name: 'terminal', run: terminalSummary },
+  { name: 'exit', run: exitSummary },
+  { name: 'hooks', run: hooksSummary },
+  { name: 'branch', run: branchSummary },
+  { name: 'skills', run: skillsSummary },
 ]
 
 export function getCoreCommandRegistry(): Record<CoreCommandName, CoreCommandHandler> {

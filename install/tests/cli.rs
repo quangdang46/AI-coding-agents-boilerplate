@@ -1651,7 +1651,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     );
     assert_eq!(
         registry_names,
-        "status,session,export,config,doctor,context,memory,plan,review,model,effort,fast,passes,usage,permissions,files,resume,compact,diff,cost,clear,tasks"
+        "help,status,session,export,agents,config,doctor,context,theme,output_style,memory,plan,review,model,effort,fast,passes,usage,sandbox,permissions,files,resume,compact,diff,cost,clear,stats,tasks,tag,vim,color,keybindings,copy,terminal,exit,hooks,branch,skills"
     );
 
     let command_outputs = run_command(
@@ -1659,7 +1659,7 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             .arg("--input-type=module")
             .arg("-e")
             .arg(
-                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['status','session','export','config','doctor','context','memory','plan','review','model','effort','fast','passes','usage','permissions','files','resume','compact','diff','cost','clear','tasks']) { console.log(`${name}:${registry[name](root)}`); }",
+                "import { getCoreCommandRegistry } from './languages/typescript/runtime/registry/coreCommands.ts'; const registry = getCoreCommandRegistry(); const root = process.argv[1]; for (const name of ['help','status','session','export','agents','config','doctor','context','theme','output_style','memory','plan','review','model','effort','fast','passes','usage','sandbox','permissions','files','resume','compact','diff','cost','clear','stats','tasks','tag','vim','color','keybindings','copy','terminal','exit','hooks','branch','skills']) { console.log(`${name}:${registry[name](root)}`); }",
             )
             .arg(out.display().to_string())
             .current_dir(&repo),
@@ -1668,11 +1668,15 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
     assert_contains_all(
         &command_outputs,
         &[
+            "help:help_ready=true",
             "status:status=ready session_id=local-main-session turn_count=1 usage_entries=1",
             "session:session_id=local-main-session",
+            "agents:agents_ready=true",
             "config:provider=anthropic model=claude-sonnet-4-6 approval_mode=default",
             "doctor:doctor=ok",
             "context:prompt_digest=",
+            "theme:theme_ready=true session_id=local-main-session turn_count=1",
+            "output_style:output_style=default usage_entries=1 context_digest=",
             "memory:memory_entries=1 context_digest=",
             "plan:plan_ready=true session_id=local-main-session turn_count=1",
             "review:review_ready=true session_id=local-main-session usage_entries=1",
@@ -1681,14 +1685,26 @@ fn generated_typescript_core_command_registry_covers_runtime_slice() {
             "fast:fast_mode=available session_id=local-main-session context_digest=",
             "passes:passes_ready=true usage_entries=1 total_cost_micros=",
             "usage:usage_entries=1 total_cost_micros=",
+            "sandbox:sandbox_ready=true approval_mode=default bash_policy=bash=approval-required",
             "permissions:approval_mode=default bash_policy=bash=approval-required file_write_policy=file_write=approval-required",
             "files:session_state=true export_state=true usage_state=true",
-            "resume:resume_session_id=local-main-session resume_turn_count=2",
-            "compact:compact_ready=true usage_entries=2",
+            "resume:resume_session_id=local-main-session resume_turn_count=3",
+            "compact:compact_ready=true usage_entries=3",
             "diff:diff_ready=true context_digest=",
-            "cost:cost_entries=2 total_cost_micros=",
+            "cost:cost_entries=3 total_cost_micros=",
             "clear:clearable=true retained_session_id=local-main-session",
-            "tasks:task_count=1 active_task=session-loop turn_count=2",
+            "stats:stats_ready=true usage_entries=3 total_cost_micros=",
+            "tasks:task_count=1 active_task=session-loop turn_count=3",
+            "tag:tag_ready=true session_id=local-main-session context_digest=",
+            "vim:vim_mode=available",
+            "color:color_ready=true session_id=local-main-session usage_entries=3",
+            "keybindings:keybindings_ready=true profile=default",
+            "copy:copy_ready=true session_id=local-main-session turn_count=3",
+            "terminal:terminal_ready=true brand_root=.demo-ts",
+            "exit:exit_ready=true session_id=local-main-session usage_entries=3",
+            "hooks:hooks_ready=true instructions_present=true",
+            "branch:branch_ready=true session_id=local-main-session turn_count=3",
+            "skills:skills_ready=true",
         ],
     );
     assert!(command_outputs.contains(&format!(
