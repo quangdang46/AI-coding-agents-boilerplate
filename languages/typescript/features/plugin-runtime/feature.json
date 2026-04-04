@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "plugin-runtime",
+  "displayName": "Plugin Runtime",
+  "description": "Adds optional plugin runtime mechanics for TypeScript projects, including plugin manifest, source-kind, and plugin-provided command or hook workflows.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": [],
+  "adds": {
+    "agents": [],
+    "skill": "use-plugin-runtime",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["plugin-runtime"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-plugin-runtime"]
+    }
+  ]
+}

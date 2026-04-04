@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kind": "feature-pack",
+  "id": "plugin-marketplace-ui",
+  "displayName": "Plugin Marketplace UI",
+  "description": "Adds optional plugin marketplace and lifecycle workflows for TypeScript projects, including install, discovery, update, and trust-management surfaces.",
+  "version": "0.1.0",
+  "appliesTo": ["typescript"],
+  "dependsOn": ["plugin-runtime"],
+  "adds": {
+    "agents": [],
+    "skill": "use-plugin-marketplace-ui",
+    "prompts": [],
+    "tools": []
+  },
+  "patches": [
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "features.enabled",
+      "value": ["plugin-marketplace-ui"]
+    },
+    {
+      "target": "boilerplate.config.ts",
+      "strategy": "merge",
+      "path": "skills.enabled",
+      "value": ["use-plugin-marketplace-ui"]
+    }
+  ]
+}
