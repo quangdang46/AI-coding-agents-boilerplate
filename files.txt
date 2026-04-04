@@ -1184,8 +1184,8 @@
 - [x] references/typescript/src/commands/export/index.ts
 - [x] references/typescript/src/commands/export/export.tsx
 - [ ] references/typescript/src/commands/install.tsx
-- [ ] references/typescript/src/commands/config/config.tsx
-- [ ] references/typescript/src/commands/config/index.ts
+- [x] references/typescript/src/commands/config/config.tsx
+- [x] references/typescript/src/commands/config/index.ts
 - [x] references/typescript/src/commands/cost/cost.ts
 - [x] references/typescript/src/commands/cost/index.ts
 - [ ] references/typescript/src/commands/thinkback/thinkback.tsx
