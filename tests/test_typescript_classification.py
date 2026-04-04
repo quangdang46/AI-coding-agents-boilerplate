@@ -25,6 +25,7 @@ def test_complete_map() -> None:
         "core-registry",
         "core-providers",
         "base-template-config",
+        "root-archive-metadata",
         "top-level-runtime-registries",
         "main-cli-runtime",
         "interactive-ui-screens",
@@ -33,7 +34,10 @@ def test_complete_map() -> None:
         "bridge-system",
         "voice-system",
         "task-system",
-        "services-ecosystem",
+        "services-api-auth-bootstrap",
+        "services-mcp-lsp",
+        "services-memory-suggestions",
+        "services-analytics-policy",
         "state-layer",
         "schema-files",
     }
@@ -50,6 +54,55 @@ def test_complete_map() -> None:
             "reference-only",
         }
         assert entry["reason"]
+
+
+def test_services_cluster_is_explicitly_decomposed() -> None:
+    mapping = _load_map()
+    subsystems = {entry["id"]: entry for entry in mapping["subsystems"]}
+
+    assert "services-ecosystem" not in subsystems
+
+    assert (
+        subsystems["services-api-auth-bootstrap"]["destination"]
+        == "future-feature-packs"
+    )
+    assert (
+        "references/typescript/src/services/api"
+        in subsystems["services-api-auth-bootstrap"]["paths"]
+    )
+    assert (
+        "references/typescript/src/services/oauth"
+        in subsystems["services-api-auth-bootstrap"]["paths"]
+    )
+
+    assert subsystems["services-mcp-lsp"]["destination"] == "future-feature-packs"
+    assert (
+        "references/typescript/src/services/mcp"
+        in subsystems["services-mcp-lsp"]["paths"]
+    )
+    assert (
+        "references/typescript/src/services/lsp"
+        in subsystems["services-mcp-lsp"]["paths"]
+    )
+
+    assert (
+        subsystems["services-memory-suggestions"]["destination"]
+        == "future-feature-packs"
+    )
+    assert (
+        "references/typescript/src/services/compact"
+        in subsystems["services-memory-suggestions"]["paths"]
+    )
+    assert (
+        "references/typescript/src/services/PromptSuggestion"
+        in subsystems["services-memory-suggestions"]["paths"]
+    )
+
+    assert subsystems["services-analytics-policy"]["destination"] == "reference-only"
+    assert (
+        "references/typescript/src/services/analytics"
+        in subsystems["services-analytics-policy"]["paths"]
+    )
 
 
 def test_gate_blocks_early_extraction() -> None:

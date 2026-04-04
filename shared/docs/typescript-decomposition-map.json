@@ -43,6 +43,25 @@
       "reason": "Current base template config is the seed for a generated TypeScript project."
     },
     {
+      "id": "root-archive-metadata",
+      "paths": [
+        "references/typescript/README.md",
+        "references/typescript/FEATURES.md",
+        "references/typescript/CLAUDE.md",
+        "references/typescript/package.json",
+        "references/typescript/tsconfig.json",
+        "references/typescript/env.d.ts",
+        "references/typescript/install.sh",
+        "references/typescript/scripts/build.ts",
+        "references/typescript/changes.md",
+        "references/typescript/assets/screenshot.png",
+        "references/typescript/bun.lock",
+        "references/typescript/.gitignore"
+      ],
+      "destination": "reference-only",
+      "reason": "Archived free-code root docs, build metadata, lockfiles, and visual assets are evidence-only product surfaces and should not be re-extracted into the shipped AICD TypeScript pack."
+    },
+    {
       "id": "top-level-runtime-registries",
       "paths": ["references/source-typescript/SNAPSHOT.md"],
       "destination": "reference-only",
@@ -91,10 +110,57 @@
       "reason": "Task/team orchestration is an optional workflow family."
     },
     {
-      "id": "services-ecosystem",
-      "paths": ["references/source-typescript/SNAPSHOT.md"],
+      "id": "services-api-auth-bootstrap",
+      "paths": [
+        "references/typescript/src/services/api",
+        "references/typescript/src/services/oauth",
+        "references/typescript/src/services/tools",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "API, auth, and bootstrap-facing services already have dedicated subcoverage and should be extracted as explicit optional families instead of staying hidden inside one monolith bucket."
+    },
+    {
+      "id": "services-mcp-lsp",
+      "paths": [
+        "references/typescript/src/services/mcp",
+        "references/typescript/src/services/lsp",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "MCP and LSP services align with declared optional capability families and should remain decomposed as feature-pack candidates rather than implicit core runtime ownership."
+    },
+    {
+      "id": "services-memory-suggestions",
+      "paths": [
+        "references/typescript/src/services/SessionMemory",
+        "references/typescript/src/services/teamMemorySync",
+        "references/typescript/src/services/PromptSuggestion",
+        "references/typescript/src/services/MagicDocs",
+        "references/typescript/src/services/tips",
+        "references/typescript/src/services/toolUseSummary",
+        "references/typescript/src/services/extractMemories",
+        "references/typescript/src/services/compact",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Memory, compaction, summarization, and prompt-suggestion helpers are already treated as separate optional families in the port tables and capability matrix, so they should be decomposed explicitly here as well."
+    },
+    {
+      "id": "services-analytics-policy",
+      "paths": [
+        "references/typescript/src/services/analytics",
+        "references/typescript/src/services/policyLimits",
+        "references/typescript/src/services/rateLimitMessages.ts",
+        "references/typescript/src/services/rateLimitMocking.ts",
+        "references/typescript/src/services/mockRateLimits.ts",
+        "references/typescript/src/services/internalLogging.ts",
+        "references/typescript/src/services/notifier.ts",
+        "references/typescript/src/services/tokenEstimation.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
       "destination": "reference-only",
-      "reason": "Broad service ecosystem must be decomposed before any extraction."
+      "reason": "Analytics, rate-limit, and policy support services are still product-coupled and should stay explicitly excluded from current runtime extraction until a narrower owning capability exists."
     },
     {
       "id": "state-layer",
