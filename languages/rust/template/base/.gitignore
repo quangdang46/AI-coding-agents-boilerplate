@@ -4,3 +4,6 @@
 
 # Rust build artifacts
 target/
+# Generated coding-agent local artifacts
+__BRAND_ROOT__/settings.local.json
+__BRAND_ROOT__/sessions/
