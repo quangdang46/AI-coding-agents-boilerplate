@@ -54,6 +54,10 @@ def test_complete_map() -> None:
         "commands-remote-and-bridge",
         "commands-device-integrations",
         "commands-reference-only-product-ops",
+        "commands-install-and-onboarding-ui",
+        "commands-teleport-and-navigation",
+        "commands-reference-only-session-debug",
+        "commands-advisor-workflow",
         "state-layer",
         "schema-files",
     }
@@ -268,6 +272,7 @@ def test_integration_heavy_command_families_have_explicit_disposition() -> None:
         == "future-feature-packs"
     )
     for path in [
+        "references/typescript/src/commands/bridge-kick.ts",
         "references/typescript/src/commands/bridge",
         "references/typescript/src/commands/remote-setup",
         "references/typescript/src/bridge",
@@ -297,6 +302,47 @@ def test_integration_heavy_command_families_have_explicit_disposition() -> None:
         "references/typescript/src/commands/debug-tool-call",
     ]:
         assert path in subsystems["commands-reference-only-product-ops"]["paths"]
+
+    assert (
+        subsystems["commands-install-and-onboarding-ui"]["destination"]
+        == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/install-github-app",
+        "references/typescript/src/commands/install-slack-app",
+        "references/typescript/src/commands/remote-setup",
+    ]:
+        assert path in subsystems["commands-install-and-onboarding-ui"]["paths"]
+
+    assert (
+        subsystems["commands-teleport-and-navigation"]["destination"]
+        == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/teleport",
+        "references/typescript/src/utils/teleport.tsx",
+        "references/typescript/src/utils/teleport",
+    ]:
+        assert path in subsystems["commands-teleport-and-navigation"]["paths"]
+
+    assert (
+        subsystems["commands-reference-only-session-debug"]["destination"]
+        == "reference-only"
+    )
+    for path in [
+        "references/typescript/src/commands/summary",
+        "references/typescript/src/commands/debug-tool-call",
+    ]:
+        assert path in subsystems["commands-reference-only-session-debug"]["paths"]
+
+    assert (
+        subsystems["commands-advisor-workflow"]["destination"] == "future-feature-packs"
+    )
+    for path in [
+        "references/typescript/src/commands/advisor.ts",
+        "references/typescript/src/utils/advisor.ts",
+    ]:
+        assert path in subsystems["commands-advisor-workflow"]["paths"]
 
 
 def test_gate_blocks_early_extraction() -> None:

@@ -309,6 +309,7 @@
     {
       "id": "commands-remote-and-bridge",
       "paths": [
+        "references/typescript/src/commands/bridge-kick.ts",
         "references/typescript/src/commands/bridge",
         "references/typescript/src/commands/remote-setup",
         "references/typescript/src/bridge",
@@ -351,6 +352,48 @@
       ],
       "destination": "reference-only",
       "reason": "These product-ops and debugging command families are explicitly reference-only in the command port table and should remain excluded from shipped command ownership."
+    },
+    {
+      "id": "commands-install-and-onboarding-ui",
+      "paths": [
+        "references/typescript/src/commands/install-github-app",
+        "references/typescript/src/commands/install-slack-app",
+        "references/typescript/src/commands/remote-setup",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "App-install and remote-setup command flows are integration/setup experiences and should stay decomposed as optional feature-pack surfaces rather than core command runtime ownership."
+    },
+    {
+      "id": "commands-teleport-and-navigation",
+      "paths": [
+        "references/typescript/src/commands/teleport",
+        "references/typescript/src/utils/teleport.tsx",
+        "references/typescript/src/utils/teleport",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "Teleport-style navigation depends on broader environment and workspace navigation helpers, so it should remain an optional command family instead of being folded into the proving-slice command core."
+    },
+    {
+      "id": "commands-reference-only-session-debug",
+      "paths": [
+        "references/typescript/src/commands/summary",
+        "references/typescript/src/commands/debug-tool-call",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "reference-only",
+      "reason": "Summary and debug-tool-call are explicitly reference-only in the command port table and should stay excluded from shipped TypeScript command ownership."
+    },
+    {
+      "id": "commands-advisor-workflow",
+      "paths": [
+        "references/typescript/src/commands/advisor.ts",
+        "references/typescript/src/utils/advisor.ts",
+        "references/source-typescript/SNAPSHOT.md"
+      ],
+      "destination": "future-feature-packs",
+      "reason": "The advisor command depends on advisor-specific settings, model gating, and first-party server-side advisor workflow helpers, so it should remain an optional advanced command family rather than part of the shipped core operator command slice."
     },
     {
       "id": "state-layer",
