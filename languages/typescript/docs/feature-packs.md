@@ -8,6 +8,8 @@ The TypeScript pack currently ships these add-only feature packs:
 - `lsp-tooling`
 - `mcp-integration`
 - `oauth-onboarding`
+- `plugin-marketplace-ui`
+- `plugin-runtime`
 - `prompt-suggestion-services`
 - `session-memory`
 - `team-memory`

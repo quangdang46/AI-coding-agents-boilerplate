@@ -6,6 +6,8 @@
     {"id": "lsp-tooling", "path": "lsp-tooling"},
     {"id": "mcp-integration", "path": "mcp-integration"},
     {"id": "oauth-onboarding", "path": "oauth-onboarding"},
+    {"id": "plugin-marketplace-ui", "path": "plugin-marketplace-ui"},
+    {"id": "plugin-runtime", "path": "plugin-runtime"},
     {"id": "prompt-suggestion-services", "path": "prompt-suggestion-services"},
     {"id": "session-memory", "path": "session-memory"},
     {"id": "team-memory", "path": "team-memory"}
