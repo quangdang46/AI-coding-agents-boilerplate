@@ -89,18 +89,18 @@
 - [x] references/typescript/src/utils/processUserInput/processTextPrompt.ts
 - [x] references/typescript/src/utils/processUserInput/processBashCommand.tsx
 - [x] references/typescript/src/utils/processUserInput/processSlashCommand.tsx
-- [ ] references/typescript/src/utils/task/outputFormatting.ts
-- [ ] references/typescript/src/utils/task/TaskOutput.ts
-- [ ] references/typescript/src/utils/task/sdkProgress.ts
-- [ ] references/typescript/src/utils/task/framework.ts
-- [ ] references/typescript/src/utils/task/diskOutput.ts
-- [ ] references/typescript/src/utils/exampleCommands.ts
-- [ ] references/typescript/src/utils/memoize.ts
-- [ ] references/typescript/src/utils/set.ts
-- [ ] references/typescript/src/utils/memory/versions.ts
-- [ ] references/typescript/src/utils/memory/types.ts
-- [ ] references/typescript/src/utils/cronScheduler.ts
-- [ ] references/typescript/src/utils/ripgrep.ts
+- [x] references/typescript/src/utils/task/outputFormatting.ts
+- [x] references/typescript/src/utils/task/TaskOutput.ts
+- [x] references/typescript/src/utils/task/sdkProgress.ts
+- [x] references/typescript/src/utils/task/framework.ts
+- [x] references/typescript/src/utils/task/diskOutput.ts
+- [x] references/typescript/src/utils/exampleCommands.ts
+- [x] references/typescript/src/utils/memoize.ts
+- [x] references/typescript/src/utils/set.ts
+- [x] references/typescript/src/utils/memory/versions.ts
+- [x] references/typescript/src/utils/memory/types.ts
+- [x] references/typescript/src/utils/cronScheduler.ts
+- [x] references/typescript/src/utils/ripgrep.ts
 - [ ] references/typescript/src/utils/xml.ts
 - [ ] references/typescript/src/utils/sessionUrl.ts
 - [ ] references/typescript/src/utils/detectRepository.ts
@@ -1042,12 +1042,12 @@
 - [x] references/typescript/src/commands/mock-limits/index.js
 - [x] references/typescript/src/commands/chrome/index.ts
 - [x] references/typescript/src/commands/chrome/chrome.tsx
-- [ ] references/typescript/src/commands/add-dir/validation.ts
-- [ ] references/typescript/src/commands/add-dir/add-dir.tsx
-- [ ] references/typescript/src/commands/add-dir/index.ts
+- [x] references/typescript/src/commands/add-dir/validation.ts
+- [x] references/typescript/src/commands/add-dir/add-dir.tsx
+- [x] references/typescript/src/commands/add-dir/index.ts
 - [x] references/typescript/src/commands/login/index.ts
 - [x] references/typescript/src/commands/login/login.tsx
-- [ ] references/typescript/src/commands/issue/index.js
+- [x] references/typescript/src/commands/issue/index.js
 - [x] references/typescript/src/commands/resume/resume.tsx
 - [x] references/typescript/src/commands/resume/index.ts
 - [x] references/typescript/src/commands/privacy-settings/privacy-settings.tsx
