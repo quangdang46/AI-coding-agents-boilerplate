@@ -2109,18 +2109,18 @@
 - [x] references/rust/crates/runtime/src/conversation.rs
 - [x] references/rust/crates/runtime/src/hooks.rs
 - [x] references/rust/crates/api/Cargo.toml
-- [ ] references/rust/crates/api/tests/client_integration.rs
-- [ ] references/rust/crates/api/tests/provider_client_integration.rs
-- [ ] references/rust/crates/api/tests/openai_compat_integration.rs
-- [ ] references/rust/crates/api/src/client.rs
-- [ ] references/rust/crates/api/src/error.rs
+- [x] references/rust/crates/api/tests/client_integration.rs
+- [x] references/rust/crates/api/tests/provider_client_integration.rs
+- [x] references/rust/crates/api/tests/openai_compat_integration.rs
+- [x] references/rust/crates/api/src/client.rs
+- [x] references/rust/crates/api/src/error.rs
 - [x] references/rust/crates/api/src/lib.rs
-- [ ] references/rust/crates/api/src/types.rs
-- [ ] references/rust/crates/api/src/sse.rs
+- [x] references/rust/crates/api/src/types.rs
+- [x] references/rust/crates/api/src/sse.rs
 - [x] references/rust/crates/api/src/providers/mod.rs
 - [x] references/rust/crates/api/src/providers/anthropic.rs
 - [x] references/rust/crates/api/src/providers/openai_compat.rs
-- [ ] references/rust/crates/api/src/prompt_cache.rs
+- [x] references/rust/crates/api/src/prompt_cache.rs
 - [x] references/rust/crates/tools/Cargo.toml
 - [x] references/rust/crates/tools/.gitignore
 - [x] references/rust/crates/tools/src/lib.rs
