@@ -933,29 +933,29 @@
 - [ ] references/typescript/src/services/compact/postCompactCleanup.ts
 - [ ] references/typescript/src/services/compact/snipCompact.ts
 - [ ] references/typescript/src/services/compact/cachedMCConfig.ts
-- [ ] references/typescript/src/services/mcp/xaaIdpLogin.ts
-- [ ] references/typescript/src/services/mcp/headersHelper.ts
-- [ ] references/typescript/src/services/mcp/channelNotification.ts
-- [ ] references/typescript/src/services/mcp/xaa.ts
-- [ ] references/typescript/src/services/mcp/config.ts
-- [ ] references/typescript/src/services/mcp/InProcessTransport.ts
-- [ ] references/typescript/src/services/mcp/client.ts
-- [ ] references/typescript/src/services/mcp/normalization.ts
-- [ ] references/typescript/src/services/mcp/envExpansion.ts
-- [ ] references/typescript/src/services/mcp/vscodeSdkMcp.ts
-- [ ] references/typescript/src/services/mcp/useManageMCPConnections.ts
-- [ ] references/typescript/src/services/mcp/SdkControlTransport.ts
-- [ ] references/typescript/src/services/mcp/elicitationHandler.ts
-- [ ] references/typescript/src/services/mcp/channelPermissions.ts
-- [ ] references/typescript/src/services/mcp/types.ts
-- [ ] references/typescript/src/services/mcp/claudeai.ts
-- [ ] references/typescript/src/services/mcp/utils.ts
-- [ ] references/typescript/src/services/mcp/officialRegistry.ts
-- [ ] references/typescript/src/services/mcp/auth.ts
-- [ ] references/typescript/src/services/mcp/oauthPort.ts
-- [ ] references/typescript/src/services/mcp/MCPConnectionManager.tsx
-- [ ] references/typescript/src/services/mcp/mcpStringUtils.ts
-- [ ] references/typescript/src/services/mcp/channelAllowlist.ts
+- [x] references/typescript/src/services/mcp/xaaIdpLogin.ts
+- [x] references/typescript/src/services/mcp/headersHelper.ts
+- [x] references/typescript/src/services/mcp/channelNotification.ts
+- [x] references/typescript/src/services/mcp/xaa.ts
+- [x] references/typescript/src/services/mcp/config.ts
+- [x] references/typescript/src/services/mcp/InProcessTransport.ts
+- [x] references/typescript/src/services/mcp/client.ts
+- [x] references/typescript/src/services/mcp/normalization.ts
+- [x] references/typescript/src/services/mcp/envExpansion.ts
+- [x] references/typescript/src/services/mcp/vscodeSdkMcp.ts
+- [x] references/typescript/src/services/mcp/useManageMCPConnections.ts
+- [x] references/typescript/src/services/mcp/SdkControlTransport.ts
+- [x] references/typescript/src/services/mcp/elicitationHandler.ts
+- [x] references/typescript/src/services/mcp/channelPermissions.ts
+- [x] references/typescript/src/services/mcp/types.ts
+- [x] references/typescript/src/services/mcp/claudeai.ts
+- [x] references/typescript/src/services/mcp/utils.ts
+- [x] references/typescript/src/services/mcp/officialRegistry.ts
+- [x] references/typescript/src/services/mcp/auth.ts
+- [x] references/typescript/src/services/mcp/oauthPort.ts
+- [x] references/typescript/src/services/mcp/MCPConnectionManager.tsx
+- [x] references/typescript/src/services/mcp/mcpStringUtils.ts
+- [x] references/typescript/src/services/mcp/channelAllowlist.ts
 - [ ] references/typescript/src/services/remoteManagedSettings/types.ts
 - [ ] references/typescript/src/services/remoteManagedSettings/securityCheck.tsx
 - [ ] references/typescript/src/services/remoteManagedSettings/syncCache.ts
@@ -975,13 +975,13 @@
 - [ ] references/typescript/src/services/extractMemories/extractMemories.ts
 - [ ] references/typescript/src/services/settingsSync/types.ts
 - [ ] references/typescript/src/services/settingsSync/index.ts
-- [ ] references/typescript/src/services/lsp/LSPDiagnosticRegistry.ts
-- [ ] references/typescript/src/services/lsp/config.ts
-- [ ] references/typescript/src/services/lsp/LSPServerManager.ts
-- [ ] references/typescript/src/services/lsp/passiveFeedback.ts
-- [ ] references/typescript/src/services/lsp/LSPServerInstance.ts
-- [ ] references/typescript/src/services/lsp/manager.ts
-- [ ] references/typescript/src/services/lsp/LSPClient.ts
+- [x] references/typescript/src/services/lsp/LSPDiagnosticRegistry.ts
+- [x] references/typescript/src/services/lsp/config.ts
+- [x] references/typescript/src/services/lsp/LSPServerManager.ts
+- [x] references/typescript/src/services/lsp/passiveFeedback.ts
+- [x] references/typescript/src/services/lsp/LSPServerInstance.ts
+- [x] references/typescript/src/services/lsp/manager.ts
+- [x] references/typescript/src/services/lsp/LSPClient.ts
 - [ ] references/typescript/src/services/internalLogging.ts
 - [ ] references/typescript/src/services/notifier.ts
 - [ ] references/typescript/src/services/SessionMemory/sessionMemoryUtils.ts
