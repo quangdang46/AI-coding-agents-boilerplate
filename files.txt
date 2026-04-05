@@ -101,15 +101,15 @@
 - [x] references/typescript/src/utils/memory/types.ts
 - [x] references/typescript/src/utils/cronScheduler.ts
 - [x] references/typescript/src/utils/ripgrep.ts
-- [ ] references/typescript/src/utils/xml.ts
-- [ ] references/typescript/src/utils/sessionUrl.ts
-- [ ] references/typescript/src/utils/detectRepository.ts
-- [ ] references/typescript/src/utils/errorLogSink.ts
-- [ ] references/typescript/src/utils/treeify.ts
-- [ ] references/typescript/src/utils/generators.ts
-- [ ] references/typescript/src/utils/sliceAnsi.ts
-- [ ] references/typescript/src/utils/handlePromptSubmit.ts
-- [ ] references/typescript/src/utils/sessionActivity.ts
+- [x] references/typescript/src/utils/xml.ts
+- [x] references/typescript/src/utils/sessionUrl.ts
+- [x] references/typescript/src/utils/detectRepository.ts
+- [x] references/typescript/src/utils/errorLogSink.ts
+- [x] references/typescript/src/utils/treeify.ts
+- [x] references/typescript/src/utils/generators.ts
+- [x] references/typescript/src/utils/sliceAnsi.ts
+- [x] references/typescript/src/utils/handlePromptSubmit.ts
+- [x] references/typescript/src/utils/sessionActivity.ts
 - [ ] references/typescript/src/utils/queryHelpers.ts
 - [ ] references/typescript/src/utils/completionCache.ts
 - [ ] references/typescript/src/utils/filePersistence/filePersistence.ts
