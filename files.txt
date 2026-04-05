@@ -1553,7 +1553,7 @@
 - [x] references/typescript/src/skills/bundledSkills.ts
 - [x] references/typescript/src/skills/mcpSkillBuilders.ts
 - [x] references/typescript/src/skills/loadSkillsDir.ts
-- [ ] references/typescript/src/components/Message.tsx
+- [x] references/typescript/src/components/Message.tsx
 - [ ] references/typescript/src/components/TeleportResumeWrapper.tsx
 - [ ] references/typescript/src/components/ContextSuggestions.tsx
 - [ ] references/typescript/src/components/CustomSelect/SelectMulti.tsx
@@ -1574,47 +1574,47 @@
 - [ ] references/typescript/src/components/sandbox/SandboxOverridesTab.tsx
 - [ ] references/typescript/src/components/sandbox/SandboxDoctorSection.tsx
 - [ ] references/typescript/src/components/sandbox/SandboxSettings.tsx
-- [ ] references/typescript/src/components/messages/CollapsedReadSearchContent.tsx
-- [ ] references/typescript/src/components/messages/ShutdownMessage.tsx
-- [ ] references/typescript/src/components/messages/UserResourceUpdateMessage.tsx
-- [ ] references/typescript/src/components/messages/AssistantTextMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/RejectedToolUseMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/RejectedPlanMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/UserToolCanceledMessage.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/utils.tsx
-- [ ] references/typescript/src/components/messages/UserToolResultMessage/UserToolErrorMessage.tsx
-- [ ] references/typescript/src/components/messages/HighlightedThinkingText.tsx
-- [ ] references/typescript/src/components/messages/UserBashOutputMessage.tsx
-- [ ] references/typescript/src/components/messages/AttachmentMessage.tsx
-- [ ] references/typescript/src/components/messages/UserAgentNotificationMessage.tsx
-- [ ] references/typescript/src/components/messages/UserPlanMessage.tsx
-- [ ] references/typescript/src/components/messages/teamMemCollapsed.tsx
-- [ ] references/typescript/src/components/messages/UserTeammateMessage.tsx
-- [ ] references/typescript/src/components/messages/GroupedToolUseContent.tsx
-- [ ] references/typescript/src/components/messages/UserImageMessage.tsx
-- [ ] references/typescript/src/components/messages/AssistantRedactedThinkingMessage.tsx
-- [ ] references/typescript/src/components/messages/CompactBoundaryMessage.tsx
-- [ ] references/typescript/src/components/messages/HookProgressMessage.tsx
-- [ ] references/typescript/src/components/messages/SystemTextMessage.tsx
-- [ ] references/typescript/src/components/messages/UserMemoryInputMessage.tsx
-- [ ] references/typescript/src/components/messages/UserCommandMessage.tsx
-- [ ] references/typescript/src/components/messages/AssistantThinkingMessage.tsx
-- [ ] references/typescript/src/components/messages/UserBashInputMessage.tsx
-- [ ] references/typescript/src/components/messages/SystemAPIErrorMessage.tsx
-- [ ] references/typescript/src/components/messages/UserPromptMessage.tsx
-- [ ] references/typescript/src/components/messages/AssistantToolUseMessage.tsx
-- [ ] references/typescript/src/components/messages/TaskAssignmentMessage.tsx
-- [ ] references/typescript/src/components/messages/UserChannelMessage.tsx
-- [ ] references/typescript/src/components/messages/teamMemSaved.ts
-- [ ] references/typescript/src/components/messages/RateLimitMessage.tsx
-- [ ] references/typescript/src/components/messages/nullRenderingAttachments.ts
-- [ ] references/typescript/src/components/messages/PlanApprovalMessage.tsx
-- [ ] references/typescript/src/components/messages/AdvisorMessage.tsx
-- [ ] references/typescript/src/components/messages/UserLocalCommandOutputMessage.tsx
-- [ ] references/typescript/src/components/messages/UserTextMessage.tsx
+- [x] references/typescript/src/components/messages/CollapsedReadSearchContent.tsx
+- [x] references/typescript/src/components/messages/ShutdownMessage.tsx
+- [x] references/typescript/src/components/messages/UserResourceUpdateMessage.tsx
+- [x] references/typescript/src/components/messages/AssistantTextMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/RejectedToolUseMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/RejectedPlanMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/UserToolCanceledMessage.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/utils.tsx
+- [x] references/typescript/src/components/messages/UserToolResultMessage/UserToolErrorMessage.tsx
+- [x] references/typescript/src/components/messages/HighlightedThinkingText.tsx
+- [x] references/typescript/src/components/messages/UserBashOutputMessage.tsx
+- [x] references/typescript/src/components/messages/AttachmentMessage.tsx
+- [x] references/typescript/src/components/messages/UserAgentNotificationMessage.tsx
+- [x] references/typescript/src/components/messages/UserPlanMessage.tsx
+- [x] references/typescript/src/components/messages/teamMemCollapsed.tsx
+- [x] references/typescript/src/components/messages/UserTeammateMessage.tsx
+- [x] references/typescript/src/components/messages/GroupedToolUseContent.tsx
+- [x] references/typescript/src/components/messages/UserImageMessage.tsx
+- [x] references/typescript/src/components/messages/AssistantRedactedThinkingMessage.tsx
+- [x] references/typescript/src/components/messages/CompactBoundaryMessage.tsx
+- [x] references/typescript/src/components/messages/HookProgressMessage.tsx
+- [x] references/typescript/src/components/messages/SystemTextMessage.tsx
+- [x] references/typescript/src/components/messages/UserMemoryInputMessage.tsx
+- [x] references/typescript/src/components/messages/UserCommandMessage.tsx
+- [x] references/typescript/src/components/messages/AssistantThinkingMessage.tsx
+- [x] references/typescript/src/components/messages/UserBashInputMessage.tsx
+- [x] references/typescript/src/components/messages/SystemAPIErrorMessage.tsx
+- [x] references/typescript/src/components/messages/UserPromptMessage.tsx
+- [x] references/typescript/src/components/messages/AssistantToolUseMessage.tsx
+- [x] references/typescript/src/components/messages/TaskAssignmentMessage.tsx
+- [x] references/typescript/src/components/messages/UserChannelMessage.tsx
+- [x] references/typescript/src/components/messages/teamMemSaved.ts
+- [x] references/typescript/src/components/messages/RateLimitMessage.tsx
+- [x] references/typescript/src/components/messages/nullRenderingAttachments.ts
+- [x] references/typescript/src/components/messages/PlanApprovalMessage.tsx
+- [x] references/typescript/src/components/messages/AdvisorMessage.tsx
+- [x] references/typescript/src/components/messages/UserLocalCommandOutputMessage.tsx
+- [x] references/typescript/src/components/messages/UserTextMessage.tsx
 - [ ] references/typescript/src/components/FilePathLink.tsx
 - [ ] references/typescript/src/components/DesktopUpsell/DesktopUpsellStartup.tsx
 - [ ] references/typescript/src/components/memory/MemoryFileSelector.tsx
@@ -1704,27 +1704,27 @@
 - [ ] references/typescript/src/components/CostThresholdDialog.tsx
 - [ ] references/typescript/src/components/Passes/Passes.tsx
 - [ ] references/typescript/src/components/FileEditToolUseRejectedMessage.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputFooter.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputModeIndicator.tsx
-- [ ] references/typescript/src/components/PromptInput/SandboxPromptFooterHint.tsx
-- [ ] references/typescript/src/components/PromptInput/useMaybeTruncateInput.ts
-- [ ] references/typescript/src/components/PromptInput/Notifications.tsx
-- [ ] references/typescript/src/components/PromptInput/HistorySearchInput.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputHelpMenu.tsx
-- [ ] references/typescript/src/components/PromptInput/IssueFlagBanner.tsx
-- [ ] references/typescript/src/components/PromptInput/useShowFastIconHint.ts
-- [ ] references/typescript/src/components/PromptInput/useSwarmBanner.ts
-- [ ] references/typescript/src/components/PromptInput/VoiceIndicator.tsx
-- [ ] references/typescript/src/components/PromptInput/inputPaste.ts
-- [ ] references/typescript/src/components/PromptInput/PromptInputStashNotice.tsx
-- [ ] references/typescript/src/components/PromptInput/utils.ts
-- [ ] references/typescript/src/components/PromptInput/usePromptInputPlaceholder.ts
-- [ ] references/typescript/src/components/PromptInput/PromptInput.tsx
-- [ ] references/typescript/src/components/PromptInput/inputModes.ts
-- [ ] references/typescript/src/components/PromptInput/ShimmeredInput.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputQueuedCommands.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputFooterSuggestions.tsx
-- [ ] references/typescript/src/components/PromptInput/PromptInputFooterLeftSide.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputFooter.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputModeIndicator.tsx
+- [x] references/typescript/src/components/PromptInput/SandboxPromptFooterHint.tsx
+- [x] references/typescript/src/components/PromptInput/useMaybeTruncateInput.ts
+- [x] references/typescript/src/components/PromptInput/Notifications.tsx
+- [x] references/typescript/src/components/PromptInput/HistorySearchInput.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputHelpMenu.tsx
+- [x] references/typescript/src/components/PromptInput/IssueFlagBanner.tsx
+- [x] references/typescript/src/components/PromptInput/useShowFastIconHint.ts
+- [x] references/typescript/src/components/PromptInput/useSwarmBanner.ts
+- [x] references/typescript/src/components/PromptInput/VoiceIndicator.tsx
+- [x] references/typescript/src/components/PromptInput/inputPaste.ts
+- [x] references/typescript/src/components/PromptInput/PromptInputStashNotice.tsx
+- [x] references/typescript/src/components/PromptInput/utils.ts
+- [x] references/typescript/src/components/PromptInput/usePromptInputPlaceholder.ts
+- [x] references/typescript/src/components/PromptInput/PromptInput.tsx
+- [x] references/typescript/src/components/PromptInput/inputModes.ts
+- [x] references/typescript/src/components/PromptInput/ShimmeredInput.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputQueuedCommands.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputFooterSuggestions.tsx
+- [x] references/typescript/src/components/PromptInput/PromptInputFooterLeftSide.tsx
 - [ ] references/typescript/src/components/MCPServerDesktopImportDialog.tsx
 - [ ] references/typescript/src/components/mcp/utils/reconnectHelpers.tsx
 - [ ] references/typescript/src/components/mcp/MCPToolListView.tsx
@@ -1780,7 +1780,7 @@
 - [ ] references/typescript/src/components/RemoteCallout.tsx
 - [ ] references/typescript/src/components/MessageSelector.tsx
 - [ ] references/typescript/src/components/TextInput.tsx
-- [ ] references/typescript/src/components/Messages.tsx
+- [x] references/typescript/src/components/Messages.tsx
 - [ ] references/typescript/src/components/TeammateViewHeader.tsx
 - [ ] references/typescript/src/components/AwsAuthStatusBox.tsx
 - [ ] references/typescript/src/components/ChannelDowngradeDialog.tsx
@@ -1875,13 +1875,13 @@
 - [ ] references/typescript/src/components/EffortCallout.tsx
 - [ ] references/typescript/src/components/ValidationErrorsList.tsx
 - [ ] references/typescript/src/components/FallbackToolUseErrorMessage.tsx
-- [ ] references/typescript/src/components/MessageRow.tsx
+- [x] references/typescript/src/components/MessageRow.tsx
 - [ ] references/typescript/src/components/HighlightedCode.tsx
 - [ ] references/typescript/src/components/Spinner.tsx
 - [ ] references/typescript/src/components/HelpV2/General.tsx
 - [ ] references/typescript/src/components/HelpV2/Commands.tsx
 - [ ] references/typescript/src/components/HelpV2/HelpV2.tsx
-- [ ] references/typescript/src/components/MarkdownTable.tsx
+- [x] references/typescript/src/components/MarkdownTable.tsx
 - [ ] references/typescript/src/components/ResumeTask.tsx
 - [ ] references/typescript/src/components/TeleportStash.tsx
 - [ ] references/typescript/src/components/StructuredDiff/colorDiff.ts
@@ -1892,7 +1892,7 @@
 - [ ] references/typescript/src/components/shell/OutputLine.tsx
 - [ ] references/typescript/src/components/shell/ExpandShellOutputContext.tsx
 - [ ] references/typescript/src/components/CompactSummary.tsx
-- [ ] references/typescript/src/components/Markdown.tsx
+- [x] references/typescript/src/components/Markdown.tsx
 - [ ] references/typescript/src/components/Stats.tsx
 - [ ] references/typescript/src/components/permissions/EnterPlanModePermissionRequest/EnterPlanModePermissionRequest.tsx
 - [ ] references/typescript/src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx
