@@ -110,13 +110,13 @@
 - [x] references/typescript/src/utils/sliceAnsi.ts
 - [x] references/typescript/src/utils/handlePromptSubmit.ts
 - [x] references/typescript/src/utils/sessionActivity.ts
-- [ ] references/typescript/src/utils/queryHelpers.ts
-- [ ] references/typescript/src/utils/completionCache.ts
-- [ ] references/typescript/src/utils/filePersistence/filePersistence.ts
-- [ ] references/typescript/src/utils/filePersistence/outputsScanner.ts
-- [ ] references/typescript/src/utils/filePersistence/types.ts
-- [ ] references/typescript/src/utils/collapseBackgroundBashNotifications.ts
-- [ ] references/typescript/src/utils/advisor.ts
+- [x] references/typescript/src/utils/queryHelpers.ts
+- [x] references/typescript/src/utils/completionCache.ts
+- [x] references/typescript/src/utils/filePersistence/filePersistence.ts
+- [x] references/typescript/src/utils/filePersistence/outputsScanner.ts
+- [x] references/typescript/src/utils/filePersistence/types.ts
+- [x] references/typescript/src/utils/collapseBackgroundBashNotifications.ts
+- [x] references/typescript/src/utils/advisor.ts
 - [ ] references/typescript/src/utils/fullscreen.ts
 - [ ] references/typescript/src/utils/idePathConversion.ts
 - [ ] references/typescript/src/utils/caCerts.ts
