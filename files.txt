@@ -738,9 +738,9 @@
 - [ ] references/typescript/src/tools/ConfigTool/UI.tsx
 - [ ] references/typescript/src/tools/ConfigTool/supportedSettings.ts
 - [ ] references/typescript/src/tools/ConfigTool/constants.ts
-- [ ] references/typescript/src/tools/ToolSearchTool/prompt.ts
-- [ ] references/typescript/src/tools/ToolSearchTool/ToolSearchTool.ts
-- [ ] references/typescript/src/tools/ToolSearchTool/constants.ts
+- [x] references/typescript/src/tools/ToolSearchTool/prompt.ts
+- [x] references/typescript/src/tools/ToolSearchTool/ToolSearchTool.ts
+- [x] references/typescript/src/tools/ToolSearchTool/constants.ts
 - [x] references/typescript/src/tools/WorkflowTool/constants.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/NotebookEditTool.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/prompt.ts
