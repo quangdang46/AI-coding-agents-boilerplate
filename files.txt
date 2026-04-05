@@ -398,29 +398,29 @@
 - [ ] references/typescript/src/utils/idleTimeout.ts
 - [ ] references/typescript/src/utils/sideQuestion.ts
 - [ ] references/typescript/src/utils/formatBriefTimestamp.ts
-- [ ] references/typescript/src/utils/bash/shellCompletion.ts
-- [ ] references/typescript/src/utils/bash/prefix.ts
-- [ ] references/typescript/src/utils/bash/bashParser.ts
-- [ ] references/typescript/src/utils/bash/treeSitterAnalysis.ts
-- [ ] references/typescript/src/utils/bash/shellQuote.ts
-- [ ] references/typescript/src/utils/bash/registry.ts
-- [ ] references/typescript/src/utils/bash/ast.ts
-- [ ] references/typescript/src/utils/bash/specs/alias.ts
-- [ ] references/typescript/src/utils/bash/specs/nohup.ts
-- [ ] references/typescript/src/utils/bash/specs/time.ts
-- [ ] references/typescript/src/utils/bash/specs/timeout.ts
-- [ ] references/typescript/src/utils/bash/specs/index.ts
-- [ ] references/typescript/src/utils/bash/specs/srun.ts
-- [ ] references/typescript/src/utils/bash/specs/pyright.ts
-- [ ] references/typescript/src/utils/bash/specs/sleep.ts
-- [ ] references/typescript/src/utils/bash/shellQuoting.ts
-- [ ] references/typescript/src/utils/bash/heredoc.ts
-- [ ] references/typescript/src/utils/bash/ParsedCommand.ts
-- [ ] references/typescript/src/utils/bash/parser.ts
-- [ ] references/typescript/src/utils/bash/commands.ts
-- [ ] references/typescript/src/utils/bash/bashPipeCommand.ts
-- [ ] references/typescript/src/utils/bash/ShellSnapshot.ts
-- [ ] references/typescript/src/utils/bash/shellPrefix.ts
+- [x] references/typescript/src/utils/bash/shellCompletion.ts
+- [x] references/typescript/src/utils/bash/prefix.ts
+- [x] references/typescript/src/utils/bash/bashParser.ts
+- [x] references/typescript/src/utils/bash/treeSitterAnalysis.ts
+- [x] references/typescript/src/utils/bash/shellQuote.ts
+- [x] references/typescript/src/utils/bash/registry.ts
+- [x] references/typescript/src/utils/bash/ast.ts
+- [x] references/typescript/src/utils/bash/specs/alias.ts
+- [x] references/typescript/src/utils/bash/specs/nohup.ts
+- [x] references/typescript/src/utils/bash/specs/time.ts
+- [x] references/typescript/src/utils/bash/specs/timeout.ts
+- [x] references/typescript/src/utils/bash/specs/index.ts
+- [x] references/typescript/src/utils/bash/specs/srun.ts
+- [x] references/typescript/src/utils/bash/specs/pyright.ts
+- [x] references/typescript/src/utils/bash/specs/sleep.ts
+- [x] references/typescript/src/utils/bash/shellQuoting.ts
+- [x] references/typescript/src/utils/bash/heredoc.ts
+- [x] references/typescript/src/utils/bash/ParsedCommand.ts
+- [x] references/typescript/src/utils/bash/parser.ts
+- [x] references/typescript/src/utils/bash/commands.ts
+- [x] references/typescript/src/utils/bash/bashPipeCommand.ts
+- [x] references/typescript/src/utils/bash/ShellSnapshot.ts
+- [x] references/typescript/src/utils/bash/shellPrefix.ts
 - [ ] references/typescript/src/utils/teammateContext.ts
 - [ ] references/typescript/src/utils/cwd.ts
 - [ ] references/typescript/src/utils/errors.ts
