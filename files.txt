@@ -153,7 +153,7 @@
 - [ ] references/typescript/src/utils/theme.ts
 - [x] references/typescript/src/utils/config.ts
 - [ ] references/typescript/src/utils/systemTheme.ts
-- [ ] references/typescript/src/utils/systemPrompt.ts
+- [x] references/typescript/src/utils/systemPrompt.ts
 - [x] references/typescript/src/utils/dxt/zip.ts
 - [x] references/typescript/src/utils/dxt/helpers.ts
 - [ ] references/typescript/src/utils/collapseHookSummaries.ts
@@ -311,7 +311,7 @@
 - [ ] references/typescript/src/utils/displayTags.ts
 - [ ] references/typescript/src/utils/timeouts.ts
 - [ ] references/typescript/src/utils/truncate.ts
-- [ ] references/typescript/src/utils/queryContext.ts
+- [x] references/typescript/src/utils/queryContext.ts
 - [ ] references/typescript/src/utils/statusNoticeDefinitions.tsx
 - [ ] references/typescript/src/utils/apiPreconnect.ts
 - [x] references/typescript/src/utils/claudeInChrome/package.ts
@@ -333,22 +333,22 @@
 - [ ] references/typescript/src/utils/markdown.ts
 - [ ] references/typescript/src/utils/appleTerminalBackup.ts
 - [ ] references/typescript/src/utils/findExecutable.ts
-- [ ] references/typescript/src/utils/model/modelCapabilities.ts
-- [ ] references/typescript/src/utils/model/bedrock.ts
-- [ ] references/typescript/src/utils/model/modelSupportOverrides.ts
-- [ ] references/typescript/src/utils/model/modelOptions.ts
-- [ ] references/typescript/src/utils/model/check1mAccess.ts
-- [ ] references/typescript/src/utils/model/modelStrings.ts
-- [ ] references/typescript/src/utils/model/aliases.ts
-- [ ] references/typescript/src/utils/model/model.ts
-- [ ] references/typescript/src/utils/model/configs.ts
-- [ ] references/typescript/src/utils/model/validateModel.ts
-- [ ] references/typescript/src/utils/model/agent.ts
-- [ ] references/typescript/src/utils/model/antModels.ts
-- [ ] references/typescript/src/utils/model/contextWindowUpgradeCheck.ts
-- [ ] references/typescript/src/utils/model/deprecation.ts
-- [ ] references/typescript/src/utils/model/modelAllowlist.ts
-- [ ] references/typescript/src/utils/model/providers.ts
+- [x] references/typescript/src/utils/model/modelCapabilities.ts
+- [x] references/typescript/src/utils/model/bedrock.ts
+- [x] references/typescript/src/utils/model/modelSupportOverrides.ts
+- [x] references/typescript/src/utils/model/modelOptions.ts
+- [x] references/typescript/src/utils/model/check1mAccess.ts
+- [x] references/typescript/src/utils/model/modelStrings.ts
+- [x] references/typescript/src/utils/model/aliases.ts
+- [x] references/typescript/src/utils/model/model.ts
+- [x] references/typescript/src/utils/model/configs.ts
+- [x] references/typescript/src/utils/model/validateModel.ts
+- [x] references/typescript/src/utils/model/agent.ts
+- [x] references/typescript/src/utils/model/antModels.ts
+- [x] references/typescript/src/utils/model/contextWindowUpgradeCheck.ts
+- [x] references/typescript/src/utils/model/deprecation.ts
+- [x] references/typescript/src/utils/model/modelAllowlist.ts
+- [x] references/typescript/src/utils/model/providers.ts
 - [ ] references/typescript/src/utils/headlessProfiler.ts
 - [ ] references/typescript/src/utils/promptShellExecution.ts
 - [ ] references/typescript/src/utils/fpsTracker.ts
@@ -568,7 +568,7 @@
 - [ ] references/typescript/src/utils/transcriptSearch.ts
 - [ ] references/typescript/src/utils/cron.ts
 - [ ] references/typescript/src/utils/getWorktreePathsPortable.ts
-- [ ] references/typescript/src/utils/systemPromptType.ts
+- [x] references/typescript/src/utils/systemPromptType.ts
 - [ ] references/typescript/src/utils/shell/powershellProvider.ts
 - [ ] references/typescript/src/utils/shell/resolveDefaultShell.ts
 - [ ] references/typescript/src/utils/shell/prefix.ts
@@ -609,7 +609,7 @@
 - [ ] references/typescript/src/utils/imageValidation.ts
 - [x] references/typescript/src/Tool.ts
 - [x] references/typescript/src/history.ts
-- [ ] references/typescript/src/voice/voiceModeEnabled.ts
+- [x] references/typescript/src/voice/voiceModeEnabled.ts
 - [x] references/typescript/src/setup.ts
 - [x] references/typescript/src/query.ts
 - [x] references/typescript/src/entrypoints/mcp.ts
@@ -857,11 +857,11 @@
 - [x] references/typescript/src/bridge/capacityWake.ts
 - [x] references/typescript/src/bridge/replBridgeTransport.ts
 - [x] references/typescript/src/bridge/bridgeDebug.ts
-- [ ] references/typescript/src/vim/transitions.ts
-- [ ] references/typescript/src/vim/motions.ts
-- [ ] references/typescript/src/vim/operators.ts
-- [ ] references/typescript/src/vim/textObjects.ts
-- [ ] references/typescript/src/vim/types.ts
+- [x] references/typescript/src/vim/transitions.ts
+- [x] references/typescript/src/vim/motions.ts
+- [x] references/typescript/src/vim/operators.ts
+- [x] references/typescript/src/vim/textObjects.ts
+- [x] references/typescript/src/vim/types.ts
 - [ ] references/typescript/src/services/autoDream/config.ts
 - [ ] references/typescript/src/services/autoDream/autoDream.ts
 - [ ] references/typescript/src/services/autoDream/consolidationLock.ts
@@ -1022,21 +1022,21 @@
 - [x] references/typescript/src/tasks/LocalShellTask/LocalShellTask.tsx
 - [x] references/typescript/src/tasks/LocalShellTask/killShellTasks.ts
 - [x] references/typescript/src/tasks/LocalShellTask/guards.ts
-- [ ] references/typescript/src/memdir/teamMemPaths.ts
-- [ ] references/typescript/src/memdir/paths.ts
-- [ ] references/typescript/src/memdir/teamMemPrompts.ts
-- [ ] references/typescript/src/memdir/memoryAge.ts
-- [ ] references/typescript/src/memdir/memoryScan.ts
-- [ ] references/typescript/src/memdir/memoryTypes.ts
-- [ ] references/typescript/src/memdir/memdir.ts
-- [ ] references/typescript/src/memdir/findRelevantMemories.ts
+- [x] references/typescript/src/memdir/teamMemPaths.ts
+- [x] references/typescript/src/memdir/paths.ts
+- [x] references/typescript/src/memdir/teamMemPrompts.ts
+- [x] references/typescript/src/memdir/memoryAge.ts
+- [x] references/typescript/src/memdir/memoryScan.ts
+- [x] references/typescript/src/memdir/memoryTypes.ts
+- [x] references/typescript/src/memdir/memdir.ts
+- [x] references/typescript/src/memdir/findRelevantMemories.ts
 - [x] references/typescript/src/ink.ts
-- [ ] references/typescript/src/buddy/CompanionSprite.tsx
-- [ ] references/typescript/src/buddy/prompt.ts
-- [ ] references/typescript/src/buddy/types.ts
-- [ ] references/typescript/src/buddy/useBuddyNotification.tsx
-- [ ] references/typescript/src/buddy/sprites.ts
-- [ ] references/typescript/src/buddy/companion.ts
+- [x] references/typescript/src/buddy/CompanionSprite.tsx
+- [x] references/typescript/src/buddy/prompt.ts
+- [x] references/typescript/src/buddy/types.ts
+- [x] references/typescript/src/buddy/useBuddyNotification.tsx
+- [x] references/typescript/src/buddy/sprites.ts
+- [x] references/typescript/src/buddy/companion.ts
 - [x] references/typescript/src/outputStyles/loadOutputStylesDir.ts
 - [x] references/typescript/src/coordinator/coordinatorMode.ts
 - [x] references/typescript/src/commands/mock-limits/index.js
@@ -1268,10 +1268,10 @@
 - [x] references/typescript/src/remote/sdkMessageAdapter.ts
 - [x] references/typescript/src/remote/SessionsWebSocket.ts
 - [x] references/typescript/src/main.tsx
-- [ ] references/typescript/src/native-ts/file-index/index.ts
-- [ ] references/typescript/src/native-ts/yoga-layout/enums.ts
-- [ ] references/typescript/src/native-ts/yoga-layout/index.ts
-- [ ] references/typescript/src/native-ts/color-diff/index.ts
+- [x] references/typescript/src/native-ts/file-index/index.ts
+- [x] references/typescript/src/native-ts/yoga-layout/enums.ts
+- [x] references/typescript/src/native-ts/yoga-layout/index.ts
+- [x] references/typescript/src/native-ts/color-diff/index.ts
 - [x] references/typescript/src/QueryEngine.ts
 - [x] references/typescript/src/types/permissions.ts
 - [x] references/typescript/src/types/generated/events_mono/growthbook/v1/growthbook_experiment_event.ts
@@ -1948,7 +1948,7 @@
 - [ ] references/typescript/src/screens/Doctor.tsx
 - [ ] references/typescript/src/screens/ResumeConversation.tsx
 - [ ] references/typescript/src/screens/REPL.tsx
-- [ ] references/typescript/src/moreright/useMoreRight.tsx
+- [x] references/typescript/src/moreright/useMoreRight.tsx
 - [x] references/typescript/bun.lock
 - [x] references/typescript/changes.md
 - [x] references/typescript/assets/screenshot.png
