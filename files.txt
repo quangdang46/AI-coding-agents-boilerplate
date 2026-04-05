@@ -635,28 +635,28 @@
 - [x] references/typescript/src/context/notifications.tsx
 - [x] references/typescript/src/context/modalContext.tsx
 - [x] references/typescript/src/context/voice.tsx
-- [ ] references/typescript/src/tools/TaskOutputTool/constants.ts
-- [ ] references/typescript/src/tools/TaskOutputTool/TaskOutputTool.tsx
+- [x] references/typescript/src/tools/TaskOutputTool/constants.ts
+- [x] references/typescript/src/tools/TaskOutputTool/TaskOutputTool.tsx
 - [x] references/typescript/src/tools/VerifyPlanExecutionTool/VerifyPlanExecutionTool.ts
 - [x] references/typescript/src/tools/VerifyPlanExecutionTool/constants.ts
-- [ ] references/typescript/src/tools/TaskUpdateTool/prompt.ts
-- [ ] references/typescript/src/tools/TaskUpdateTool/TaskUpdateTool.ts
-- [ ] references/typescript/src/tools/TaskUpdateTool/constants.ts
+- [x] references/typescript/src/tools/TaskUpdateTool/prompt.ts
+- [x] references/typescript/src/tools/TaskUpdateTool/TaskUpdateTool.ts
+- [x] references/typescript/src/tools/TaskUpdateTool/constants.ts
 - [ ] references/typescript/src/tools/REPLTool/primitiveTools.ts
 - [ ] references/typescript/src/tools/REPLTool/constants.ts
-- [ ] references/typescript/src/tools/TeamCreateTool/TeamCreateTool.ts
-- [ ] references/typescript/src/tools/TeamCreateTool/prompt.ts
-- [ ] references/typescript/src/tools/TeamCreateTool/UI.tsx
-- [ ] references/typescript/src/tools/TeamCreateTool/constants.ts
+- [x] references/typescript/src/tools/TeamCreateTool/TeamCreateTool.ts
+- [x] references/typescript/src/tools/TeamCreateTool/prompt.ts
+- [x] references/typescript/src/tools/TeamCreateTool/UI.tsx
+- [x] references/typescript/src/tools/TeamCreateTool/constants.ts
 - [ ] references/typescript/src/tools/WebFetchTool/preapproved.ts
 - [ ] references/typescript/src/tools/WebFetchTool/prompt.ts
 - [ ] references/typescript/src/tools/WebFetchTool/UI.tsx
 - [ ] references/typescript/src/tools/WebFetchTool/WebFetchTool.ts
 - [ ] references/typescript/src/tools/WebFetchTool/utils.ts
-- [ ] references/typescript/src/tools/TeamDeleteTool/TeamDeleteTool.ts
-- [ ] references/typescript/src/tools/TeamDeleteTool/prompt.ts
-- [ ] references/typescript/src/tools/TeamDeleteTool/UI.tsx
-- [ ] references/typescript/src/tools/TeamDeleteTool/constants.ts
+- [x] references/typescript/src/tools/TeamDeleteTool/TeamDeleteTool.ts
+- [x] references/typescript/src/tools/TeamDeleteTool/prompt.ts
+- [x] references/typescript/src/tools/TeamDeleteTool/UI.tsx
+- [x] references/typescript/src/tools/TeamDeleteTool/constants.ts
 - [ ] references/typescript/src/tools/MCPTool/prompt.ts
 - [ ] references/typescript/src/tools/MCPTool/UI.tsx
 - [ ] references/typescript/src/tools/MCPTool/classifyForCollapse.ts
@@ -728,11 +728,11 @@
 - [ ] references/typescript/src/tools/EnterWorktreeTool/UI.tsx
 - [ ] references/typescript/src/tools/EnterWorktreeTool/EnterWorktreeTool.ts
 - [ ] references/typescript/src/tools/EnterWorktreeTool/constants.ts
-- [ ] references/typescript/src/tools/ScheduleCronTool/CronCreateTool.ts
-- [ ] references/typescript/src/tools/ScheduleCronTool/CronListTool.ts
-- [ ] references/typescript/src/tools/ScheduleCronTool/prompt.ts
-- [ ] references/typescript/src/tools/ScheduleCronTool/UI.tsx
-- [ ] references/typescript/src/tools/ScheduleCronTool/CronDeleteTool.ts
+- [x] references/typescript/src/tools/ScheduleCronTool/CronCreateTool.ts
+- [x] references/typescript/src/tools/ScheduleCronTool/CronListTool.ts
+- [x] references/typescript/src/tools/ScheduleCronTool/prompt.ts
+- [x] references/typescript/src/tools/ScheduleCronTool/UI.tsx
+- [x] references/typescript/src/tools/ScheduleCronTool/CronDeleteTool.ts
 - [ ] references/typescript/src/tools/ConfigTool/ConfigTool.ts
 - [ ] references/typescript/src/tools/ConfigTool/prompt.ts
 - [ ] references/typescript/src/tools/ConfigTool/UI.tsx
@@ -741,7 +741,7 @@
 - [ ] references/typescript/src/tools/ToolSearchTool/prompt.ts
 - [ ] references/typescript/src/tools/ToolSearchTool/ToolSearchTool.ts
 - [ ] references/typescript/src/tools/ToolSearchTool/constants.ts
-- [ ] references/typescript/src/tools/WorkflowTool/constants.ts
+- [x] references/typescript/src/tools/WorkflowTool/constants.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/NotebookEditTool.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/prompt.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/UI.tsx
@@ -751,9 +751,9 @@
 - [ ] references/typescript/src/tools/ListMcpResourcesTool/ListMcpResourcesTool.ts
 - [x] references/typescript/src/tools/shared/spawnMultiAgent.ts
 - [x] references/typescript/src/tools/shared/gitOperationTracking.ts
-- [ ] references/typescript/src/tools/TaskGetTool/prompt.ts
-- [ ] references/typescript/src/tools/TaskGetTool/TaskGetTool.ts
-- [ ] references/typescript/src/tools/TaskGetTool/constants.ts
+- [x] references/typescript/src/tools/TaskGetTool/prompt.ts
+- [x] references/typescript/src/tools/TaskGetTool/TaskGetTool.ts
+- [x] references/typescript/src/tools/TaskGetTool/constants.ts
 - [ ] references/typescript/src/tools/GlobTool/prompt.ts
 - [ ] references/typescript/src/tools/GlobTool/UI.tsx
 - [ ] references/typescript/src/tools/GlobTool/GlobTool.ts
@@ -767,9 +767,9 @@
 - [ ] references/typescript/src/tools/TodoWriteTool/prompt.ts
 - [ ] references/typescript/src/tools/TodoWriteTool/TodoWriteTool.ts
 - [ ] references/typescript/src/tools/TodoWriteTool/constants.ts
-- [ ] references/typescript/src/tools/TaskStopTool/TaskStopTool.ts
-- [ ] references/typescript/src/tools/TaskStopTool/prompt.ts
-- [ ] references/typescript/src/tools/TaskStopTool/UI.tsx
+- [x] references/typescript/src/tools/TaskStopTool/TaskStopTool.ts
+- [x] references/typescript/src/tools/TaskStopTool/prompt.ts
+- [x] references/typescript/src/tools/TaskStopTool/UI.tsx
 - [ ] references/typescript/src/tools/RemoteTriggerTool/prompt.ts
 - [ ] references/typescript/src/tools/RemoteTriggerTool/UI.tsx
 - [ ] references/typescript/src/tools/RemoteTriggerTool/RemoteTriggerTool.ts
@@ -778,9 +778,9 @@
 - [ ] references/typescript/src/tools/SyntheticOutputTool/SyntheticOutputTool.ts
 - [ ] references/typescript/src/tools/AskUserQuestionTool/prompt.ts
 - [ ] references/typescript/src/tools/AskUserQuestionTool/AskUserQuestionTool.tsx
-- [ ] references/typescript/src/tools/TaskCreateTool/prompt.ts
-- [ ] references/typescript/src/tools/TaskCreateTool/TaskCreateTool.ts
-- [ ] references/typescript/src/tools/TaskCreateTool/constants.ts
+- [x] references/typescript/src/tools/TaskCreateTool/prompt.ts
+- [x] references/typescript/src/tools/TaskCreateTool/TaskCreateTool.ts
+- [x] references/typescript/src/tools/TaskCreateTool/constants.ts
 - [ ] references/typescript/src/tools/BashTool/bashCommandHelpers.ts
 - [ ] references/typescript/src/tools/BashTool/sedEditParser.ts
 - [ ] references/typescript/src/tools/BashTool/commentLabel.ts
@@ -821,9 +821,9 @@
 - [ ] references/typescript/src/tools/GrepTool/GrepTool.ts
 - [ ] references/typescript/src/tools/GrepTool/prompt.ts
 - [ ] references/typescript/src/tools/GrepTool/UI.tsx
-- [ ] references/typescript/src/tools/TaskListTool/TaskListTool.ts
-- [ ] references/typescript/src/tools/TaskListTool/prompt.ts
-- [ ] references/typescript/src/tools/TaskListTool/constants.ts
+- [x] references/typescript/src/tools/TaskListTool/TaskListTool.ts
+- [x] references/typescript/src/tools/TaskListTool/prompt.ts
+- [x] references/typescript/src/tools/TaskListTool/constants.ts
 - [x] references/typescript/src/context.ts
 - [x] references/typescript/src/interactiveHelpers.tsx
 - [x] references/typescript/src/bridge/debugUtils.ts
@@ -1261,12 +1261,12 @@
 - [x] references/typescript/src/keybindings/template.ts
 - [x] references/typescript/src/keybindings/parser.ts
 - [x] references/typescript/src/keybindings/resolver.ts
-- [ ] references/typescript/src/upstreamproxy/upstreamproxy.ts
-- [ ] references/typescript/src/upstreamproxy/relay.ts
-- [ ] references/typescript/src/remote/remotePermissionBridge.ts
-- [ ] references/typescript/src/remote/RemoteSessionManager.ts
-- [ ] references/typescript/src/remote/sdkMessageAdapter.ts
-- [ ] references/typescript/src/remote/SessionsWebSocket.ts
+- [x] references/typescript/src/upstreamproxy/upstreamproxy.ts
+- [x] references/typescript/src/upstreamproxy/relay.ts
+- [x] references/typescript/src/remote/remotePermissionBridge.ts
+- [x] references/typescript/src/remote/RemoteSessionManager.ts
+- [x] references/typescript/src/remote/sdkMessageAdapter.ts
+- [x] references/typescript/src/remote/SessionsWebSocket.ts
 - [x] references/typescript/src/main.tsx
 - [ ] references/typescript/src/native-ts/file-index/index.ts
 - [ ] references/typescript/src/native-ts/yoga-layout/enums.ts
@@ -1428,12 +1428,12 @@
 - [x] references/typescript/src/cli/exit.ts
 - [x] references/typescript/src/cli/update.ts
 - [x] references/typescript/src/cli/remoteIO.ts
-- [ ] references/typescript/src/assistant/AssistantSessionChooser.tsx
-- [ ] references/typescript/src/assistant/sessionHistory.ts
+- [x] references/typescript/src/assistant/AssistantSessionChooser.tsx
+- [x] references/typescript/src/assistant/sessionHistory.ts
 - [x] references/typescript/src/bootstrap/state.ts
-- [ ] references/typescript/src/server/createDirectConnectSession.ts
-- [ ] references/typescript/src/server/types.ts
-- [ ] references/typescript/src/server/directConnectManager.ts
+- [x] references/typescript/src/server/createDirectConnectSession.ts
+- [x] references/typescript/src/server/types.ts
+- [x] references/typescript/src/server/directConnectManager.ts
 - [ ] references/typescript/src/ink/stringWidth.ts
 - [ ] references/typescript/src/ink/renderer.ts
 - [ ] references/typescript/src/ink/screen.ts
