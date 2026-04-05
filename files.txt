@@ -808,10 +808,10 @@
 - [x] references/typescript/src/tools/FileReadTool/FileReadTool.ts
 - [x] references/typescript/src/tools/FileReadTool/limits.ts
 - [x] references/typescript/src/tools/FileReadTool/imageProcessor.ts
-- [ ] references/typescript/src/tools/EnterPlanModeTool/prompt.ts
-- [ ] references/typescript/src/tools/EnterPlanModeTool/UI.tsx
-- [ ] references/typescript/src/tools/EnterPlanModeTool/EnterPlanModeTool.ts
-- [ ] references/typescript/src/tools/EnterPlanModeTool/constants.ts
+- [x] references/typescript/src/tools/EnterPlanModeTool/prompt.ts
+- [x] references/typescript/src/tools/EnterPlanModeTool/UI.tsx
+- [x] references/typescript/src/tools/EnterPlanModeTool/EnterPlanModeTool.ts
+- [x] references/typescript/src/tools/EnterPlanModeTool/constants.ts
 - [x] references/typescript/src/tools/BriefTool/BriefTool.ts
 - [x] references/typescript/src/tools/BriefTool/prompt.ts
 - [x] references/typescript/src/tools/BriefTool/UI.tsx
