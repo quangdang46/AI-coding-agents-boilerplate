@@ -1273,18 +1273,18 @@
 - [ ] references/typescript/src/native-ts/yoga-layout/index.ts
 - [ ] references/typescript/src/native-ts/color-diff/index.ts
 - [x] references/typescript/src/QueryEngine.ts
-- [ ] references/typescript/src/types/permissions.ts
-- [ ] references/typescript/src/types/generated/events_mono/growthbook/v1/growthbook_experiment_event.ts
-- [ ] references/typescript/src/types/generated/events_mono/common/v1/auth.ts
-- [ ] references/typescript/src/types/generated/events_mono/claude_code/v1/claude_code_internal_event.ts
-- [ ] references/typescript/src/types/generated/google/protobuf/timestamp.ts
-- [ ] references/typescript/src/types/textInputTypes.ts
-- [ ] references/typescript/src/types/connectorText.ts
-- [ ] references/typescript/src/types/hooks.ts
-- [ ] references/typescript/src/types/logs.ts
-- [ ] references/typescript/src/types/command.ts
-- [ ] references/typescript/src/types/plugin.ts
-- [ ] references/typescript/src/types/ids.ts
+- [x] references/typescript/src/types/permissions.ts
+- [x] references/typescript/src/types/generated/events_mono/growthbook/v1/growthbook_experiment_event.ts
+- [x] references/typescript/src/types/generated/events_mono/common/v1/auth.ts
+- [x] references/typescript/src/types/generated/events_mono/claude_code/v1/claude_code_internal_event.ts
+- [x] references/typescript/src/types/generated/google/protobuf/timestamp.ts
+- [x] references/typescript/src/types/textInputTypes.ts
+- [x] references/typescript/src/types/connectorText.ts
+- [x] references/typescript/src/types/hooks.ts
+- [x] references/typescript/src/types/logs.ts
+- [x] references/typescript/src/types/command.ts
+- [x] references/typescript/src/types/plugin.ts
+- [x] references/typescript/src/types/ids.ts
 - [ ] references/typescript/src/hooks/useReplBridge.tsx
 - [ ] references/typescript/src/hooks/useIdeLogging.ts
 - [ ] references/typescript/src/hooks/useExitOnCtrlCDWithKeybindings.ts
