@@ -15,7 +15,7 @@
 - [x] references/typescript/tsconfig.json
 - [x] references/typescript/package.json
 - [x] references/typescript/.gitignore
-- [ ] references/typescript/src/projectOnboardingState.ts
+- [x] references/typescript/src/projectOnboardingState.ts
 - [x] references/typescript/src/constants/outputStyles.ts
 - [x] references/typescript/src/constants/errorIds.ts
 - [x] references/typescript/src/constants/xml.ts
