@@ -764,15 +764,15 @@
 - [ ] references/typescript/src/tools/FileEditTool/FileEditTool.ts
 - [ ] references/typescript/src/tools/FileEditTool/constants.ts
 - [x] references/typescript/src/tools/utils.ts
-- [ ] references/typescript/src/tools/TodoWriteTool/prompt.ts
-- [ ] references/typescript/src/tools/TodoWriteTool/TodoWriteTool.ts
-- [ ] references/typescript/src/tools/TodoWriteTool/constants.ts
+- [x] references/typescript/src/tools/TodoWriteTool/prompt.ts
+- [x] references/typescript/src/tools/TodoWriteTool/TodoWriteTool.ts
+- [x] references/typescript/src/tools/TodoWriteTool/constants.ts
 - [x] references/typescript/src/tools/TaskStopTool/TaskStopTool.ts
 - [x] references/typescript/src/tools/TaskStopTool/prompt.ts
 - [x] references/typescript/src/tools/TaskStopTool/UI.tsx
-- [ ] references/typescript/src/tools/RemoteTriggerTool/prompt.ts
-- [ ] references/typescript/src/tools/RemoteTriggerTool/UI.tsx
-- [ ] references/typescript/src/tools/RemoteTriggerTool/RemoteTriggerTool.ts
+- [x] references/typescript/src/tools/RemoteTriggerTool/prompt.ts
+- [x] references/typescript/src/tools/RemoteTriggerTool/UI.tsx
+- [x] references/typescript/src/tools/RemoteTriggerTool/RemoteTriggerTool.ts
 - [x] references/typescript/src/tools/McpAuthTool/McpAuthTool.ts
 - [x] references/typescript/src/tools/SleepTool/prompt.ts
 - [x] references/typescript/src/tools/SyntheticOutputTool/SyntheticOutputTool.ts
@@ -799,15 +799,15 @@
 - [ ] references/typescript/src/tools/BashTool/pathValidation.ts
 - [ ] references/typescript/src/tools/BashTool/commandSemantics.ts
 - [ ] references/typescript/src/tools/BashTool/sedValidation.ts
-- [ ] references/typescript/src/tools/SkillTool/SkillTool.ts
-- [ ] references/typescript/src/tools/SkillTool/prompt.ts
-- [ ] references/typescript/src/tools/SkillTool/UI.tsx
-- [ ] references/typescript/src/tools/SkillTool/constants.ts
-- [ ] references/typescript/src/tools/FileReadTool/prompt.ts
-- [ ] references/typescript/src/tools/FileReadTool/UI.tsx
-- [ ] references/typescript/src/tools/FileReadTool/FileReadTool.ts
-- [ ] references/typescript/src/tools/FileReadTool/limits.ts
-- [ ] references/typescript/src/tools/FileReadTool/imageProcessor.ts
+- [x] references/typescript/src/tools/SkillTool/SkillTool.ts
+- [x] references/typescript/src/tools/SkillTool/prompt.ts
+- [x] references/typescript/src/tools/SkillTool/UI.tsx
+- [x] references/typescript/src/tools/SkillTool/constants.ts
+- [x] references/typescript/src/tools/FileReadTool/prompt.ts
+- [x] references/typescript/src/tools/FileReadTool/UI.tsx
+- [x] references/typescript/src/tools/FileReadTool/FileReadTool.ts
+- [x] references/typescript/src/tools/FileReadTool/limits.ts
+- [x] references/typescript/src/tools/FileReadTool/imageProcessor.ts
 - [ ] references/typescript/src/tools/EnterPlanModeTool/prompt.ts
 - [ ] references/typescript/src/tools/EnterPlanModeTool/UI.tsx
 - [ ] references/typescript/src/tools/EnterPlanModeTool/EnterPlanModeTool.ts
@@ -2070,7 +2070,7 @@
 - [x] references/python/src/moreright/__init__.py
 - [x] references/python/src/__init__.py
 - [x] references/rust/TUI-ENHANCEMENT-PLAN.md
-- [ ] references/rust/crates/runtime/Cargo.toml
+- [x] references/rust/crates/runtime/Cargo.toml
 - [x] references/rust/crates/runtime/src/file_ops.rs
 - [x] references/rust/crates/runtime/src/session.rs
 - [x] references/rust/crates/runtime/src/green_contract.rs
@@ -2085,7 +2085,7 @@
 - [x] references/rust/crates/runtime/src/bash_validation.rs
 - [x] references/rust/crates/runtime/src/summary_compression.rs
 - [x] references/rust/crates/runtime/src/plugin_lifecycle.rs
-- [ ] references/rust/crates/runtime/src/oauth.rs
+- [x] references/rust/crates/runtime/src/oauth.rs
 - [x] references/rust/crates/runtime/src/bash.rs
 - [x] references/rust/crates/runtime/src/mcp.rs
 - [x] references/rust/crates/runtime/src/permissions.rs
@@ -2187,8 +2187,8 @@
 - [x] references/rust/.clawd-todos.json
 - [x] references/rust/PARITY.md
 - [x] references/rust/mock_parity_scenarios.json
-- [ ] references/rust/.sandbox-home/.rustup/settings.toml
-- [ ] references/rust/Cargo.toml
-- [ ] references/rust/.gitignore
+- [x] references/rust/.sandbox-home/.rustup/settings.toml
+- [x] references/rust/Cargo.toml
+- [x] references/rust/.gitignore
 - [x] references/rust/MOCK_PARITY_HARNESS.md
-- [ ] references/rust/Cargo.lock
+- [x] references/rust/Cargo.lock
