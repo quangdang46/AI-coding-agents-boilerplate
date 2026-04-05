@@ -223,12 +223,12 @@
 - [ ] references/typescript/src/utils/execFileNoThrowPortable.ts
 - [ ] references/typescript/src/utils/mcpValidation.ts
 - [ ] references/typescript/src/utils/cleanup.ts
-- [ ] references/typescript/src/utils/secureStorage/keychainPrefetch.ts
-- [ ] references/typescript/src/utils/secureStorage/fallbackStorage.ts
-- [ ] references/typescript/src/utils/secureStorage/plainTextStorage.ts
-- [ ] references/typescript/src/utils/secureStorage/index.ts
-- [ ] references/typescript/src/utils/secureStorage/macOsKeychainStorage.ts
-- [ ] references/typescript/src/utils/secureStorage/macOsKeychainHelpers.ts
+- [x] references/typescript/src/utils/secureStorage/keychainPrefetch.ts
+- [x] references/typescript/src/utils/secureStorage/fallbackStorage.ts
+- [x] references/typescript/src/utils/secureStorage/plainTextStorage.ts
+- [x] references/typescript/src/utils/secureStorage/index.ts
+- [x] references/typescript/src/utils/secureStorage/macOsKeychainStorage.ts
+- [x] references/typescript/src/utils/secureStorage/macOsKeychainHelpers.ts
 - [ ] references/typescript/src/utils/telemetryAttributes.ts
 - [ ] references/typescript/src/utils/userPromptKeywords.ts
 - [ ] references/typescript/src/utils/standaloneAgent.ts
@@ -314,14 +314,14 @@
 - [ ] references/typescript/src/utils/queryContext.ts
 - [ ] references/typescript/src/utils/statusNoticeDefinitions.tsx
 - [ ] references/typescript/src/utils/apiPreconnect.ts
-- [ ] references/typescript/src/utils/claudeInChrome/package.ts
-- [ ] references/typescript/src/utils/claudeInChrome/setup.ts
-- [ ] references/typescript/src/utils/claudeInChrome/toolRendering.tsx
-- [ ] references/typescript/src/utils/claudeInChrome/prompt.ts
-- [ ] references/typescript/src/utils/claudeInChrome/setupPortable.ts
-- [ ] references/typescript/src/utils/claudeInChrome/common.ts
-- [ ] references/typescript/src/utils/claudeInChrome/mcpServer.ts
-- [ ] references/typescript/src/utils/claudeInChrome/chromeNativeHost.ts
+- [x] references/typescript/src/utils/claudeInChrome/package.ts
+- [x] references/typescript/src/utils/claudeInChrome/setup.ts
+- [x] references/typescript/src/utils/claudeInChrome/toolRendering.tsx
+- [x] references/typescript/src/utils/claudeInChrome/prompt.ts
+- [x] references/typescript/src/utils/claudeInChrome/setupPortable.ts
+- [x] references/typescript/src/utils/claudeInChrome/common.ts
+- [x] references/typescript/src/utils/claudeInChrome/mcpServer.ts
+- [x] references/typescript/src/utils/claudeInChrome/chromeNativeHost.ts
 - [ ] references/typescript/src/utils/unaryLogging.ts
 - [ ] references/typescript/src/utils/controlMessageCompat.ts
 - [ ] references/typescript/src/utils/terminalPanel.ts
