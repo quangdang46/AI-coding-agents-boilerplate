@@ -2124,20 +2124,20 @@
 - [x] references/rust/crates/tools/Cargo.toml
 - [x] references/rust/crates/tools/.gitignore
 - [x] references/rust/crates/tools/src/lib.rs
-- [ ] references/rust/crates/mock-anthropic-service/Cargo.toml
-- [ ] references/rust/crates/mock-anthropic-service/src/main.rs
-- [ ] references/rust/crates/mock-anthropic-service/src/lib.rs
-- [ ] references/rust/crates/compat-harness/Cargo.toml
-- [ ] references/rust/crates/compat-harness/src/lib.rs
-- [ ] references/rust/crates/plugins/bundled/example-bundled/.claude-plugin/plugin.json
-- [ ] references/rust/crates/plugins/bundled/example-bundled/hooks/post.sh
-- [ ] references/rust/crates/plugins/bundled/example-bundled/hooks/pre.sh
-- [ ] references/rust/crates/plugins/bundled/sample-hooks/.claude-plugin/plugin.json
-- [ ] references/rust/crates/plugins/bundled/sample-hooks/hooks/post.sh
-- [ ] references/rust/crates/plugins/bundled/sample-hooks/hooks/pre.sh
-- [ ] references/rust/crates/plugins/Cargo.toml
-- [ ] references/rust/crates/plugins/src/lib.rs
-- [ ] references/rust/crates/plugins/src/hooks.rs
+- [x] references/rust/crates/mock-anthropic-service/Cargo.toml
+- [x] references/rust/crates/mock-anthropic-service/src/main.rs
+- [x] references/rust/crates/mock-anthropic-service/src/lib.rs
+- [x] references/rust/crates/compat-harness/Cargo.toml
+- [x] references/rust/crates/compat-harness/src/lib.rs
+- [x] references/rust/crates/plugins/bundled/example-bundled/.claude-plugin/plugin.json
+- [x] references/rust/crates/plugins/bundled/example-bundled/hooks/post.sh
+- [x] references/rust/crates/plugins/bundled/example-bundled/hooks/pre.sh
+- [x] references/rust/crates/plugins/bundled/sample-hooks/.claude-plugin/plugin.json
+- [x] references/rust/crates/plugins/bundled/sample-hooks/hooks/post.sh
+- [x] references/rust/crates/plugins/bundled/sample-hooks/hooks/pre.sh
+- [x] references/rust/crates/plugins/Cargo.toml
+- [x] references/rust/crates/plugins/src/lib.rs
+- [x] references/rust/crates/plugins/src/hooks.rs
 - [x] references/rust/crates/commands/Cargo.toml
 - [x] references/rust/crates/commands/src/lib.rs
 - [x] references/rust/crates/rusty-claude-cli/Cargo.toml
@@ -2151,8 +2151,8 @@
 - [x] references/rust/crates/rusty-claude-cli/src/input.rs
 - [x] references/rust/crates/rusty-claude-cli/src/render.rs
 - [x] references/rust/crates/rusty-claude-cli/.claw/sessions/session-newer.jsonl
-- [ ] references/rust/crates/telemetry/Cargo.toml
-- [ ] references/rust/crates/telemetry/src/lib.rs
+- [x] references/rust/crates/telemetry/Cargo.toml
+- [x] references/rust/crates/telemetry/src/lib.rs
 - [ ] references/rust/.omc/plans/tui-enhancement-plan.md
 - [ ] references/rust/.claude/sessions/session-1775009431231.json
 - [ ] references/rust/.claude/sessions/session-1775009769569.json
