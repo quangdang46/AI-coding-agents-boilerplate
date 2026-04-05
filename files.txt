@@ -427,23 +427,23 @@
 - [ ] references/typescript/src/utils/workloadContext.ts
 - [ ] references/typescript/src/utils/heatmap.ts
 - [ ] references/typescript/src/utils/intl.ts
-- [ ] references/typescript/src/utils/hooks/apiQueryHookHelper.ts
-- [ ] references/typescript/src/utils/hooks/hooksConfigSnapshot.ts
-- [ ] references/typescript/src/utils/hooks/sessionHooks.ts
-- [ ] references/typescript/src/utils/hooks/fileChangedWatcher.ts
-- [ ] references/typescript/src/utils/hooks/hooksConfigManager.ts
-- [ ] references/typescript/src/utils/hooks/hookEvents.ts
-- [ ] references/typescript/src/utils/hooks/execPromptHook.ts
-- [ ] references/typescript/src/utils/hooks/execHttpHook.ts
-- [ ] references/typescript/src/utils/hooks/ssrfGuard.ts
-- [ ] references/typescript/src/utils/hooks/postSamplingHooks.ts
-- [ ] references/typescript/src/utils/hooks/hookHelpers.ts
-- [ ] references/typescript/src/utils/hooks/AsyncHookRegistry.ts
-- [ ] references/typescript/src/utils/hooks/hooksSettings.ts
-- [ ] references/typescript/src/utils/hooks/skillImprovement.ts
-- [ ] references/typescript/src/utils/hooks/registerFrontmatterHooks.ts
-- [ ] references/typescript/src/utils/hooks/registerSkillHooks.ts
-- [ ] references/typescript/src/utils/hooks/execAgentHook.ts
+- [x] references/typescript/src/utils/hooks/apiQueryHookHelper.ts
+- [x] references/typescript/src/utils/hooks/hooksConfigSnapshot.ts
+- [x] references/typescript/src/utils/hooks/sessionHooks.ts
+- [x] references/typescript/src/utils/hooks/fileChangedWatcher.ts
+- [x] references/typescript/src/utils/hooks/hooksConfigManager.ts
+- [x] references/typescript/src/utils/hooks/hookEvents.ts
+- [x] references/typescript/src/utils/hooks/execPromptHook.ts
+- [x] references/typescript/src/utils/hooks/execHttpHook.ts
+- [x] references/typescript/src/utils/hooks/ssrfGuard.ts
+- [x] references/typescript/src/utils/hooks/postSamplingHooks.ts
+- [x] references/typescript/src/utils/hooks/hookHelpers.ts
+- [x] references/typescript/src/utils/hooks/AsyncHookRegistry.ts
+- [x] references/typescript/src/utils/hooks/hooksSettings.ts
+- [x] references/typescript/src/utils/hooks/skillImprovement.ts
+- [x] references/typescript/src/utils/hooks/registerFrontmatterHooks.ts
+- [x] references/typescript/src/utils/hooks/registerSkillHooks.ts
+- [x] references/typescript/src/utils/hooks/execAgentHook.ts
 - [ ] references/typescript/src/utils/thinking.ts
 - [ ] references/typescript/src/utils/sessionTitle.ts
 - [ ] references/typescript/src/utils/tasks.ts
@@ -1409,25 +1409,25 @@
 - [x] references/typescript/src/query/tokenBudget.ts
 - [x] references/typescript/src/query/stopHooks.ts
 - [x] references/typescript/src/query/deps.ts
-- [ ] references/typescript/src/cli/ndjsonSafeStringify.ts
-- [ ] references/typescript/src/cli/transports/transportUtils.ts
-- [ ] references/typescript/src/cli/transports/WebSocketTransport.ts
-- [ ] references/typescript/src/cli/transports/ccrClient.ts
-- [ ] references/typescript/src/cli/transports/SSETransport.ts
-- [ ] references/typescript/src/cli/transports/HybridTransport.ts
-- [ ] references/typescript/src/cli/transports/SerialBatchEventUploader.ts
-- [ ] references/typescript/src/cli/transports/WorkerStateUploader.ts
-- [ ] references/typescript/src/cli/structuredIO.ts
-- [ ] references/typescript/src/cli/handlers/agents.ts
-- [ ] references/typescript/src/cli/handlers/autoMode.ts
-- [ ] references/typescript/src/cli/handlers/mcp.tsx
-- [ ] references/typescript/src/cli/handlers/plugins.ts
-- [ ] references/typescript/src/cli/handlers/util.tsx
-- [ ] references/typescript/src/cli/handlers/auth.ts
-- [ ] references/typescript/src/cli/print.ts
-- [ ] references/typescript/src/cli/exit.ts
-- [ ] references/typescript/src/cli/update.ts
-- [ ] references/typescript/src/cli/remoteIO.ts
+- [x] references/typescript/src/cli/ndjsonSafeStringify.ts
+- [x] references/typescript/src/cli/transports/transportUtils.ts
+- [x] references/typescript/src/cli/transports/WebSocketTransport.ts
+- [x] references/typescript/src/cli/transports/ccrClient.ts
+- [x] references/typescript/src/cli/transports/SSETransport.ts
+- [x] references/typescript/src/cli/transports/HybridTransport.ts
+- [x] references/typescript/src/cli/transports/SerialBatchEventUploader.ts
+- [x] references/typescript/src/cli/transports/WorkerStateUploader.ts
+- [x] references/typescript/src/cli/structuredIO.ts
+- [x] references/typescript/src/cli/handlers/agents.ts
+- [x] references/typescript/src/cli/handlers/autoMode.ts
+- [x] references/typescript/src/cli/handlers/mcp.tsx
+- [x] references/typescript/src/cli/handlers/plugins.ts
+- [x] references/typescript/src/cli/handlers/util.tsx
+- [x] references/typescript/src/cli/handlers/auth.ts
+- [x] references/typescript/src/cli/print.ts
+- [x] references/typescript/src/cli/exit.ts
+- [x] references/typescript/src/cli/update.ts
+- [x] references/typescript/src/cli/remoteIO.ts
 - [ ] references/typescript/src/assistant/AssistantSessionChooser.tsx
 - [ ] references/typescript/src/assistant/sessionHistory.ts
 - [ ] references/typescript/src/bootstrap/state.ts
