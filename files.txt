@@ -678,9 +678,9 @@
 - [ ] references/typescript/src/tools/FileWriteTool/FileWriteTool.ts
 - [ ] references/typescript/src/tools/FileWriteTool/prompt.ts
 - [ ] references/typescript/src/tools/FileWriteTool/UI.tsx
-- [ ] references/typescript/src/tools/WebSearchTool/WebSearchTool.ts
-- [ ] references/typescript/src/tools/WebSearchTool/prompt.ts
-- [ ] references/typescript/src/tools/WebSearchTool/UI.tsx
+- [x] references/typescript/src/tools/WebSearchTool/WebSearchTool.ts
+- [x] references/typescript/src/tools/WebSearchTool/prompt.ts
+- [x] references/typescript/src/tools/WebSearchTool/UI.tsx
 - [x] references/typescript/src/tools/ReadMcpResourceTool/prompt.ts
 - [x] references/typescript/src/tools/ReadMcpResourceTool/ReadMcpResourceTool.ts
 - [x] references/typescript/src/tools/ReadMcpResourceTool/UI.tsx
