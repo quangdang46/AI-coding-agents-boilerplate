@@ -1010,18 +1010,18 @@
 - [x] references/typescript/src/plugins/bundled/index.ts
 - [x] references/typescript/src/plugins/builtinPlugins.ts
 - [x] references/typescript/src/Task.ts
-- [ ] references/typescript/src/tasks/stopTask.ts
-- [ ] references/typescript/src/tasks/LocalMainSessionTask.ts
-- [ ] references/typescript/src/tasks/DreamTask/DreamTask.ts
-- [ ] references/typescript/src/tasks/RemoteAgentTask/RemoteAgentTask.tsx
-- [ ] references/typescript/src/tasks/InProcessTeammateTask/types.ts
-- [ ] references/typescript/src/tasks/InProcessTeammateTask/InProcessTeammateTask.tsx
-- [ ] references/typescript/src/tasks/types.ts
-- [ ] references/typescript/src/tasks/pillLabel.ts
-- [ ] references/typescript/src/tasks/LocalAgentTask/LocalAgentTask.tsx
-- [ ] references/typescript/src/tasks/LocalShellTask/LocalShellTask.tsx
-- [ ] references/typescript/src/tasks/LocalShellTask/killShellTasks.ts
-- [ ] references/typescript/src/tasks/LocalShellTask/guards.ts
+- [x] references/typescript/src/tasks/stopTask.ts
+- [x] references/typescript/src/tasks/LocalMainSessionTask.ts
+- [x] references/typescript/src/tasks/DreamTask/DreamTask.ts
+- [x] references/typescript/src/tasks/RemoteAgentTask/RemoteAgentTask.tsx
+- [x] references/typescript/src/tasks/InProcessTeammateTask/types.ts
+- [x] references/typescript/src/tasks/InProcessTeammateTask/InProcessTeammateTask.tsx
+- [x] references/typescript/src/tasks/types.ts
+- [x] references/typescript/src/tasks/pillLabel.ts
+- [x] references/typescript/src/tasks/LocalAgentTask/LocalAgentTask.tsx
+- [x] references/typescript/src/tasks/LocalShellTask/LocalShellTask.tsx
+- [x] references/typescript/src/tasks/LocalShellTask/killShellTasks.ts
+- [x] references/typescript/src/tasks/LocalShellTask/guards.ts
 - [ ] references/typescript/src/memdir/teamMemPaths.ts
 - [ ] references/typescript/src/memdir/paths.ts
 - [ ] references/typescript/src/memdir/teamMemPrompts.ts
