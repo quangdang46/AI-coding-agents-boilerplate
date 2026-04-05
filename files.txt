@@ -56,9 +56,9 @@
 - [ ] references/typescript/src/utils/Cursor.ts
 - [ ] references/typescript/src/utils/activityManager.ts
 - [ ] references/typescript/src/utils/screenshotClipboard.ts
-- [ ] references/typescript/src/utils/powershell/dangerousCmdlets.ts
-- [ ] references/typescript/src/utils/powershell/staticPrefix.ts
-- [ ] references/typescript/src/utils/powershell/parser.ts
+- [x] references/typescript/src/utils/powershell/dangerousCmdlets.ts
+- [x] references/typescript/src/utils/powershell/staticPrefix.ts
+- [x] references/typescript/src/utils/powershell/parser.ts
 - [ ] references/typescript/src/utils/settings/validation.ts
 - [ ] references/typescript/src/utils/settings/pluginOnlyPolicy.ts
 - [ ] references/typescript/src/utils/settings/mdm/rawRead.ts
@@ -78,8 +78,8 @@
 - [ ] references/typescript/src/utils/settings/constants.ts
 - [ ] references/typescript/src/utils/settings/schemaOutput.ts
 - [ ] references/typescript/src/utils/settings/validateEditTool.ts
-- [ ] references/typescript/src/utils/sandbox/sandbox-adapter.ts
-- [ ] references/typescript/src/utils/sandbox/sandbox-ui-utils.ts
+- [x] references/typescript/src/utils/sandbox/sandbox-adapter.ts
+- [x] references/typescript/src/utils/sandbox/sandbox-ui-utils.ts
 - [ ] references/typescript/src/utils/fileStateCache.ts
 - [ ] references/typescript/src/utils/messages/mappers.ts
 - [ ] references/typescript/src/utils/messages/systemInit.ts
@@ -154,8 +154,8 @@
 - [x] references/typescript/src/utils/config.ts
 - [ ] references/typescript/src/utils/systemTheme.ts
 - [ ] references/typescript/src/utils/systemPrompt.ts
-- [ ] references/typescript/src/utils/dxt/zip.ts
-- [ ] references/typescript/src/utils/dxt/helpers.ts
+- [x] references/typescript/src/utils/dxt/zip.ts
+- [x] references/typescript/src/utils/dxt/helpers.ts
 - [ ] references/typescript/src/utils/collapseHookSummaries.ts
 - [ ] references/typescript/src/utils/toolSchemaCache.ts
 - [ ] references/typescript/src/utils/teamMemoryOps.ts
@@ -192,17 +192,17 @@
 - [ ] references/typescript/src/utils/preflightChecks.tsx
 - [x] references/typescript/src/utils/context.ts
 - [ ] references/typescript/src/utils/sessionIngressAuth.ts
-- [ ] references/typescript/src/utils/git/gitFilesystem.ts
-- [ ] references/typescript/src/utils/git/gitignore.ts
-- [ ] references/typescript/src/utils/git/gitConfigParser.ts
+- [x] references/typescript/src/utils/git/gitFilesystem.ts
+- [x] references/typescript/src/utils/git/gitignore.ts
+- [x] references/typescript/src/utils/git/gitConfigParser.ts
 - [ ] references/typescript/src/utils/extraUsage.ts
 - [ ] references/typescript/src/utils/ansiToSvg.ts
 - [ ] references/typescript/src/utils/asciicast.ts
 - [ ] references/typescript/src/utils/caCertsConfig.ts
 - [ ] references/typescript/src/utils/managedEnv.ts
 - [ ] references/typescript/src/utils/slashCommandParsing.ts
-- [ ] references/typescript/src/utils/mcp/elicitationValidation.ts
-- [ ] references/typescript/src/utils/mcp/dateTimeParser.ts
+- [x] references/typescript/src/utils/mcp/elicitationValidation.ts
+- [x] references/typescript/src/utils/mcp/dateTimeParser.ts
 - [ ] references/typescript/src/utils/managedEnvConstants.ts
 - [ ] references/typescript/src/utils/http.ts
 - [ ] references/typescript/src/utils/heapDumpService.ts
@@ -497,8 +497,8 @@
 - [ ] references/typescript/src/utils/crossProjectResume.ts
 - [ ] references/typescript/src/utils/worktreeModeEnabled.ts
 - [ ] references/typescript/src/utils/commandLifecycle.ts
-- [ ] references/typescript/src/utils/background/remote/preconditions.ts
-- [ ] references/typescript/src/utils/background/remote/remoteSession.ts
+- [x] references/typescript/src/utils/background/remote/preconditions.ts
+- [x] references/typescript/src/utils/background/remote/remoteSession.ts
 - [ ] references/typescript/src/utils/sinks.ts
 - [ ] references/typescript/src/utils/path.ts
 - [ ] references/typescript/src/utils/pdfUtils.ts
@@ -510,10 +510,10 @@
 - [ ] references/typescript/src/utils/sessionStorage.ts
 - [ ] references/typescript/src/utils/cliArgs.ts
 - [ ] references/typescript/src/utils/directMemberMessage.ts
-- [ ] references/typescript/src/utils/teleport/environmentSelection.ts
-- [ ] references/typescript/src/utils/teleport/gitBundle.ts
-- [ ] references/typescript/src/utils/teleport/environments.ts
-- [ ] references/typescript/src/utils/teleport/api.ts
+- [x] references/typescript/src/utils/teleport/environmentSelection.ts
+- [x] references/typescript/src/utils/teleport/gitBundle.ts
+- [x] references/typescript/src/utils/teleport/environments.ts
+- [x] references/typescript/src/utils/teleport/api.ts
 - [ ] references/typescript/src/utils/sessionFileAccessHooks.ts
 - [ ] references/typescript/src/utils/skills/skillChangeDetector.ts
 - [ ] references/typescript/src/utils/horizontalScroll.ts
@@ -550,9 +550,9 @@
 - [ ] references/typescript/src/utils/array.ts
 - [ ] references/typescript/src/utils/which.ts
 - [ ] references/typescript/src/utils/groupToolUses.ts
-- [ ] references/typescript/src/utils/ultraplan/ccrSession.ts
-- [ ] references/typescript/src/utils/ultraplan/prompt.txt
-- [ ] references/typescript/src/utils/ultraplan/keyword.ts
+- [x] references/typescript/src/utils/ultraplan/ccrSession.ts
+- [x] references/typescript/src/utils/ultraplan/prompt.txt
+- [x] references/typescript/src/utils/ultraplan/keyword.ts
 - [ ] references/typescript/src/utils/browser.ts
 - [ ] references/typescript/src/utils/worktree.ts
 - [ ] references/typescript/src/utils/attachments.ts
