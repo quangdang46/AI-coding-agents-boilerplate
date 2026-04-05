@@ -2079,7 +2079,7 @@
 - [ ] references/rust/crates/runtime/src/team_cron_registry.rs
 - [ ] references/rust/crates/runtime/src/mcp_tool_bridge.rs
 - [ ] references/rust/crates/runtime/src/permission_enforcer.rs
-- [ ] references/rust/crates/runtime/src/sse.rs
+- [x] references/rust/crates/runtime/src/sse.rs
 - [ ] references/rust/crates/runtime/src/trust_resolver.rs
 - [x] references/rust/crates/runtime/src/compact.rs
 - [x] references/rust/crates/runtime/src/bash_validation.rs
