@@ -366,21 +366,21 @@
 - [ ] references/typescript/src/utils/codex-fetch-adapter.ts
 - [ ] references/typescript/src/utils/signal.ts
 - [ ] references/typescript/src/utils/planModeV2.ts
-- [ ] references/typescript/src/utils/computerUse/setup.ts
-- [ ] references/typescript/src/utils/computerUse/wrapper.tsx
-- [ ] references/typescript/src/utils/computerUse/toolRendering.tsx
-- [ ] references/typescript/src/utils/computerUse/appNames.ts
-- [ ] references/typescript/src/utils/computerUse/swiftLoader.ts
-- [ ] references/typescript/src/utils/computerUse/hostAdapter.ts
-- [ ] references/typescript/src/utils/computerUse/cleanup.ts
-- [ ] references/typescript/src/utils/computerUse/inputLoader.ts
-- [ ] references/typescript/src/utils/computerUse/computerUseLock.ts
-- [ ] references/typescript/src/utils/computerUse/gates.ts
-- [ ] references/typescript/src/utils/computerUse/common.ts
-- [ ] references/typescript/src/utils/computerUse/executor.ts
-- [ ] references/typescript/src/utils/computerUse/drainRunLoop.ts
-- [ ] references/typescript/src/utils/computerUse/mcpServer.ts
-- [ ] references/typescript/src/utils/computerUse/escHotkey.ts
+- [x] references/typescript/src/utils/computerUse/setup.ts
+- [x] references/typescript/src/utils/computerUse/wrapper.tsx
+- [x] references/typescript/src/utils/computerUse/toolRendering.tsx
+- [x] references/typescript/src/utils/computerUse/appNames.ts
+- [x] references/typescript/src/utils/computerUse/swiftLoader.ts
+- [x] references/typescript/src/utils/computerUse/hostAdapter.ts
+- [x] references/typescript/src/utils/computerUse/cleanup.ts
+- [x] references/typescript/src/utils/computerUse/inputLoader.ts
+- [x] references/typescript/src/utils/computerUse/computerUseLock.ts
+- [x] references/typescript/src/utils/computerUse/gates.ts
+- [x] references/typescript/src/utils/computerUse/common.ts
+- [x] references/typescript/src/utils/computerUse/executor.ts
+- [x] references/typescript/src/utils/computerUse/drainRunLoop.ts
+- [x] references/typescript/src/utils/computerUse/mcpServer.ts
+- [x] references/typescript/src/utils/computerUse/escHotkey.ts
 - [ ] references/typescript/src/utils/effort.ts
 - [ ] references/typescript/src/utils/terminal.ts
 - [ ] references/typescript/src/utils/toolSearch.ts
