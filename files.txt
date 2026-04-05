@@ -754,9 +754,9 @@
 - [x] references/typescript/src/tools/TaskGetTool/prompt.ts
 - [x] references/typescript/src/tools/TaskGetTool/TaskGetTool.ts
 - [x] references/typescript/src/tools/TaskGetTool/constants.ts
-- [ ] references/typescript/src/tools/GlobTool/prompt.ts
-- [ ] references/typescript/src/tools/GlobTool/UI.tsx
-- [ ] references/typescript/src/tools/GlobTool/GlobTool.ts
+- [x] references/typescript/src/tools/GlobTool/prompt.ts
+- [x] references/typescript/src/tools/GlobTool/UI.tsx
+- [x] references/typescript/src/tools/GlobTool/GlobTool.ts
 - [ ] references/typescript/src/tools/FileEditTool/prompt.ts
 - [ ] references/typescript/src/tools/FileEditTool/types.ts
 - [ ] references/typescript/src/tools/FileEditTool/UI.tsx
@@ -818,9 +818,9 @@
 - [x] references/typescript/src/tools/BriefTool/attachments.ts
 - [x] references/typescript/src/tools/BriefTool/upload.ts
 - [x] references/typescript/src/tools/testing/TestingPermissionTool.tsx
-- [ ] references/typescript/src/tools/GrepTool/GrepTool.ts
-- [ ] references/typescript/src/tools/GrepTool/prompt.ts
-- [ ] references/typescript/src/tools/GrepTool/UI.tsx
+- [x] references/typescript/src/tools/GrepTool/GrepTool.ts
+- [x] references/typescript/src/tools/GrepTool/prompt.ts
+- [x] references/typescript/src/tools/GrepTool/UI.tsx
 - [x] references/typescript/src/tools/TaskListTool/TaskListTool.ts
 - [x] references/typescript/src/tools/TaskListTool/prompt.ts
 - [x] references/typescript/src/tools/TaskListTool/constants.ts
@@ -886,38 +886,38 @@
 - [ ] references/typescript/src/services/tips/tipRegistry.ts
 - [ ] references/typescript/src/services/tips/tipHistory.ts
 - [ ] references/typescript/src/services/tokenEstimation.ts
-- [ ] references/typescript/src/services/api/logging.ts
-- [ ] references/typescript/src/services/api/filesApi.ts
-- [ ] references/typescript/src/services/api/dumpPrompts.ts
-- [ ] references/typescript/src/services/api/client.ts
-- [ ] references/typescript/src/services/api/ultrareviewQuota.ts
-- [ ] references/typescript/src/services/api/claude.ts
-- [ ] references/typescript/src/services/api/sessionIngress.ts
-- [ ] references/typescript/src/services/api/promptCacheBreakDetection.ts
-- [ ] references/typescript/src/services/api/emptyUsage.ts
-- [ ] references/typescript/src/services/api/errorUtils.ts
-- [ ] references/typescript/src/services/api/adminRequests.ts
-- [ ] references/typescript/src/services/api/withRetry.ts
-- [ ] references/typescript/src/services/api/codex-fetch-adapter.ts
-- [ ] references/typescript/src/services/api/errors.ts
-- [ ] references/typescript/src/services/api/grove.ts
-- [ ] references/typescript/src/services/api/bootstrap.ts
-- [ ] references/typescript/src/services/api/firstTokenDate.ts
-- [ ] references/typescript/src/services/api/referral.ts
-- [ ] references/typescript/src/services/api/metricsOptOut.ts
-- [ ] references/typescript/src/services/api/overageCreditGrant.ts
-- [ ] references/typescript/src/services/api/usage.ts
+- [x] references/typescript/src/services/api/logging.ts
+- [x] references/typescript/src/services/api/filesApi.ts
+- [x] references/typescript/src/services/api/dumpPrompts.ts
+- [x] references/typescript/src/services/api/client.ts
+- [x] references/typescript/src/services/api/ultrareviewQuota.ts
+- [x] references/typescript/src/services/api/claude.ts
+- [x] references/typescript/src/services/api/sessionIngress.ts
+- [x] references/typescript/src/services/api/promptCacheBreakDetection.ts
+- [x] references/typescript/src/services/api/emptyUsage.ts
+- [x] references/typescript/src/services/api/errorUtils.ts
+- [x] references/typescript/src/services/api/adminRequests.ts
+- [x] references/typescript/src/services/api/withRetry.ts
+- [x] references/typescript/src/services/api/codex-fetch-adapter.ts
+- [x] references/typescript/src/services/api/errors.ts
+- [x] references/typescript/src/services/api/grove.ts
+- [x] references/typescript/src/services/api/bootstrap.ts
+- [x] references/typescript/src/services/api/firstTokenDate.ts
+- [x] references/typescript/src/services/api/referral.ts
+- [x] references/typescript/src/services/api/metricsOptOut.ts
+- [x] references/typescript/src/services/api/overageCreditGrant.ts
+- [x] references/typescript/src/services/api/usage.ts
 - [ ] references/typescript/src/services/mockRateLimits.ts
 - [ ] references/typescript/src/services/tools/toolHooks.ts
 - [ ] references/typescript/src/services/tools/toolExecution.ts
 - [ ] references/typescript/src/services/tools/toolOrchestration.ts
 - [ ] references/typescript/src/services/tools/StreamingToolExecutor.ts
-- [ ] references/typescript/src/services/oauth/codex-client.ts
-- [ ] references/typescript/src/services/oauth/auth-code-listener.ts
-- [ ] references/typescript/src/services/oauth/client.ts
-- [ ] references/typescript/src/services/oauth/crypto.ts
-- [ ] references/typescript/src/services/oauth/index.ts
-- [ ] references/typescript/src/services/oauth/getOauthProfile.ts
+- [x] references/typescript/src/services/oauth/codex-client.ts
+- [x] references/typescript/src/services/oauth/auth-code-listener.ts
+- [x] references/typescript/src/services/oauth/client.ts
+- [x] references/typescript/src/services/oauth/crypto.ts
+- [x] references/typescript/src/services/oauth/index.ts
+- [x] references/typescript/src/services/oauth/getOauthProfile.ts
 - [ ] references/typescript/src/services/compact/compact.ts
 - [ ] references/typescript/src/services/compact/cachedMicrocompact.ts
 - [ ] references/typescript/src/services/compact/compactWarningHook.ts
@@ -997,7 +997,7 @@
 - [ ] references/typescript/src/services/analytics/index.ts
 - [ ] references/typescript/src/services/analytics/sinkKillswitch.ts
 - [ ] references/typescript/src/services/voice.ts
-- [ ] references/typescript/src/services/claudeAiLimits.ts
+- [x] references/typescript/src/services/claudeAiLimits.ts
 - [ ] references/typescript/src/services/claudeAiLimitsHook.ts
 - [ ] references/typescript/src/services/PromptSuggestion/promptSuggestion.ts
 - [ ] references/typescript/src/services/PromptSuggestion/speculation.ts
@@ -1945,9 +1945,9 @@
 - [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/PreviewQuestionView.tsx
 - [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/QuestionView.tsx
 - [ ] references/typescript/src/components/permissions/SkillPermissionRequest/SkillPermissionRequest.tsx
-- [ ] references/typescript/src/screens/Doctor.tsx
-- [ ] references/typescript/src/screens/ResumeConversation.tsx
-- [ ] references/typescript/src/screens/REPL.tsx
+- [x] references/typescript/src/screens/Doctor.tsx
+- [x] references/typescript/src/screens/ResumeConversation.tsx
+- [x] references/typescript/src/screens/REPL.tsx
 - [x] references/typescript/src/moreright/useMoreRight.tsx
 - [x] references/typescript/bun.lock
 - [x] references/typescript/changes.md
