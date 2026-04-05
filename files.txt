@@ -657,33 +657,33 @@
 - [x] references/typescript/src/tools/TeamDeleteTool/prompt.ts
 - [x] references/typescript/src/tools/TeamDeleteTool/UI.tsx
 - [x] references/typescript/src/tools/TeamDeleteTool/constants.ts
-- [ ] references/typescript/src/tools/MCPTool/prompt.ts
-- [ ] references/typescript/src/tools/MCPTool/UI.tsx
-- [ ] references/typescript/src/tools/MCPTool/classifyForCollapse.ts
-- [ ] references/typescript/src/tools/MCPTool/MCPTool.ts
-- [ ] references/typescript/src/tools/SendMessageTool/SendMessageTool.ts
-- [ ] references/typescript/src/tools/SendMessageTool/prompt.ts
-- [ ] references/typescript/src/tools/SendMessageTool/UI.tsx
-- [ ] references/typescript/src/tools/SendMessageTool/constants.ts
+- [x] references/typescript/src/tools/MCPTool/prompt.ts
+- [x] references/typescript/src/tools/MCPTool/UI.tsx
+- [x] references/typescript/src/tools/MCPTool/classifyForCollapse.ts
+- [x] references/typescript/src/tools/MCPTool/MCPTool.ts
+- [x] references/typescript/src/tools/SendMessageTool/SendMessageTool.ts
+- [x] references/typescript/src/tools/SendMessageTool/prompt.ts
+- [x] references/typescript/src/tools/SendMessageTool/UI.tsx
+- [x] references/typescript/src/tools/SendMessageTool/constants.ts
 - [ ] references/typescript/src/tools/ExitWorktreeTool/prompt.ts
 - [ ] references/typescript/src/tools/ExitWorktreeTool/UI.tsx
 - [ ] references/typescript/src/tools/ExitWorktreeTool/ExitWorktreeTool.ts
 - [ ] references/typescript/src/tools/ExitWorktreeTool/constants.ts
-- [ ] references/typescript/src/tools/LSPTool/LSPTool.ts
-- [ ] references/typescript/src/tools/LSPTool/prompt.ts
-- [ ] references/typescript/src/tools/LSPTool/UI.tsx
-- [ ] references/typescript/src/tools/LSPTool/formatters.ts
-- [ ] references/typescript/src/tools/LSPTool/symbolContext.ts
-- [ ] references/typescript/src/tools/LSPTool/schemas.ts
+- [x] references/typescript/src/tools/LSPTool/LSPTool.ts
+- [x] references/typescript/src/tools/LSPTool/prompt.ts
+- [x] references/typescript/src/tools/LSPTool/UI.tsx
+- [x] references/typescript/src/tools/LSPTool/formatters.ts
+- [x] references/typescript/src/tools/LSPTool/symbolContext.ts
+- [x] references/typescript/src/tools/LSPTool/schemas.ts
 - [ ] references/typescript/src/tools/FileWriteTool/FileWriteTool.ts
 - [ ] references/typescript/src/tools/FileWriteTool/prompt.ts
 - [ ] references/typescript/src/tools/FileWriteTool/UI.tsx
 - [ ] references/typescript/src/tools/WebSearchTool/WebSearchTool.ts
 - [ ] references/typescript/src/tools/WebSearchTool/prompt.ts
 - [ ] references/typescript/src/tools/WebSearchTool/UI.tsx
-- [ ] references/typescript/src/tools/ReadMcpResourceTool/prompt.ts
-- [ ] references/typescript/src/tools/ReadMcpResourceTool/ReadMcpResourceTool.ts
-- [ ] references/typescript/src/tools/ReadMcpResourceTool/UI.tsx
+- [x] references/typescript/src/tools/ReadMcpResourceTool/prompt.ts
+- [x] references/typescript/src/tools/ReadMcpResourceTool/ReadMcpResourceTool.ts
+- [x] references/typescript/src/tools/ReadMcpResourceTool/UI.tsx
 - [ ] references/typescript/src/tools/ExitPlanModeTool/ExitPlanModeV2Tool.ts
 - [ ] references/typescript/src/tools/ExitPlanModeTool/prompt.ts
 - [ ] references/typescript/src/tools/ExitPlanModeTool/UI.tsx
@@ -746,9 +746,9 @@
 - [ ] references/typescript/src/tools/NotebookEditTool/prompt.ts
 - [ ] references/typescript/src/tools/NotebookEditTool/UI.tsx
 - [ ] references/typescript/src/tools/NotebookEditTool/constants.ts
-- [ ] references/typescript/src/tools/ListMcpResourcesTool/prompt.ts
-- [ ] references/typescript/src/tools/ListMcpResourcesTool/UI.tsx
-- [ ] references/typescript/src/tools/ListMcpResourcesTool/ListMcpResourcesTool.ts
+- [x] references/typescript/src/tools/ListMcpResourcesTool/prompt.ts
+- [x] references/typescript/src/tools/ListMcpResourcesTool/UI.tsx
+- [x] references/typescript/src/tools/ListMcpResourcesTool/ListMcpResourcesTool.ts
 - [x] references/typescript/src/tools/shared/spawnMultiAgent.ts
 - [x] references/typescript/src/tools/shared/gitOperationTracking.ts
 - [x] references/typescript/src/tools/TaskGetTool/prompt.ts
@@ -773,11 +773,11 @@
 - [ ] references/typescript/src/tools/RemoteTriggerTool/prompt.ts
 - [ ] references/typescript/src/tools/RemoteTriggerTool/UI.tsx
 - [ ] references/typescript/src/tools/RemoteTriggerTool/RemoteTriggerTool.ts
-- [ ] references/typescript/src/tools/McpAuthTool/McpAuthTool.ts
+- [x] references/typescript/src/tools/McpAuthTool/McpAuthTool.ts
 - [ ] references/typescript/src/tools/SleepTool/prompt.ts
 - [ ] references/typescript/src/tools/SyntheticOutputTool/SyntheticOutputTool.ts
-- [ ] references/typescript/src/tools/AskUserQuestionTool/prompt.ts
-- [ ] references/typescript/src/tools/AskUserQuestionTool/AskUserQuestionTool.tsx
+- [x] references/typescript/src/tools/AskUserQuestionTool/prompt.ts
+- [x] references/typescript/src/tools/AskUserQuestionTool/AskUserQuestionTool.tsx
 - [x] references/typescript/src/tools/TaskCreateTool/prompt.ts
 - [x] references/typescript/src/tools/TaskCreateTool/TaskCreateTool.ts
 - [x] references/typescript/src/tools/TaskCreateTool/constants.ts
@@ -812,11 +812,11 @@
 - [ ] references/typescript/src/tools/EnterPlanModeTool/UI.tsx
 - [ ] references/typescript/src/tools/EnterPlanModeTool/EnterPlanModeTool.ts
 - [ ] references/typescript/src/tools/EnterPlanModeTool/constants.ts
-- [ ] references/typescript/src/tools/BriefTool/BriefTool.ts
-- [ ] references/typescript/src/tools/BriefTool/prompt.ts
-- [ ] references/typescript/src/tools/BriefTool/UI.tsx
-- [ ] references/typescript/src/tools/BriefTool/attachments.ts
-- [ ] references/typescript/src/tools/BriefTool/upload.ts
+- [x] references/typescript/src/tools/BriefTool/BriefTool.ts
+- [x] references/typescript/src/tools/BriefTool/prompt.ts
+- [x] references/typescript/src/tools/BriefTool/UI.tsx
+- [x] references/typescript/src/tools/BriefTool/attachments.ts
+- [x] references/typescript/src/tools/BriefTool/upload.ts
 - [x] references/typescript/src/tools/testing/TestingPermissionTool.tsx
 - [ ] references/typescript/src/tools/GrepTool/GrepTool.ts
 - [ ] references/typescript/src/tools/GrepTool/prompt.ts
