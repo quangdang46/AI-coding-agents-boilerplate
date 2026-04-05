@@ -868,8 +868,8 @@
 - [ ] references/typescript/src/services/autoDream/consolidationPrompt.ts
 - [ ] references/typescript/src/services/voiceKeyterms.ts
 - [ ] references/typescript/src/services/rateLimitMocking.ts
-- [ ] references/typescript/src/services/MagicDocs/magicDocs.ts
-- [ ] references/typescript/src/services/MagicDocs/prompts.ts
+- [x] references/typescript/src/services/MagicDocs/magicDocs.ts
+- [x] references/typescript/src/services/MagicDocs/prompts.ts
 - [ ] references/typescript/src/services/diagnosticTracking.ts
 - [ ] references/typescript/src/services/policyLimits/types.ts
 - [ ] references/typescript/src/services/policyLimits/index.ts
@@ -877,14 +877,14 @@
 - [ ] references/typescript/src/services/mcpServerApproval.tsx
 - [ ] references/typescript/src/services/voiceStreamSTT.ts
 - [ ] references/typescript/src/services/rateLimitMessages.ts
-- [ ] references/typescript/src/services/teamMemorySync/teamMemSecretGuard.ts
-- [ ] references/typescript/src/services/teamMemorySync/types.ts
-- [ ] references/typescript/src/services/teamMemorySync/secretScanner.ts
-- [ ] references/typescript/src/services/teamMemorySync/index.ts
-- [ ] references/typescript/src/services/teamMemorySync/watcher.ts
-- [ ] references/typescript/src/services/tips/tipScheduler.ts
-- [ ] references/typescript/src/services/tips/tipRegistry.ts
-- [ ] references/typescript/src/services/tips/tipHistory.ts
+- [x] references/typescript/src/services/teamMemorySync/teamMemSecretGuard.ts
+- [x] references/typescript/src/services/teamMemorySync/types.ts
+- [x] references/typescript/src/services/teamMemorySync/secretScanner.ts
+- [x] references/typescript/src/services/teamMemorySync/index.ts
+- [x] references/typescript/src/services/teamMemorySync/watcher.ts
+- [x] references/typescript/src/services/tips/tipScheduler.ts
+- [x] references/typescript/src/services/tips/tipRegistry.ts
+- [x] references/typescript/src/services/tips/tipHistory.ts
 - [ ] references/typescript/src/services/tokenEstimation.ts
 - [x] references/typescript/src/services/api/logging.ts
 - [x] references/typescript/src/services/api/filesApi.ts
@@ -918,21 +918,21 @@
 - [x] references/typescript/src/services/oauth/crypto.ts
 - [x] references/typescript/src/services/oauth/index.ts
 - [x] references/typescript/src/services/oauth/getOauthProfile.ts
-- [ ] references/typescript/src/services/compact/compact.ts
-- [ ] references/typescript/src/services/compact/cachedMicrocompact.ts
-- [ ] references/typescript/src/services/compact/compactWarningHook.ts
-- [ ] references/typescript/src/services/compact/compactWarningState.ts
-- [ ] references/typescript/src/services/compact/grouping.ts
-- [ ] references/typescript/src/services/compact/autoCompact.ts
-- [ ] references/typescript/src/services/compact/microCompact.ts
-- [ ] references/typescript/src/services/compact/prompt.ts
-- [ ] references/typescript/src/services/compact/timeBasedMCConfig.ts
-- [ ] references/typescript/src/services/compact/apiMicrocompact.ts
-- [ ] references/typescript/src/services/compact/sessionMemoryCompact.ts
-- [ ] references/typescript/src/services/compact/snipProjection.ts
-- [ ] references/typescript/src/services/compact/postCompactCleanup.ts
-- [ ] references/typescript/src/services/compact/snipCompact.ts
-- [ ] references/typescript/src/services/compact/cachedMCConfig.ts
+- [x] references/typescript/src/services/compact/compact.ts
+- [x] references/typescript/src/services/compact/cachedMicrocompact.ts
+- [x] references/typescript/src/services/compact/compactWarningHook.ts
+- [x] references/typescript/src/services/compact/compactWarningState.ts
+- [x] references/typescript/src/services/compact/grouping.ts
+- [x] references/typescript/src/services/compact/autoCompact.ts
+- [x] references/typescript/src/services/compact/microCompact.ts
+- [x] references/typescript/src/services/compact/prompt.ts
+- [x] references/typescript/src/services/compact/timeBasedMCConfig.ts
+- [x] references/typescript/src/services/compact/apiMicrocompact.ts
+- [x] references/typescript/src/services/compact/sessionMemoryCompact.ts
+- [x] references/typescript/src/services/compact/snipProjection.ts
+- [x] references/typescript/src/services/compact/postCompactCleanup.ts
+- [x] references/typescript/src/services/compact/snipCompact.ts
+- [x] references/typescript/src/services/compact/cachedMCConfig.ts
 - [x] references/typescript/src/services/mcp/xaaIdpLogin.ts
 - [x] references/typescript/src/services/mcp/headersHelper.ts
 - [x] references/typescript/src/services/mcp/channelNotification.ts
@@ -970,9 +970,9 @@
 - [ ] references/typescript/src/services/contextCollapse/persist.ts
 - [ ] references/typescript/src/services/AgentSummary/agentSummary.ts
 - [ ] references/typescript/src/services/awaySummary.ts
-- [ ] references/typescript/src/services/toolUseSummary/toolUseSummaryGenerator.ts
-- [ ] references/typescript/src/services/extractMemories/prompts.ts
-- [ ] references/typescript/src/services/extractMemories/extractMemories.ts
+- [x] references/typescript/src/services/toolUseSummary/toolUseSummaryGenerator.ts
+- [x] references/typescript/src/services/extractMemories/prompts.ts
+- [x] references/typescript/src/services/extractMemories/extractMemories.ts
 - [ ] references/typescript/src/services/settingsSync/types.ts
 - [ ] references/typescript/src/services/settingsSync/index.ts
 - [x] references/typescript/src/services/lsp/LSPDiagnosticRegistry.ts
@@ -984,9 +984,9 @@
 - [x] references/typescript/src/services/lsp/LSPClient.ts
 - [ ] references/typescript/src/services/internalLogging.ts
 - [ ] references/typescript/src/services/notifier.ts
-- [ ] references/typescript/src/services/SessionMemory/sessionMemoryUtils.ts
-- [ ] references/typescript/src/services/SessionMemory/sessionMemory.ts
-- [ ] references/typescript/src/services/SessionMemory/prompts.ts
+- [x] references/typescript/src/services/SessionMemory/sessionMemoryUtils.ts
+- [x] references/typescript/src/services/SessionMemory/sessionMemory.ts
+- [x] references/typescript/src/services/SessionMemory/prompts.ts
 - [ ] references/typescript/src/services/analytics/firstPartyEventLogger.ts
 - [ ] references/typescript/src/services/analytics/config.ts
 - [ ] references/typescript/src/services/analytics/firstPartyEventLoggingExporter.ts
@@ -999,8 +999,8 @@
 - [ ] references/typescript/src/services/voice.ts
 - [x] references/typescript/src/services/claudeAiLimits.ts
 - [ ] references/typescript/src/services/claudeAiLimitsHook.ts
-- [ ] references/typescript/src/services/PromptSuggestion/promptSuggestion.ts
-- [ ] references/typescript/src/services/PromptSuggestion/speculation.ts
+- [x] references/typescript/src/services/PromptSuggestion/promptSuggestion.ts
+- [x] references/typescript/src/services/PromptSuggestion/speculation.ts
 - [x] references/typescript/src/state/AppState.tsx
 - [x] references/typescript/src/state/store.ts
 - [x] references/typescript/src/state/onChangeAppState.ts
