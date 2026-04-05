@@ -1620,7 +1620,7 @@
 - [ ] references/typescript/src/components/memory/MemoryFileSelector.tsx
 - [ ] references/typescript/src/components/memory/MemoryUpdateNotification.tsx
 - [ ] references/typescript/src/components/UltraplanChoiceDialog.tsx
-- [ ] references/typescript/src/components/KeybindingWarnings.tsx
+- [x] references/typescript/src/components/KeybindingWarnings.tsx
 - [ ] references/typescript/src/components/agents/ModelSelector.tsx
 - [ ] references/typescript/src/components/agents/AgentNavigationFooter.tsx
 - [ ] references/typescript/src/components/agents/agentFileUtils.ts
@@ -1681,8 +1681,8 @@
 - [ ] references/typescript/src/components/MessageResponse.tsx
 - [ ] references/typescript/src/components/SessionBackgroundHint.tsx
 - [ ] references/typescript/src/components/PackageManagerAutoUpdater.tsx
-- [ ] references/typescript/src/components/InvalidConfigDialog.tsx
-- [ ] references/typescript/src/components/InvalidSettingsDialog.tsx
+- [x] references/typescript/src/components/InvalidConfigDialog.tsx
+- [x] references/typescript/src/components/InvalidSettingsDialog.tsx
 - [ ] references/typescript/src/components/ThemePicker.tsx
 - [ ] references/typescript/src/components/GlobalSearchDialog.tsx
 - [ ] references/typescript/src/components/teams/TeamsDialog.tsx
@@ -1754,7 +1754,7 @@
 - [ ] references/typescript/src/components/BaseTextInput.tsx
 - [ ] references/typescript/src/components/TrustDialog/utils.ts
 - [ ] references/typescript/src/components/TrustDialog/TrustDialog.tsx
-- [ ] references/typescript/src/components/Onboarding.tsx
+- [x] references/typescript/src/components/Onboarding.tsx
 - [ ] references/typescript/src/components/ClickableImageRef.tsx
 - [ ] references/typescript/src/components/IdeStatusIndicator.tsx
 - [ ] references/typescript/src/components/TeleportProgress.tsx
@@ -1787,7 +1787,7 @@
 - [ ] references/typescript/src/components/diff/DiffFileList.tsx
 - [ ] references/typescript/src/components/diff/DiffDialog.tsx
 - [ ] references/typescript/src/components/diff/DiffDetailView.tsx
-- [ ] references/typescript/src/components/ApproveApiKey.tsx
+- [x] references/typescript/src/components/ApproveApiKey.tsx
 - [ ] references/typescript/src/components/IdleReturnDialog.tsx
 - [ ] references/typescript/src/components/UltraplanLaunchDialog.tsx
 - [ ] references/typescript/src/components/OutputStylePicker.tsx
@@ -1796,7 +1796,7 @@
 - [ ] references/typescript/src/components/LogSelector.tsx
 - [ ] references/typescript/src/components/MessageTimestamp.tsx
 - [ ] references/typescript/src/components/ExportDialog.tsx
-- [ ] references/typescript/src/components/ConfigurableShortcutHint.tsx
+- [x] references/typescript/src/components/ConfigurableShortcutHint.tsx
 - [ ] references/typescript/src/components/hooks/SelectMatcherMode.tsx
 - [ ] references/typescript/src/components/hooks/PromptDialog.tsx
 - [ ] references/typescript/src/components/hooks/ViewHookMode.tsx
@@ -1811,7 +1811,7 @@
 - [ ] references/typescript/src/components/wizard/WizardNavigationFooter.tsx
 - [ ] references/typescript/src/components/wizard/index.ts
 - [ ] references/typescript/src/components/wizard/useWizard.ts
-- [ ] references/typescript/src/components/ConsoleOAuthFlow.tsx
+- [x] references/typescript/src/components/ConsoleOAuthFlow.tsx
 - [ ] references/typescript/src/components/NativeAutoUpdater.tsx
 - [ ] references/typescript/src/components/FullscreenLayout.tsx
 - [ ] references/typescript/src/components/TokenWarning.tsx
@@ -1832,10 +1832,10 @@
 - [ ] references/typescript/src/components/design-system/Byline.tsx
 - [ ] references/typescript/src/components/design-system/LoadingState.tsx
 - [ ] references/typescript/src/components/design-system/Dialog.tsx
-- [ ] references/typescript/src/components/Settings/Settings.tsx
-- [ ] references/typescript/src/components/Settings/Config.tsx
-- [ ] references/typescript/src/components/Settings/Usage.tsx
-- [ ] references/typescript/src/components/Settings/Status.tsx
+- [x] references/typescript/src/components/Settings/Settings.tsx
+- [x] references/typescript/src/components/Settings/Config.tsx
+- [x] references/typescript/src/components/Settings/Usage.tsx
+- [x] references/typescript/src/components/Settings/Status.tsx
 - [ ] references/typescript/src/components/WorktreeExitDialog.tsx
 - [ ] references/typescript/src/components/DesktopHandoff.tsx
 - [ ] references/typescript/src/components/Feedback.tsx
@@ -1850,8 +1850,8 @@
 - [ ] references/typescript/src/components/DevChannelsDialog.tsx
 - [ ] references/typescript/src/components/AutoUpdaterWrapper.tsx
 - [ ] references/typescript/src/components/TeleportError.tsx
-- [ ] references/typescript/src/components/ManagedSettingsSecurityDialog/ManagedSettingsSecurityDialog.tsx
-- [ ] references/typescript/src/components/ManagedSettingsSecurityDialog/utils.ts
+- [x] references/typescript/src/components/ManagedSettingsSecurityDialog/ManagedSettingsSecurityDialog.tsx
+- [x] references/typescript/src/components/ManagedSettingsSecurityDialog/utils.ts
 - [ ] references/typescript/src/components/StatusNotices.tsx
 - [ ] references/typescript/src/components/IdeOnboardingDialog.tsx
 - [ ] references/typescript/src/components/ScrollKeybindingHandler.tsx
