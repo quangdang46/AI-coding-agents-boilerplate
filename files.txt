@@ -1247,20 +1247,20 @@
 - [x] references/typescript/src/commands/session/index.ts
 - [x] references/typescript/src/commands/permissions/index.ts
 - [x] references/typescript/src/commands/permissions/permissions.tsx
-- [ ] references/typescript/src/keybindings/match.ts
-- [ ] references/typescript/src/keybindings/loadUserBindings.ts
-- [ ] references/typescript/src/keybindings/shortcutFormat.ts
-- [ ] references/typescript/src/keybindings/defaultBindings.ts
-- [ ] references/typescript/src/keybindings/reservedShortcuts.ts
-- [ ] references/typescript/src/keybindings/useKeybinding.ts
-- [ ] references/typescript/src/keybindings/KeybindingContext.tsx
-- [ ] references/typescript/src/keybindings/validate.ts
-- [ ] references/typescript/src/keybindings/KeybindingProviderSetup.tsx
-- [ ] references/typescript/src/keybindings/useShortcutDisplay.ts
-- [ ] references/typescript/src/keybindings/schema.ts
-- [ ] references/typescript/src/keybindings/template.ts
-- [ ] references/typescript/src/keybindings/parser.ts
-- [ ] references/typescript/src/keybindings/resolver.ts
+- [x] references/typescript/src/keybindings/match.ts
+- [x] references/typescript/src/keybindings/loadUserBindings.ts
+- [x] references/typescript/src/keybindings/shortcutFormat.ts
+- [x] references/typescript/src/keybindings/defaultBindings.ts
+- [x] references/typescript/src/keybindings/reservedShortcuts.ts
+- [x] references/typescript/src/keybindings/useKeybinding.ts
+- [x] references/typescript/src/keybindings/KeybindingContext.tsx
+- [x] references/typescript/src/keybindings/validate.ts
+- [x] references/typescript/src/keybindings/KeybindingProviderSetup.tsx
+- [x] references/typescript/src/keybindings/useShortcutDisplay.ts
+- [x] references/typescript/src/keybindings/schema.ts
+- [x] references/typescript/src/keybindings/template.ts
+- [x] references/typescript/src/keybindings/parser.ts
+- [x] references/typescript/src/keybindings/resolver.ts
 - [ ] references/typescript/src/upstreamproxy/upstreamproxy.ts
 - [ ] references/typescript/src/upstreamproxy/relay.ts
 - [ ] references/typescript/src/remote/remotePermissionBridge.ts
