@@ -612,29 +612,29 @@
 - [ ] references/typescript/src/voice/voiceModeEnabled.ts
 - [x] references/typescript/src/setup.ts
 - [x] references/typescript/src/query.ts
-- [ ] references/typescript/src/entrypoints/mcp.ts
-- [ ] references/typescript/src/entrypoints/init.ts
-- [ ] references/typescript/src/entrypoints/agentSdkTypes.ts
-- [ ] references/typescript/src/entrypoints/cli.tsx
-- [ ] references/typescript/src/entrypoints/sdk/coreTypes.ts
-- [ ] references/typescript/src/entrypoints/sdk/coreTypes.generated.ts
-- [ ] references/typescript/src/entrypoints/sdk/controlSchemas.ts
-- [ ] references/typescript/src/entrypoints/sdk/toolTypes.ts
-- [ ] references/typescript/src/entrypoints/sdk/runtimeTypes.ts
-- [ ] references/typescript/src/entrypoints/sdk/coreSchemas.ts
-- [ ] references/typescript/src/entrypoints/sandboxTypes.ts
+- [x] references/typescript/src/entrypoints/mcp.ts
+- [x] references/typescript/src/entrypoints/init.ts
+- [x] references/typescript/src/entrypoints/agentSdkTypes.ts
+- [x] references/typescript/src/entrypoints/cli.tsx
+- [x] references/typescript/src/entrypoints/sdk/coreTypes.ts
+- [x] references/typescript/src/entrypoints/sdk/coreTypes.generated.ts
+- [x] references/typescript/src/entrypoints/sdk/controlSchemas.ts
+- [x] references/typescript/src/entrypoints/sdk/toolTypes.ts
+- [x] references/typescript/src/entrypoints/sdk/runtimeTypes.ts
+- [x] references/typescript/src/entrypoints/sdk/coreSchemas.ts
+- [x] references/typescript/src/entrypoints/sandboxTypes.ts
 - [x] references/typescript/src/replLauncher.tsx
 - [x] references/typescript/src/cost-tracker.ts
 - [x] references/typescript/src/schemas/hooks.ts
-- [ ] references/typescript/src/context/fpsMetrics.tsx
-- [ ] references/typescript/src/context/mailbox.tsx
-- [ ] references/typescript/src/context/overlayContext.tsx
-- [ ] references/typescript/src/context/stats.tsx
-- [ ] references/typescript/src/context/promptOverlayContext.tsx
-- [ ] references/typescript/src/context/QueuedMessageContext.tsx
-- [ ] references/typescript/src/context/notifications.tsx
-- [ ] references/typescript/src/context/modalContext.tsx
-- [ ] references/typescript/src/context/voice.tsx
+- [x] references/typescript/src/context/fpsMetrics.tsx
+- [x] references/typescript/src/context/mailbox.tsx
+- [x] references/typescript/src/context/overlayContext.tsx
+- [x] references/typescript/src/context/stats.tsx
+- [x] references/typescript/src/context/promptOverlayContext.tsx
+- [x] references/typescript/src/context/QueuedMessageContext.tsx
+- [x] references/typescript/src/context/notifications.tsx
+- [x] references/typescript/src/context/modalContext.tsx
+- [x] references/typescript/src/context/voice.tsx
 - [ ] references/typescript/src/tools/TaskOutputTool/constants.ts
 - [ ] references/typescript/src/tools/TaskOutputTool/TaskOutputTool.tsx
 - [x] references/typescript/src/tools/VerifyPlanExecutionTool/VerifyPlanExecutionTool.ts
@@ -826,37 +826,37 @@
 - [ ] references/typescript/src/tools/TaskListTool/constants.ts
 - [x] references/typescript/src/context.ts
 - [x] references/typescript/src/interactiveHelpers.tsx
-- [ ] references/typescript/src/bridge/debugUtils.ts
-- [ ] references/typescript/src/bridge/bridgeStatusUtil.ts
-- [ ] references/typescript/src/bridge/pollConfigDefaults.ts
-- [ ] references/typescript/src/bridge/remoteBridgeCore.ts
-- [ ] references/typescript/src/bridge/bridgeMessaging.ts
-- [ ] references/typescript/src/bridge/bridgeUI.ts
-- [ ] references/typescript/src/bridge/workSecret.ts
-- [ ] references/typescript/src/bridge/jwtUtils.ts
-- [ ] references/typescript/src/bridge/replBridge.ts
-- [ ] references/typescript/src/bridge/trustedDevice.ts
-- [ ] references/typescript/src/bridge/sessionRunner.ts
-- [ ] references/typescript/src/bridge/sessionIdCompat.ts
-- [ ] references/typescript/src/bridge/codeSessionApi.ts
-- [ ] references/typescript/src/bridge/bridgeEnabled.ts
-- [ ] references/typescript/src/bridge/createSession.ts
-- [ ] references/typescript/src/bridge/pollConfig.ts
-- [ ] references/typescript/src/bridge/types.ts
-- [ ] references/typescript/src/bridge/replBridgeHandle.ts
-- [ ] references/typescript/src/bridge/initReplBridge.ts
-- [ ] references/typescript/src/bridge/inboundMessages.ts
-- [ ] references/typescript/src/bridge/flushGate.ts
-- [ ] references/typescript/src/bridge/bridgePointer.ts
-- [ ] references/typescript/src/bridge/bridgeConfig.ts
-- [ ] references/typescript/src/bridge/bridgeMain.ts
-- [ ] references/typescript/src/bridge/envLessBridgeConfig.ts
-- [ ] references/typescript/src/bridge/bridgeApi.ts
-- [ ] references/typescript/src/bridge/bridgePermissionCallbacks.ts
-- [ ] references/typescript/src/bridge/inboundAttachments.ts
-- [ ] references/typescript/src/bridge/capacityWake.ts
-- [ ] references/typescript/src/bridge/replBridgeTransport.ts
-- [ ] references/typescript/src/bridge/bridgeDebug.ts
+- [x] references/typescript/src/bridge/debugUtils.ts
+- [x] references/typescript/src/bridge/bridgeStatusUtil.ts
+- [x] references/typescript/src/bridge/pollConfigDefaults.ts
+- [x] references/typescript/src/bridge/remoteBridgeCore.ts
+- [x] references/typescript/src/bridge/bridgeMessaging.ts
+- [x] references/typescript/src/bridge/bridgeUI.ts
+- [x] references/typescript/src/bridge/workSecret.ts
+- [x] references/typescript/src/bridge/jwtUtils.ts
+- [x] references/typescript/src/bridge/replBridge.ts
+- [x] references/typescript/src/bridge/trustedDevice.ts
+- [x] references/typescript/src/bridge/sessionRunner.ts
+- [x] references/typescript/src/bridge/sessionIdCompat.ts
+- [x] references/typescript/src/bridge/codeSessionApi.ts
+- [x] references/typescript/src/bridge/bridgeEnabled.ts
+- [x] references/typescript/src/bridge/createSession.ts
+- [x] references/typescript/src/bridge/pollConfig.ts
+- [x] references/typescript/src/bridge/types.ts
+- [x] references/typescript/src/bridge/replBridgeHandle.ts
+- [x] references/typescript/src/bridge/initReplBridge.ts
+- [x] references/typescript/src/bridge/inboundMessages.ts
+- [x] references/typescript/src/bridge/flushGate.ts
+- [x] references/typescript/src/bridge/bridgePointer.ts
+- [x] references/typescript/src/bridge/bridgeConfig.ts
+- [x] references/typescript/src/bridge/bridgeMain.ts
+- [x] references/typescript/src/bridge/envLessBridgeConfig.ts
+- [x] references/typescript/src/bridge/bridgeApi.ts
+- [x] references/typescript/src/bridge/bridgePermissionCallbacks.ts
+- [x] references/typescript/src/bridge/inboundAttachments.ts
+- [x] references/typescript/src/bridge/capacityWake.ts
+- [x] references/typescript/src/bridge/replBridgeTransport.ts
+- [x] references/typescript/src/bridge/bridgeDebug.ts
 - [ ] references/typescript/src/vim/transitions.ts
 - [ ] references/typescript/src/vim/motions.ts
 - [ ] references/typescript/src/vim/operators.ts
@@ -1001,12 +1001,12 @@
 - [ ] references/typescript/src/services/claudeAiLimitsHook.ts
 - [ ] references/typescript/src/services/PromptSuggestion/promptSuggestion.ts
 - [ ] references/typescript/src/services/PromptSuggestion/speculation.ts
-- [ ] references/typescript/src/state/AppState.tsx
-- [ ] references/typescript/src/state/store.ts
-- [ ] references/typescript/src/state/onChangeAppState.ts
-- [ ] references/typescript/src/state/teammateViewHelpers.ts
-- [ ] references/typescript/src/state/AppStateStore.ts
-- [ ] references/typescript/src/state/selectors.ts
+- [x] references/typescript/src/state/AppState.tsx
+- [x] references/typescript/src/state/store.ts
+- [x] references/typescript/src/state/onChangeAppState.ts
+- [x] references/typescript/src/state/teammateViewHelpers.ts
+- [x] references/typescript/src/state/AppStateStore.ts
+- [x] references/typescript/src/state/selectors.ts
 - [x] references/typescript/src/plugins/bundled/index.ts
 - [x] references/typescript/src/plugins/builtinPlugins.ts
 - [x] references/typescript/src/Task.ts
@@ -1430,7 +1430,7 @@
 - [x] references/typescript/src/cli/remoteIO.ts
 - [ ] references/typescript/src/assistant/AssistantSessionChooser.tsx
 - [ ] references/typescript/src/assistant/sessionHistory.ts
-- [ ] references/typescript/src/bootstrap/state.ts
+- [x] references/typescript/src/bootstrap/state.ts
 - [ ] references/typescript/src/server/createDirectConnectSession.ts
 - [ ] references/typescript/src/server/types.ts
 - [ ] references/typescript/src/server/directConnectManager.ts
