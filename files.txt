@@ -569,40 +569,40 @@
 - [ ] references/typescript/src/utils/cron.ts
 - [ ] references/typescript/src/utils/getWorktreePathsPortable.ts
 - [x] references/typescript/src/utils/systemPromptType.ts
-- [ ] references/typescript/src/utils/shell/powershellProvider.ts
-- [ ] references/typescript/src/utils/shell/resolveDefaultShell.ts
-- [ ] references/typescript/src/utils/shell/prefix.ts
-- [ ] references/typescript/src/utils/shell/shellProvider.ts
-- [ ] references/typescript/src/utils/shell/readOnlyCommandValidation.ts
-- [ ] references/typescript/src/utils/shell/outputLimits.ts
-- [ ] references/typescript/src/utils/shell/specPrefix.ts
-- [ ] references/typescript/src/utils/shell/shellToolUtils.ts
-- [ ] references/typescript/src/utils/shell/bashProvider.ts
-- [ ] references/typescript/src/utils/shell/powershellDetection.ts
-- [ ] references/typescript/src/utils/permissions/autoModeState.ts
-- [ ] references/typescript/src/utils/permissions/dangerousPatterns.ts
-- [ ] references/typescript/src/utils/permissions/PermissionRule.ts
-- [ ] references/typescript/src/utils/permissions/denialTracking.ts
-- [ ] references/typescript/src/utils/permissions/shadowedRuleDetection.ts
-- [ ] references/typescript/src/utils/permissions/permissions.ts
-- [ ] references/typescript/src/utils/permissions/permissionRuleParser.ts
-- [ ] references/typescript/src/utils/permissions/filesystem.ts
-- [ ] references/typescript/src/utils/permissions/getNextPermissionMode.ts
-- [ ] references/typescript/src/utils/permissions/classifierShared.ts
-- [ ] references/typescript/src/utils/permissions/bypassPermissionsKillswitch.ts
-- [ ] references/typescript/src/utils/permissions/PermissionPromptToolResultSchema.ts
-- [ ] references/typescript/src/utils/permissions/bashClassifier.ts
-- [ ] references/typescript/src/utils/permissions/PermissionResult.ts
-- [ ] references/typescript/src/utils/permissions/permissionsLoader.ts
-- [ ] references/typescript/src/utils/permissions/PermissionUpdateSchema.ts
-- [ ] references/typescript/src/utils/permissions/permissionExplainer.ts
-- [ ] references/typescript/src/utils/permissions/classifierDecision.ts
-- [ ] references/typescript/src/utils/permissions/PermissionMode.ts
-- [ ] references/typescript/src/utils/permissions/PermissionUpdate.ts
-- [ ] references/typescript/src/utils/permissions/permissionSetup.ts
-- [ ] references/typescript/src/utils/permissions/pathValidation.ts
-- [ ] references/typescript/src/utils/permissions/shellRuleMatching.ts
-- [ ] references/typescript/src/utils/permissions/yoloClassifier.ts
+- [x] references/typescript/src/utils/shell/powershellProvider.ts
+- [x] references/typescript/src/utils/shell/resolveDefaultShell.ts
+- [x] references/typescript/src/utils/shell/prefix.ts
+- [x] references/typescript/src/utils/shell/shellProvider.ts
+- [x] references/typescript/src/utils/shell/readOnlyCommandValidation.ts
+- [x] references/typescript/src/utils/shell/outputLimits.ts
+- [x] references/typescript/src/utils/shell/specPrefix.ts
+- [x] references/typescript/src/utils/shell/shellToolUtils.ts
+- [x] references/typescript/src/utils/shell/bashProvider.ts
+- [x] references/typescript/src/utils/shell/powershellDetection.ts
+- [x] references/typescript/src/utils/permissions/autoModeState.ts
+- [x] references/typescript/src/utils/permissions/dangerousPatterns.ts
+- [x] references/typescript/src/utils/permissions/PermissionRule.ts
+- [x] references/typescript/src/utils/permissions/denialTracking.ts
+- [x] references/typescript/src/utils/permissions/shadowedRuleDetection.ts
+- [x] references/typescript/src/utils/permissions/permissions.ts
+- [x] references/typescript/src/utils/permissions/permissionRuleParser.ts
+- [x] references/typescript/src/utils/permissions/filesystem.ts
+- [x] references/typescript/src/utils/permissions/getNextPermissionMode.ts
+- [x] references/typescript/src/utils/permissions/classifierShared.ts
+- [x] references/typescript/src/utils/permissions/bypassPermissionsKillswitch.ts
+- [x] references/typescript/src/utils/permissions/PermissionPromptToolResultSchema.ts
+- [x] references/typescript/src/utils/permissions/bashClassifier.ts
+- [x] references/typescript/src/utils/permissions/PermissionResult.ts
+- [x] references/typescript/src/utils/permissions/permissionsLoader.ts
+- [x] references/typescript/src/utils/permissions/PermissionUpdateSchema.ts
+- [x] references/typescript/src/utils/permissions/permissionExplainer.ts
+- [x] references/typescript/src/utils/permissions/classifierDecision.ts
+- [x] references/typescript/src/utils/permissions/PermissionMode.ts
+- [x] references/typescript/src/utils/permissions/PermissionUpdate.ts
+- [x] references/typescript/src/utils/permissions/permissionSetup.ts
+- [x] references/typescript/src/utils/permissions/pathValidation.ts
+- [x] references/typescript/src/utils/permissions/shellRuleMatching.ts
+- [x] references/typescript/src/utils/permissions/yoloClassifier.ts
 - [ ] references/typescript/src/utils/envDynamic.ts
 - [ ] references/typescript/src/utils/autoRunIssue.tsx
 - [ ] references/typescript/src/utils/autoUpdater.ts
