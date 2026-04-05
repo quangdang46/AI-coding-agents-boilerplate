@@ -2076,36 +2076,36 @@
 - [x] references/rust/crates/runtime/src/green_contract.rs
 - [x] references/rust/crates/runtime/src/json.rs
 - [x] references/rust/crates/runtime/src/lib.rs
-- [ ] references/rust/crates/runtime/src/team_cron_registry.rs
-- [ ] references/rust/crates/runtime/src/mcp_tool_bridge.rs
+- [x] references/rust/crates/runtime/src/team_cron_registry.rs
+- [x] references/rust/crates/runtime/src/mcp_tool_bridge.rs
 - [x] references/rust/crates/runtime/src/permission_enforcer.rs
 - [x] references/rust/crates/runtime/src/sse.rs
 - [x] references/rust/crates/runtime/src/trust_resolver.rs
 - [x] references/rust/crates/runtime/src/compact.rs
 - [x] references/rust/crates/runtime/src/bash_validation.rs
-- [ ] references/rust/crates/runtime/src/summary_compression.rs
-- [ ] references/rust/crates/runtime/src/plugin_lifecycle.rs
+- [x] references/rust/crates/runtime/src/summary_compression.rs
+- [x] references/rust/crates/runtime/src/plugin_lifecycle.rs
 - [ ] references/rust/crates/runtime/src/oauth.rs
 - [x] references/rust/crates/runtime/src/bash.rs
-- [ ] references/rust/crates/runtime/src/mcp.rs
+- [x] references/rust/crates/runtime/src/mcp.rs
 - [x] references/rust/crates/runtime/src/permissions.rs
 - [x] references/rust/crates/runtime/src/recovery_recipes.rs
 - [x] references/rust/crates/runtime/src/worker_boot.rs
-- [ ] references/rust/crates/runtime/src/mcp_client.rs
-- [ ] references/rust/crates/runtime/src/task_registry.rs
-- [ ] references/rust/crates/runtime/src/mcp_stdio.rs
+- [x] references/rust/crates/runtime/src/mcp_client.rs
+- [x] references/rust/crates/runtime/src/task_registry.rs
+- [x] references/rust/crates/runtime/src/mcp_stdio.rs
 - [x] references/rust/crates/runtime/src/sandbox.rs
 - [x] references/rust/crates/runtime/src/usage.rs
-- [ ] references/rust/crates/runtime/src/lsp_client.rs
+- [x] references/rust/crates/runtime/src/lsp_client.rs
 - [x] references/rust/crates/runtime/src/config.rs
-- [ ] references/rust/crates/runtime/src/task_packet.rs
+- [x] references/rust/crates/runtime/src/task_packet.rs
 - [x] references/rust/crates/runtime/src/stale_branch.rs
 - [x] references/rust/crates/runtime/src/policy_engine.rs
 - [x] references/rust/crates/runtime/src/bootstrap.rs
-- [ ] references/rust/crates/runtime/src/remote.rs
+- [x] references/rust/crates/runtime/src/remote.rs
 - [x] references/rust/crates/runtime/src/prompt.rs
-- [ ] references/rust/crates/runtime/src/mcp_lifecycle_hardened.rs
-- [ ] references/rust/crates/runtime/src/session_control.rs
+- [x] references/rust/crates/runtime/src/mcp_lifecycle_hardened.rs
+- [x] references/rust/crates/runtime/src/session_control.rs
 - [x] references/rust/crates/runtime/src/conversation.rs
 - [x] references/rust/crates/runtime/src/hooks.rs
 - [x] references/rust/crates/api/Cargo.toml
