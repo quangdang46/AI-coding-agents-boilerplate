@@ -1670,7 +1670,7 @@
 - [ ] references/typescript/src/components/IdeAutoConnectDialog.tsx
 - [ ] references/typescript/src/components/SentryErrorBoundary.ts
 - [ ] references/typescript/src/components/SandboxViolationExpandedView.tsx
-- [ ] references/typescript/src/components/MCPServerApprovalDialog.tsx
+- [x] references/typescript/src/components/MCPServerApprovalDialog.tsx
 - [ ] references/typescript/src/components/ui/OrderedList.tsx
 - [ ] references/typescript/src/components/ui/TreeSelect.tsx
 - [ ] references/typescript/src/components/ui/OrderedListItem.tsx
@@ -1685,8 +1685,8 @@
 - [x] references/typescript/src/components/InvalidSettingsDialog.tsx
 - [ ] references/typescript/src/components/ThemePicker.tsx
 - [ ] references/typescript/src/components/GlobalSearchDialog.tsx
-- [ ] references/typescript/src/components/teams/TeamsDialog.tsx
-- [ ] references/typescript/src/components/teams/TeamStatus.tsx
+- [x] references/typescript/src/components/teams/TeamsDialog.tsx
+- [x] references/typescript/src/components/teams/TeamStatus.tsx
 - [ ] references/typescript/src/components/MCPServerMultiselectDialog.tsx
 - [ ] references/typescript/src/components/VirtualMessageList.tsx
 - [ ] references/typescript/src/components/Spinner/FlashingChar.tsx
@@ -1726,19 +1726,19 @@
 - [x] references/typescript/src/components/PromptInput/PromptInputFooterSuggestions.tsx
 - [x] references/typescript/src/components/PromptInput/PromptInputFooterLeftSide.tsx
 - [ ] references/typescript/src/components/MCPServerDesktopImportDialog.tsx
-- [ ] references/typescript/src/components/mcp/utils/reconnectHelpers.tsx
-- [ ] references/typescript/src/components/mcp/MCPToolListView.tsx
-- [ ] references/typescript/src/components/mcp/MCPSettings.tsx
-- [ ] references/typescript/src/components/mcp/MCPListPanel.tsx
-- [ ] references/typescript/src/components/mcp/MCPRemoteServerMenu.tsx
-- [ ] references/typescript/src/components/mcp/MCPAgentServerMenu.tsx
-- [ ] references/typescript/src/components/mcp/McpParsingWarnings.tsx
-- [ ] references/typescript/src/components/mcp/CapabilitiesSection.tsx
-- [ ] references/typescript/src/components/mcp/ElicitationDialog.tsx
-- [ ] references/typescript/src/components/mcp/MCPReconnect.tsx
-- [ ] references/typescript/src/components/mcp/index.ts
-- [ ] references/typescript/src/components/mcp/MCPToolDetailView.tsx
-- [ ] references/typescript/src/components/mcp/MCPStdioServerMenu.tsx
+- [x] references/typescript/src/components/mcp/utils/reconnectHelpers.tsx
+- [x] references/typescript/src/components/mcp/MCPToolListView.tsx
+- [x] references/typescript/src/components/mcp/MCPSettings.tsx
+- [x] references/typescript/src/components/mcp/MCPListPanel.tsx
+- [x] references/typescript/src/components/mcp/MCPRemoteServerMenu.tsx
+- [x] references/typescript/src/components/mcp/MCPAgentServerMenu.tsx
+- [x] references/typescript/src/components/mcp/McpParsingWarnings.tsx
+- [x] references/typescript/src/components/mcp/CapabilitiesSection.tsx
+- [x] references/typescript/src/components/mcp/ElicitationDialog.tsx
+- [x] references/typescript/src/components/mcp/MCPReconnect.tsx
+- [x] references/typescript/src/components/mcp/index.ts
+- [x] references/typescript/src/components/mcp/MCPToolDetailView.tsx
+- [x] references/typescript/src/components/mcp/MCPStdioServerMenu.tsx
 - [ ] references/typescript/src/components/PrBadge.tsx
 - [ ] references/typescript/src/components/PressEnterToContinue.tsx
 - [ ] references/typescript/src/components/FastIcon.tsx
@@ -1763,18 +1763,18 @@
 - [ ] references/typescript/src/components/StructuredDiff.tsx
 - [ ] references/typescript/src/components/TaskListV2.tsx
 - [ ] references/typescript/src/components/BashModeProgress.tsx
-- [ ] references/typescript/src/components/tasks/RemoteSessionDetailDialog.tsx
-- [ ] references/typescript/src/components/tasks/InProcessTeammateDetailDialog.tsx
-- [ ] references/typescript/src/components/tasks/BackgroundTask.tsx
-- [ ] references/typescript/src/components/tasks/RemoteSessionProgress.tsx
-- [ ] references/typescript/src/components/tasks/AsyncAgentDetailDialog.tsx
-- [ ] references/typescript/src/components/tasks/ShellProgress.tsx
-- [ ] references/typescript/src/components/tasks/DreamDetailDialog.tsx
-- [ ] references/typescript/src/components/tasks/taskStatusUtils.tsx
-- [ ] references/typescript/src/components/tasks/renderToolActivity.tsx
-- [ ] references/typescript/src/components/tasks/BackgroundTasksDialog.tsx
-- [ ] references/typescript/src/components/tasks/BackgroundTaskStatus.tsx
-- [ ] references/typescript/src/components/tasks/ShellDetailDialog.tsx
+- [x] references/typescript/src/components/tasks/RemoteSessionDetailDialog.tsx
+- [x] references/typescript/src/components/tasks/InProcessTeammateDetailDialog.tsx
+- [x] references/typescript/src/components/tasks/BackgroundTask.tsx
+- [x] references/typescript/src/components/tasks/RemoteSessionProgress.tsx
+- [x] references/typescript/src/components/tasks/AsyncAgentDetailDialog.tsx
+- [x] references/typescript/src/components/tasks/ShellProgress.tsx
+- [x] references/typescript/src/components/tasks/DreamDetailDialog.tsx
+- [x] references/typescript/src/components/tasks/taskStatusUtils.tsx
+- [x] references/typescript/src/components/tasks/renderToolActivity.tsx
+- [x] references/typescript/src/components/tasks/BackgroundTasksDialog.tsx
+- [x] references/typescript/src/components/tasks/BackgroundTaskStatus.tsx
+- [x] references/typescript/src/components/tasks/ShellDetailDialog.tsx
 - [ ] references/typescript/src/components/ClaudeInChromeOnboarding.tsx
 - [ ] references/typescript/src/components/StructuredDiffList.tsx
 - [ ] references/typescript/src/components/RemoteCallout.tsx
@@ -1887,64 +1887,64 @@
 - [ ] references/typescript/src/components/StructuredDiff/colorDiff.ts
 - [ ] references/typescript/src/components/StructuredDiff/Fallback.tsx
 - [ ] references/typescript/src/components/ShowInIDEPrompt.tsx
-- [ ] references/typescript/src/components/shell/ShellTimeDisplay.tsx
-- [ ] references/typescript/src/components/shell/ShellProgressMessage.tsx
-- [ ] references/typescript/src/components/shell/OutputLine.tsx
-- [ ] references/typescript/src/components/shell/ExpandShellOutputContext.tsx
+- [x] references/typescript/src/components/shell/ShellTimeDisplay.tsx
+- [x] references/typescript/src/components/shell/ShellProgressMessage.tsx
+- [x] references/typescript/src/components/shell/OutputLine.tsx
+- [x] references/typescript/src/components/shell/ExpandShellOutputContext.tsx
 - [ ] references/typescript/src/components/CompactSummary.tsx
 - [x] references/typescript/src/components/Markdown.tsx
 - [ ] references/typescript/src/components/Stats.tsx
-- [ ] references/typescript/src/components/permissions/EnterPlanModePermissionRequest/EnterPlanModePermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/useShellPermissionFeedback.ts
-- [ ] references/typescript/src/components/permissions/ExitPlanModePermissionRequest/ExitPlanModePermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/NotebookEditPermissionRequest/NotebookEditToolDiff.tsx
-- [ ] references/typescript/src/components/permissions/NotebookEditPermissionRequest/NotebookEditPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/shellPermissionHelpers.tsx
-- [ ] references/typescript/src/components/permissions/SandboxPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/FallbackPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/PermissionRequestTitle.tsx
-- [ ] references/typescript/src/components/permissions/FilePermissionDialog/FilePermissionDialog.tsx
-- [ ] references/typescript/src/components/permissions/FilePermissionDialog/permissionOptions.tsx
-- [ ] references/typescript/src/components/permissions/FilePermissionDialog/useFilePermissionDialog.ts
-- [ ] references/typescript/src/components/permissions/FilePermissionDialog/ideDiffConfig.ts
-- [ ] references/typescript/src/components/permissions/FilePermissionDialog/usePermissionHandler.ts
-- [ ] references/typescript/src/components/permissions/SedEditPermissionRequest/SedEditPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/WorkerBadge.tsx
-- [ ] references/typescript/src/components/permissions/PermissionDecisionDebugInfo.tsx
-- [ ] references/typescript/src/components/permissions/WebFetchPermissionRequest/WebFetchPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/PowerShellPermissionRequest/PowerShellPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/PowerShellPermissionRequest/powershellToolUseOptions.tsx
-- [ ] references/typescript/src/components/permissions/ComputerUseApproval/ComputerUseApproval.tsx
-- [ ] references/typescript/src/components/permissions/hooks.ts
-- [ ] references/typescript/src/components/permissions/PermissionRuleExplanation.tsx
-- [ ] references/typescript/src/components/permissions/utils.ts
-- [ ] references/typescript/src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx
-- [ ] references/typescript/src/components/permissions/rules/AddPermissionRules.tsx
-- [ ] references/typescript/src/components/permissions/rules/PermissionRuleInput.tsx
-- [ ] references/typescript/src/components/permissions/rules/PermissionRuleDescription.tsx
-- [ ] references/typescript/src/components/permissions/rules/RecentDenialsTab.tsx
-- [ ] references/typescript/src/components/permissions/rules/AddWorkspaceDirectory.tsx
-- [ ] references/typescript/src/components/permissions/rules/RemoveWorkspaceDirectory.tsx
-- [ ] references/typescript/src/components/permissions/rules/PermissionRuleList.tsx
-- [ ] references/typescript/src/components/permissions/rules/WorkspaceTab.tsx
-- [ ] references/typescript/src/components/permissions/BashPermissionRequest/bashToolUseOptions.tsx
-- [ ] references/typescript/src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/WorkerPendingPermission.tsx
-- [ ] references/typescript/src/components/permissions/PermissionDialog.tsx
-- [ ] references/typescript/src/components/permissions/PermissionPrompt.tsx
-- [ ] references/typescript/src/components/permissions/PermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/PermissionExplanation.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/AskUserQuestionPermissionRequest.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/PreviewBox.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/use-multiple-choice-state.ts
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/QuestionNavigationBar.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/SubmitQuestionsView.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/PreviewQuestionView.tsx
-- [ ] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/QuestionView.tsx
-- [ ] references/typescript/src/components/permissions/SkillPermissionRequest/SkillPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/EnterPlanModePermissionRequest/EnterPlanModePermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/useShellPermissionFeedback.ts
+- [x] references/typescript/src/components/permissions/ExitPlanModePermissionRequest/ExitPlanModePermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/NotebookEditPermissionRequest/NotebookEditToolDiff.tsx
+- [x] references/typescript/src/components/permissions/NotebookEditPermissionRequest/NotebookEditPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/shellPermissionHelpers.tsx
+- [x] references/typescript/src/components/permissions/SandboxPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/FallbackPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/PermissionRequestTitle.tsx
+- [x] references/typescript/src/components/permissions/FilePermissionDialog/FilePermissionDialog.tsx
+- [x] references/typescript/src/components/permissions/FilePermissionDialog/permissionOptions.tsx
+- [x] references/typescript/src/components/permissions/FilePermissionDialog/useFilePermissionDialog.ts
+- [x] references/typescript/src/components/permissions/FilePermissionDialog/ideDiffConfig.ts
+- [x] references/typescript/src/components/permissions/FilePermissionDialog/usePermissionHandler.ts
+- [x] references/typescript/src/components/permissions/SedEditPermissionRequest/SedEditPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/WorkerBadge.tsx
+- [x] references/typescript/src/components/permissions/PermissionDecisionDebugInfo.tsx
+- [x] references/typescript/src/components/permissions/WebFetchPermissionRequest/WebFetchPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/PowerShellPermissionRequest/PowerShellPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/PowerShellPermissionRequest/powershellToolUseOptions.tsx
+- [x] references/typescript/src/components/permissions/ComputerUseApproval/ComputerUseApproval.tsx
+- [x] references/typescript/src/components/permissions/hooks.ts
+- [x] references/typescript/src/components/permissions/PermissionRuleExplanation.tsx
+- [x] references/typescript/src/components/permissions/utils.ts
+- [x] references/typescript/src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx
+- [x] references/typescript/src/components/permissions/rules/AddPermissionRules.tsx
+- [x] references/typescript/src/components/permissions/rules/PermissionRuleInput.tsx
+- [x] references/typescript/src/components/permissions/rules/PermissionRuleDescription.tsx
+- [x] references/typescript/src/components/permissions/rules/RecentDenialsTab.tsx
+- [x] references/typescript/src/components/permissions/rules/AddWorkspaceDirectory.tsx
+- [x] references/typescript/src/components/permissions/rules/RemoveWorkspaceDirectory.tsx
+- [x] references/typescript/src/components/permissions/rules/PermissionRuleList.tsx
+- [x] references/typescript/src/components/permissions/rules/WorkspaceTab.tsx
+- [x] references/typescript/src/components/permissions/BashPermissionRequest/bashToolUseOptions.tsx
+- [x] references/typescript/src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/WorkerPendingPermission.tsx
+- [x] references/typescript/src/components/permissions/PermissionDialog.tsx
+- [x] references/typescript/src/components/permissions/PermissionPrompt.tsx
+- [x] references/typescript/src/components/permissions/PermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/PermissionExplanation.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/AskUserQuestionPermissionRequest.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/PreviewBox.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/use-multiple-choice-state.ts
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/QuestionNavigationBar.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/SubmitQuestionsView.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/PreviewQuestionView.tsx
+- [x] references/typescript/src/components/permissions/AskUserQuestionPermissionRequest/QuestionView.tsx
+- [x] references/typescript/src/components/permissions/SkillPermissionRequest/SkillPermissionRequest.tsx
 - [x] references/typescript/src/screens/Doctor.tsx
 - [x] references/typescript/src/screens/ResumeConversation.tsx
 - [x] references/typescript/src/screens/REPL.tsx
