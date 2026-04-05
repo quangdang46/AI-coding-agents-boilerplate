@@ -59,25 +59,25 @@
 - [x] references/typescript/src/utils/powershell/dangerousCmdlets.ts
 - [x] references/typescript/src/utils/powershell/staticPrefix.ts
 - [x] references/typescript/src/utils/powershell/parser.ts
-- [ ] references/typescript/src/utils/settings/validation.ts
-- [ ] references/typescript/src/utils/settings/pluginOnlyPolicy.ts
-- [ ] references/typescript/src/utils/settings/mdm/rawRead.ts
-- [ ] references/typescript/src/utils/settings/mdm/settings.ts
-- [ ] references/typescript/src/utils/settings/mdm/constants.ts
-- [ ] references/typescript/src/utils/settings/toolValidationConfig.ts
-- [ ] references/typescript/src/utils/settings/changeDetector.ts
-- [ ] references/typescript/src/utils/settings/types.ts
-- [ ] references/typescript/src/utils/settings/permissionValidation.ts
-- [ ] references/typescript/src/utils/settings/applySettingsChange.ts
-- [ ] references/typescript/src/utils/settings/internalWrites.ts
-- [ ] references/typescript/src/utils/settings/validationTips.ts
-- [ ] references/typescript/src/utils/settings/settingsCache.ts
-- [ ] references/typescript/src/utils/settings/allErrors.ts
-- [ ] references/typescript/src/utils/settings/managedPath.ts
-- [ ] references/typescript/src/utils/settings/settings.ts
-- [ ] references/typescript/src/utils/settings/constants.ts
-- [ ] references/typescript/src/utils/settings/schemaOutput.ts
-- [ ] references/typescript/src/utils/settings/validateEditTool.ts
+- [x] references/typescript/src/utils/settings/validation.ts
+- [x] references/typescript/src/utils/settings/pluginOnlyPolicy.ts
+- [x] references/typescript/src/utils/settings/mdm/rawRead.ts
+- [x] references/typescript/src/utils/settings/mdm/settings.ts
+- [x] references/typescript/src/utils/settings/mdm/constants.ts
+- [x] references/typescript/src/utils/settings/toolValidationConfig.ts
+- [x] references/typescript/src/utils/settings/changeDetector.ts
+- [x] references/typescript/src/utils/settings/types.ts
+- [x] references/typescript/src/utils/settings/permissionValidation.ts
+- [x] references/typescript/src/utils/settings/applySettingsChange.ts
+- [x] references/typescript/src/utils/settings/internalWrites.ts
+- [x] references/typescript/src/utils/settings/validationTips.ts
+- [x] references/typescript/src/utils/settings/settingsCache.ts
+- [x] references/typescript/src/utils/settings/allErrors.ts
+- [x] references/typescript/src/utils/settings/managedPath.ts
+- [x] references/typescript/src/utils/settings/settings.ts
+- [x] references/typescript/src/utils/settings/constants.ts
+- [x] references/typescript/src/utils/settings/schemaOutput.ts
+- [x] references/typescript/src/utils/settings/validateEditTool.ts
 - [x] references/typescript/src/utils/sandbox/sandbox-adapter.ts
 - [x] references/typescript/src/utils/sandbox/sandbox-ui-utils.ts
 - [ ] references/typescript/src/utils/fileStateCache.ts
@@ -122,28 +122,28 @@
 - [ ] references/typescript/src/utils/caCerts.ts
 - [ ] references/typescript/src/utils/diagLogs.ts
 - [ ] references/typescript/src/utils/markdownConfigLoader.ts
-- [ ] references/typescript/src/utils/swarm/teammateLayoutManager.ts
-- [ ] references/typescript/src/utils/swarm/teammateModel.ts
-- [ ] references/typescript/src/utils/swarm/It2SetupPrompt.tsx
-- [ ] references/typescript/src/utils/swarm/teammatePromptAddendum.ts
-- [ ] references/typescript/src/utils/swarm/teammateInit.ts
-- [ ] references/typescript/src/utils/swarm/reconnection.ts
-- [ ] references/typescript/src/utils/swarm/spawnInProcess.ts
-- [ ] references/typescript/src/utils/swarm/leaderPermissionBridge.ts
-- [ ] references/typescript/src/utils/swarm/inProcessRunner.ts
-- [ ] references/typescript/src/utils/swarm/permissionSync.ts
-- [ ] references/typescript/src/utils/swarm/spawnUtils.ts
-- [ ] references/typescript/src/utils/swarm/teamHelpers.ts
-- [ ] references/typescript/src/utils/swarm/constants.ts
-- [ ] references/typescript/src/utils/swarm/backends/detection.ts
-- [ ] references/typescript/src/utils/swarm/backends/PaneBackendExecutor.ts
-- [ ] references/typescript/src/utils/swarm/backends/ITermBackend.ts
-- [ ] references/typescript/src/utils/swarm/backends/types.ts
-- [ ] references/typescript/src/utils/swarm/backends/registry.ts
-- [ ] references/typescript/src/utils/swarm/backends/it2Setup.ts
-- [ ] references/typescript/src/utils/swarm/backends/teammateModeSnapshot.ts
-- [ ] references/typescript/src/utils/swarm/backends/InProcessBackend.ts
-- [ ] references/typescript/src/utils/swarm/backends/TmuxBackend.ts
+- [x] references/typescript/src/utils/swarm/teammateLayoutManager.ts
+- [x] references/typescript/src/utils/swarm/teammateModel.ts
+- [x] references/typescript/src/utils/swarm/It2SetupPrompt.tsx
+- [x] references/typescript/src/utils/swarm/teammatePromptAddendum.ts
+- [x] references/typescript/src/utils/swarm/teammateInit.ts
+- [x] references/typescript/src/utils/swarm/reconnection.ts
+- [x] references/typescript/src/utils/swarm/spawnInProcess.ts
+- [x] references/typescript/src/utils/swarm/leaderPermissionBridge.ts
+- [x] references/typescript/src/utils/swarm/inProcessRunner.ts
+- [x] references/typescript/src/utils/swarm/permissionSync.ts
+- [x] references/typescript/src/utils/swarm/spawnUtils.ts
+- [x] references/typescript/src/utils/swarm/teamHelpers.ts
+- [x] references/typescript/src/utils/swarm/constants.ts
+- [x] references/typescript/src/utils/swarm/backends/detection.ts
+- [x] references/typescript/src/utils/swarm/backends/PaneBackendExecutor.ts
+- [x] references/typescript/src/utils/swarm/backends/ITermBackend.ts
+- [x] references/typescript/src/utils/swarm/backends/types.ts
+- [x] references/typescript/src/utils/swarm/backends/registry.ts
+- [x] references/typescript/src/utils/swarm/backends/it2Setup.ts
+- [x] references/typescript/src/utils/swarm/backends/teammateModeSnapshot.ts
+- [x] references/typescript/src/utils/swarm/backends/InProcessBackend.ts
+- [x] references/typescript/src/utils/swarm/backends/TmuxBackend.ts
 - [ ] references/typescript/src/utils/profilerBase.ts
 - [ ] references/typescript/src/utils/messageQueueManager.ts
 - [ ] references/typescript/src/utils/iTermBackup.ts
@@ -384,12 +384,12 @@
 - [ ] references/typescript/src/utils/effort.ts
 - [ ] references/typescript/src/utils/terminal.ts
 - [ ] references/typescript/src/utils/toolSearch.ts
-- [ ] references/typescript/src/utils/deepLink/registerProtocol.ts
-- [ ] references/typescript/src/utils/deepLink/banner.ts
-- [ ] references/typescript/src/utils/deepLink/protocolHandler.ts
-- [ ] references/typescript/src/utils/deepLink/terminalLauncher.ts
-- [ ] references/typescript/src/utils/deepLink/parseDeepLink.ts
-- [ ] references/typescript/src/utils/deepLink/terminalPreference.ts
+- [x] references/typescript/src/utils/deepLink/registerProtocol.ts
+- [x] references/typescript/src/utils/deepLink/banner.ts
+- [x] references/typescript/src/utils/deepLink/protocolHandler.ts
+- [x] references/typescript/src/utils/deepLink/terminalLauncher.ts
+- [x] references/typescript/src/utils/deepLink/parseDeepLink.ts
+- [x] references/typescript/src/utils/deepLink/terminalPreference.ts
 - [ ] references/typescript/src/utils/genericProcessUtils.ts
 - [ ] references/typescript/src/utils/tokens.ts
 - [ ] references/typescript/src/utils/conversationRecovery.ts
@@ -532,15 +532,15 @@
 - [ ] references/typescript/src/utils/userAgent.ts
 - [ ] references/typescript/src/utils/queueProcessor.ts
 - [ ] references/typescript/src/utils/statusNoticeHelpers.ts
-- [ ] references/typescript/src/utils/telemetry/logger.ts
-- [ ] references/typescript/src/utils/telemetry/instrumentation.ts
-- [ ] references/typescript/src/utils/telemetry/events.ts
-- [ ] references/typescript/src/utils/telemetry/perfettoTracing.ts
-- [ ] references/typescript/src/utils/telemetry/skillLoadedEvent.ts
-- [ ] references/typescript/src/utils/telemetry/bigqueryExporter.ts
-- [ ] references/typescript/src/utils/telemetry/betaSessionTracing.ts
-- [ ] references/typescript/src/utils/telemetry/pluginTelemetry.ts
-- [ ] references/typescript/src/utils/telemetry/sessionTracing.ts
+- [x] references/typescript/src/utils/telemetry/logger.ts
+- [x] references/typescript/src/utils/telemetry/instrumentation.ts
+- [x] references/typescript/src/utils/telemetry/events.ts
+- [x] references/typescript/src/utils/telemetry/perfettoTracing.ts
+- [x] references/typescript/src/utils/telemetry/skillLoadedEvent.ts
+- [x] references/typescript/src/utils/telemetry/bigqueryExporter.ts
+- [x] references/typescript/src/utils/telemetry/betaSessionTracing.ts
+- [x] references/typescript/src/utils/telemetry/pluginTelemetry.ts
+- [x] references/typescript/src/utils/telemetry/sessionTracing.ts
 - [ ] references/typescript/src/utils/sessionRestore.ts
 - [ ] references/typescript/src/utils/sleep.ts
 - [ ] references/typescript/src/utils/fastMode.ts
